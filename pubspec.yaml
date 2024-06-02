@@ -20,3 +20,16 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Lexend
+      fonts:
+        - asset: assets/fonts/Lexend-Bold.ttf
+        - asset: assets/fonts/Lexend-Light.ttf
+        - asset: assets/fonts/Lexend-Medium.ttf
+        - asset: assets/fonts/Lexend-Regular.ttf
