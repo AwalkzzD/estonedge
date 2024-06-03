@@ -44,7 +44,7 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
 
   Future<void> navigateToHomeScreen() async {
     await Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, '/introduction');
+      Navigator.pushReplacementNamed(context, '/home');
     });
   }
 

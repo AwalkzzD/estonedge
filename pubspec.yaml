@@ -1,10 +1,10 @@
 name: estonedge
 description: "A project for Eston Automation."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
+  sdk: ">=3.4.1 <4.0.0"
 
 dependencies:
   flutter:
@@ -33,3 +33,11 @@ flutter:
         - asset: assets/fonts/Lexend-Light.ttf
         - asset: assets/fonts/Lexend-Medium.ttf
         - asset: assets/fonts/Lexend-Regular.ttf
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik-W92V.ttf
+        - asset: assets/fonts/RubikBlack-awoa.ttf
+        - asset: assets/fonts/RubikBlackItalic-EBLr.ttf
+        - asset: assets/fonts/RubikLight-xJXj.ttf
+        - asset: assets/fonts/RubikLightItalic-pe2y.ttf
+        - asset: assets/fonts/RubikMedium-DRPE.ttf

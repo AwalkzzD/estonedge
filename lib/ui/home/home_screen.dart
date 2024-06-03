@@ -1,5 +1,8 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/ui/home/add_room_screen.dart';
+import 'package:estonedge/ui/home/frequently_used_screen.dart';
+import 'package:estonedge/ui/room/room_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends BaseWidget {
@@ -10,37 +13,52 @@ class HomeScreen extends BaseWidget {
 }
 
 class _HomeScreenState extends BaseWidgetState<HomeScreen> {
-  /// get user name from database
+  /// Get user name from the database
   String userName = 'Drax';
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    AddRoomScreen(),
+    FrequentlyUsedScreen(),
+    Center(child: Text('Device Screen')),
+    RoomScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*drawer: Drawer(
-        backgroundColor: Colors.blueAccent,
-        width: MediaQuery.of(context).size.width / 3,
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Wrap(
-                spacing: 30,
-                direction: Axis.vertical,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  buildCustomDrawerItem('Home', Icons.home_outlined, () {}),
-                  buildCustomDrawerItem('Room', Icons.bed_outlined, () {}),
-                  buildCustomDrawerItem(
-                      'People', Icons.people_outline_outlined, () {}),
-                  buildCustomDrawerItem('Device', Icons.router_outlined, () {}),
-                  Spacer(),
-                  buildCustomDrawerItem('Logout', Icons.login_outlined, () {}),
-                ],
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.menu), // You can use the built-in menu icon
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
         ),
-      ),*/
+
+        //automaticallyImplyLeading: false,
+        title: Builder(builder: (context) {
+          return SafeArea(
+            child: Column(
+              children: <Widget>[
+                buildCustomAppBar(context),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
       drawer: Drawer(
         backgroundColor: Colors.blueAccent,
         width: MediaQuery.of(context).size.width / 3,
@@ -56,14 +74,16 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
                       direction: Axis.vertical,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
+                        buildCustomDrawerItem('Home', Icons.home_outlined,
+                            () => _onItemTapped(0)),
                         buildCustomDrawerItem(
-                            'Home', Icons.home_outlined, () {}),
+                            'Room', Icons.bed_outlined, () => _onItemTapped(3)),
                         buildCustomDrawerItem(
-                            'Room', Icons.bed_outlined, () {}),
-                        buildCustomDrawerItem(
-                            'People', Icons.people_outline_outlined, () {}),
-                        buildCustomDrawerItem(
-                            'Device', Icons.router_outlined, () {}),
+                            'People',
+                            Icons.people_outline_outlined,
+                            () => _onItemTapped(1)),
+                        buildCustomDrawerItem('Device', Icons.router_outlined,
+                            () => _onItemTapped(2)),
                       ],
                     ),
                   ],
@@ -77,45 +97,70 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
           ),
         ),
       ),
-      body: Builder(builder: (context) {
-        return SafeArea(
-          child: Column(
-            children: <Widget>[
-              buildCustomAppBar(context),
-              const SizedBox(
-                height: 50,
-              ),
-              buildAddRoomButton(),
-            ],
+      body: _pages[_selectedIndex],
+      floatingActionButton: _buildBottomNavigationBar(),
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 28),
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      padding: EdgeInsets.symmetric(
+          horizontal: 20.0), // Equal spacing from both sides
+      child: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withOpacity(0.5),
+        //currentIndex: _selectedIndex,
+        //onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed, // Hide labels by default
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
           ),
-        );
-      }),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bed_outlined),
+            label: 'Rooms',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 
   Widget buildCustomAppBar(BuildContext context) {
     /// Row widget to create a custom appbar
     return Padding(
-      padding: const EdgeInsets.only(right: 10, top: 10),
+      padding: const EdgeInsets.only(
+        right: 10,
+        top: 10,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Wrap(
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shadowColor: Colors.transparent,
-                  backgroundColor: Colors.transparent,
-                ),
-                onPressed: () {
-                  print("Open Drawer");
-                  Scaffold.of(context).openDrawer();
-                },
-                child: Image.asset(AppImages.drawerIcon),
-              ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //     padding: EdgeInsets.zero,
+              //     shadowColor: Colors.transparent,
+              //     backgroundColor: Colors.transparent,
+              //   ),
+              //   onPressed: () {
+              //     Scaffold.of(context).openDrawer();
+              //   },
+              //   child: Image.asset(AppImages.drawerIcon),
+              // ),
               Text(
-                'Hi, ${userName}',
+                'Hi, $userName',
                 style: const TextStyle(
                     fontSize: 32,
                     fontFamily: 'Lexend',
@@ -129,42 +174,6 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
     );
   }
 
-  Widget buildAddRoomButton() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10, left: 15),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(
-          style: BorderStyle.solid,
-          color: const Color.fromRGBO(192, 192, 192, 1),
-        )),
-        child: MaterialButton(
-          onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(AppImages.addRoomPlusIcon),
-                const SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  'Add New Room',
-                  style: TextStyle(
-                    fontFamily: 'Lexend',
-                    fontSize: 14,
-                    color: Color.fromRGBO(192, 192, 192, 1),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildCustomDrawerItem(
       String text, IconData iconData, Function() onClick) {
     return Wrap(
@@ -173,7 +182,10 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
       children: [
         IconButton(
           padding: EdgeInsets.zero,
-          onPressed: onClick,
+          onPressed: () {
+            onClick();
+            Navigator.pop(context); // Close the drawer after clicking an item
+          },
           icon: Icon(
             iconData,
             color: Colors.white,
