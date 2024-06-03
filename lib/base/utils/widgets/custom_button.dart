@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String btnText;
-  const CustomButton({super.key, required this.btnText});
+
+  final Function() onPressed;
+
+  const CustomButton(
+      {super.key, required this.btnText, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ButtonStyle(
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
