@@ -1,5 +1,6 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/utils/widgets/custom_appBar.dart';
 import 'package:estonedge/ui/home/add_room_screen.dart';
 import 'package:estonedge/ui/home/frequently_used_screen.dart';
 import 'package:estonedge/ui/room/room_screen.dart';
@@ -37,7 +38,8 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.menu), // You can use the built-in menu icon
+              icon: Image.asset(
+                  AppImages.drawerIcon), // You can use the built-in menu icon
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -50,7 +52,8 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
           return SafeArea(
             child: Column(
               children: <Widget>[
-                buildCustomAppBar(context),
+                CustomAppbar(context,
+                    title: 'Hi $userName', appBarImage: 'assets/icons/profile_icon.png'),
                 const SizedBox(
                   height: 10,
                 ),
@@ -131,44 +134,6 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
             icon: Icon(Icons.person_outline),
             label: 'Profile',
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildCustomAppBar(BuildContext context) {
-    /// Row widget to create a custom appbar
-    return Padding(
-      padding: const EdgeInsets.only(
-        right: 10,
-        top: 10,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Wrap(
-            children: [
-              // ElevatedButton(
-              //   style: ElevatedButton.styleFrom(
-              //     padding: EdgeInsets.zero,
-              //     shadowColor: Colors.transparent,
-              //     backgroundColor: Colors.transparent,
-              //   ),
-              //   onPressed: () {
-              //     Scaffold.of(context).openDrawer();
-              //   },
-              //   child: Image.asset(AppImages.drawerIcon),
-              // ),
-              Text(
-                'Hi, $userName',
-                style: const TextStyle(
-                    fontSize: 32,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          Image.asset(AppImages.homeProfileIcon),
         ],
       ),
     );

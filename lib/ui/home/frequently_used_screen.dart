@@ -1,3 +1,4 @@
+import 'package:estonedge/ui/home/add_room_screen.dart';
 import 'package:flutter/material.dart';
 
 class FrequentlyUsedScreen extends StatefulWidget {
@@ -8,28 +9,35 @@ class FrequentlyUsedScreen extends StatefulWidget {
 }
 
 class _FrequentlyUsedScreenState extends State<FrequentlyUsedScreen> {
+  List<bool> switchStates = List.generate(10, (index) => false);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 25, left: 18),
+      padding: EdgeInsets.only(top: 25),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Frequently Used',
-            style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'RubikMedium-DRPE',
+          Container(
+            margin: EdgeInsets.only(left: 20),
+            child: const Text(
+              'Frequently Used',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'RubikMedium-DRPE',
+                  fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(
-            height: 400,
+            height: 480,
             child: GridView.builder(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               itemCount: 10, // Total number of containers
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // 2 containers per row
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
+                childAspectRatio: 1.3, // Adjust the aspect ratio if needed
               ),
               itemBuilder: (context, index) {
                 // Replace these values with your actual device data
@@ -37,21 +45,36 @@ class _FrequentlyUsedScreenState extends State<FrequentlyUsedScreen> {
                 String deviceName = 'Device ${index + 1}';
                 int totalDevices = 5;
 
-                return CustomContainer(deviceImage, deviceName, totalDevices);
+                return CustomContainer(
+                  deviceImage: deviceImage,
+                  deviceName: deviceName,
+                  totalDevices: totalDevices,
+                  isSwitched: switchStates[index],
+                  onToggle: (value) {
+                    setState(() {
+                      switchStates[index] = value;
+                    });
+                  },
+                );
               },
             ),
           ),
+          AddRoomScreen()
         ],
       ),
     );
   }
 
-  Widget CustomContainer(
-      Icon deviceImage, String deviceName, int totalDevices) {
-    bool isSwitched = false;
+  Widget CustomContainer({
+    required Icon deviceImage,
+    required String deviceName,
+    required int totalDevices,
+    required bool isSwitched,
+    required Function(bool) onToggle,
+  }) {
     return Container(
       margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,
@@ -66,22 +89,32 @@ class _FrequentlyUsedScreenState extends State<FrequentlyUsedScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min, // Adjust to fit content
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               deviceImage,
               Switch(
+                thumbColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return Colors.orange.withOpacity(.48);
+                  }
+                  return Colors.white;
+                }),
+                activeColor: Colors.blueAccent,
+                // activeTrackColor: Colors.pink,
+                trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                  return Colors.white; // Use the default color.
+                }),
                 value: isSwitched,
-                onChanged: (value) {
-                  setState(() {
-                    isSwitched = value; // Update switch state
-                  });
-                },
+                onChanged: onToggle,
               ),
             ],
           ),
-          SizedBox(height: 8.0),
+          SizedBox(height: 8.0), // Reduced height
           Text(
             deviceName,
             style: TextStyle(
@@ -89,7 +122,7 @@ class _FrequentlyUsedScreenState extends State<FrequentlyUsedScreen> {
               fontSize: 16.0,
             ),
           ),
-          SizedBox(height: 4.0),
+          SizedBox(height: 8.0), // Reduced height
           Text(
             'Total devices: $totalDevices',
             style: TextStyle(
