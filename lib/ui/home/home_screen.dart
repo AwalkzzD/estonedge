@@ -120,7 +120,8 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
         unselectedItemColor: Colors.white.withOpacity(0.5),
         //currentIndex: _selectedIndex,
         //onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed, // Hide labels by default
+        type: BottomNavigationBarType.fixed,
+        // Hide labels by default
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),

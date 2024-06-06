@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 
-class CustomTextfield extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon icon;
-  const CustomTextfield({super.key, required this.hintText, required this.icon});
+  const CustomTextField({super.key, required this.hintText, required this.icon});
 
   @override
   Widget build(BuildContext context) {
