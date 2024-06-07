@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RoomScreen extends StatelessWidget {
-  const RoomScreen({Key? key}) : super(key: key);
+  const RoomScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,36 +10,33 @@ class RoomScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              Container(
-                color: Colors.blue,
-              ),
+              Container(color: Colors.blue),
               Stack(
                 children: [
                   Container(
                       //height: 300,
-                      margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+                      margin:
+                          const EdgeInsets.only(left: 30, right: 30, top: 30),
                       child: Image.asset('assets/images/Room.png')),
                   Container(
                     height: 40,
-                    margin: EdgeInsets.only(left: 48, top: 40),
+                    margin: const EdgeInsets.only(left: 48, top: 40),
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Living Room',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '3/3',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -61,14 +58,10 @@ class RoomScreen extends StatelessWidget {
                     ),
                     CircleAvatar(
                         backgroundColor: Colors.white, child: Icon(Icons.air)),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     CircleAvatar(
                         backgroundColor: Colors.white, child: Icon(Icons.tv)),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Icon(Icons.lightbulb_outline)),

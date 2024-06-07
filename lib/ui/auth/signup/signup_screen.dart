@@ -15,6 +15,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: CustomAppBar(),
       ),
       body: Container(
@@ -44,16 +45,19 @@ class _SignupScreenState extends State<SignupScreen> {
             const CustomTextField(
               hintText: 'Name',
               icon: Icon(Icons.person),
+              isPassword: false,
             ),
             const SizedBox(height: 20),
             const CustomTextField(
               hintText: 'Email',
               icon: Icon(Icons.email),
+              isPassword: false,
             ),
             const SizedBox(height: 20),
             const CustomTextField(
               hintText: 'Password',
               icon: Icon(Icons.lock),
+              isPassword: true,
             ),
             const SizedBox(height: 20),
             RichText(
@@ -98,29 +102,4 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
-
-/*Widget buildCustomAppBar() {
-    /// Row widget to create a custom appbar
-    return Padding(
-      padding: const EdgeInsets.only(right: 10, top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Wrap(
-            children: [
-              Image.asset(AppImages.appLogo),
-              const SizedBox(width: 12),
-              const Text(
-                'EstonEdge',
-                style: TextStyle(
-                    fontSize: 34,
-                    fontFamily: 'RubikMedium-DRPE',
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }*/
 }

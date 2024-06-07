@@ -19,10 +19,10 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    AddRoomScreen(),
-    FrequentlyUsedScreen(),
-    Center(child: Text('Device Screen')),
-    RoomScreen(),
+    const AddRoomScreen(),
+    const FrequentlyUsedScreen(),
+    const Center(child: Text('Device Screen')),
+    const RoomScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -112,7 +112,7 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
         color: Colors.black,
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
           horizontal: 20.0), // Equal spacing from both sides
       child: BottomNavigationBar(
         backgroundColor: Colors.transparent,
