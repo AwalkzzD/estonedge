@@ -1,6 +1,7 @@
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/utils/custom_app_bar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               width: double.infinity,
@@ -44,11 +46,13 @@ class _LoginScreenState extends State<LoginScreen> {
             const CustomTextField(
               hintText: 'Email',
               icon: Icon(Icons.email),
+              isPassword: false,
             ),
             const SizedBox(height: 20),
             const CustomTextField(
               hintText: 'Password',
               icon: Icon(Icons.lock),
+              isPassword: true,
             ),
             const SizedBox(height: 20),
             CustomButton(
@@ -57,34 +61,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pushReplacementNamed(context, '/home');
               },
             ),
+            const SizedBox(height: 20),
+            Text.rich(
+              TextSpan(
+                text: "Don't have an account? ",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'Rubik-W92V',
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => navigateToSignUpScreen(),
+                    text: 'Sign Up',
+                    style: const TextStyle(color: Colors.blueAccent),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-/*Widget buildCustomAppBar() {
-    /// Row widget to create a custom appbar
-    return Padding(
-      padding: const EdgeInsets.only(right: 10, top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Wrap(
-            children: [
-              Image.asset(AppImages.appLogo),
-              const SizedBox(width: 12),
-              const Text(
-                'EstonEdge',
-                style: TextStyle(
-                    fontSize: 34,
-                    fontFamily: 'RubikMedium-DRPE',
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }*/
+  void navigateToSignUpScreen() {
+    Navigator.pushNamed(context, '/signup');
+  }
 }

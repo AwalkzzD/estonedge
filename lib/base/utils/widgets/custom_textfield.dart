@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon icon;
-  const CustomTextField({super.key, required this.hintText, required this.icon});
+  final bool isPassword;
+  const CustomTextField({super.key, required this.hintText, required this.icon, required this.isPassword});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: Colors.black,
       keyboardType: TextInputType.emailAddress,
+      obscureText: isPassword,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.grey.shade200,
