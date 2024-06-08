@@ -4,6 +4,7 @@ import 'package:estonedge/base/utils/widgets/custom_appBar.dart';
 import 'package:estonedge/ui/home/add_room_screen.dart';
 import 'package:estonedge/ui/home/frequently_used_screen.dart';
 import 'package:estonedge/ui/room/room_screen.dart';
+import 'package:estonedge/ui/scheduler/schedule_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends BaseWidget {
@@ -19,11 +20,29 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const AddRoomScreen(),
-    const FrequentlyUsedScreen(),
-    const Center(child: Text('Device Screen')),
-    const RoomScreen(),
+    AddRoomScreen(),
+    FrequentlyUsedScreen(),
+    ScheduleScreen(),
+    RoomScreen(),
   ];
+
+  List<String> getTitles() {
+    return [
+      'Hi $userName',
+      'Frequently',
+      'Device Screen',
+      'Room',
+    ];
+  }
+
+  List<String> getImages() {
+    return [
+      AppImages.homeProfileIcon,
+      AppImages.addRoomPlusIcon,
+      AppImages.addRoomPlusIcon,
+      AppImages.addRoomPlusIcon,
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -33,6 +52,8 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final titles = getTitles();
+    final imgs = getImages();
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -53,7 +74,8 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
             child: Column(
               children: <Widget>[
                 CustomAppbar(context,
-                    title: 'Hi $userName', appBarImage: 'assets/icons/profile_icon.png'),
+                    title: titles[_selectedIndex],
+                    appBarImage: imgs[_selectedIndex]),
                 const SizedBox(
                   height: 10,
                 ),
@@ -85,7 +107,7 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
                             'People',
                             Icons.people_outline_outlined,
                             () => _onItemTapped(1)),
-                        buildCustomDrawerItem('Device', Icons.router_outlined,
+                        buildCustomDrawerItem('Schedule', Icons.calendar_month,
                             () => _onItemTapped(2)),
                       ],
                     ),
