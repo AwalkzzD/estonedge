@@ -58,6 +58,40 @@ class _ScheduleDetailsScreenState extends State<ScheduleDetailsScreen> {
                 selectedSwitch = newValue;
               });
             }),
+            SizedBox(
+              height: 180,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Colors.blue,
+                    side: BorderSide(color: Colors.blue),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(8), // Less rounded border
+                    ),
+                    minimumSize: Size(100, 40), // More width
+                  ),
+                  child: Text('Select'),
+                ),
+                OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Colors.grey,
+                    side: BorderSide(color: Colors.grey),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(8), // Less rounded border
+                    ),
+                    minimumSize: Size(100, 40), // More width
+                  ),
+                  child: Text('Cancel'),
+                ),
+              ],
+            ),
           ],
         ),
       ),
