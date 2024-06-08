@@ -1,10 +1,10 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_appBar.dart';
-import 'package:estonedge/ui/home/add_room_screen.dart';
-import 'package:estonedge/ui/home/frequently_used_screen.dart';
+import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/room/room_screen.dart';
-import 'package:estonedge/ui/scheduler/schedule_screen.dart';
+import 'package:estonedge/ui/scheduler/schedule_details_screen.dart';
+import 'package:estonedge/ui/scheduler/schedule_home_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends BaseWidget {
@@ -20,18 +20,18 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    AddRoomScreen(),
-    FrequentlyUsedScreen(),
-    ScheduleScreen(),
+    DashboardScreen(),
     RoomScreen(),
+    ScheduleHomeScreen(),
+    ScheduleDetailsScreen(),
   ];
 
   List<String> getTitles() {
     return [
       'Hi $userName',
-      'Frequently',
-      'Device Screen',
-      'Room',
+      'My Rooms',
+      'New Screen',
+      'Scheduler',
     ];
   }
 
@@ -99,22 +99,31 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
                       direction: Axis.vertical,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        buildCustomDrawerItem('Home', Icons.home_outlined,
-                            () => _onItemTapped(0)),
                         buildCustomDrawerItem(
-                            'Room', Icons.bed_outlined, () => _onItemTapped(3)),
+                            text: 'Home',
+                            iconData: Icons.home_outlined,
+                            onClick: () => _onItemTapped(0)),
                         buildCustomDrawerItem(
-                            'People',
-                            Icons.people_outline_outlined,
-                            () => _onItemTapped(1)),
-                        buildCustomDrawerItem('Schedule', Icons.calendar_month,
-                            () => _onItemTapped(2)),
+                            text: 'Room',
+                            iconData: Icons.bed_outlined,
+                            onClick: () => _onItemTapped(1)),
+                        buildCustomDrawerItem(
+                            text: 'Account',
+                            iconData: Icons.people_outline_outlined,
+                            onClick: () => _onItemTapped(2)),
+                        buildCustomDrawerItem(
+                            text: 'Schedule',
+                            iconData: Icons.schedule_outlined,
+                            onClick: () => _onItemTapped(3)),
                       ],
                     ),
                   ],
                 ),
               ),
-              buildCustomDrawerItem('Logout', Icons.login_outlined, () {}),
+              buildCustomDrawerItem(
+                  text: 'Logout',
+                  iconData: Icons.login_outlined,
+                  onClick: () {}),
               const SizedBox(
                 height: 50,
               ),
@@ -162,8 +171,11 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
     );
   }
 
-  Widget buildCustomDrawerItem(
-      String text, IconData iconData, Function() onClick) {
+  Widget buildCustomDrawerItem({
+    required String text,
+    required IconData iconData,
+    required Function() onClick,
+  }) {
     return Wrap(
       direction: Axis.vertical,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -172,7 +184,9 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
           padding: EdgeInsets.zero,
           onPressed: () {
             onClick();
-            Navigator.pop(context); // Close the drawer after clicking an item
+            Navigator.pop(context);
+
+            /// Close the drawer after clicking an item
           },
           icon: Icon(
             iconData,

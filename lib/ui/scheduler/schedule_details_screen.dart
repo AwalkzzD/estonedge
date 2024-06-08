@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class NewScheduleScreen extends StatefulWidget {
-  const NewScheduleScreen({super.key});
+class ScheduleDetailsScreen extends StatefulWidget {
+  const ScheduleDetailsScreen({super.key});
 
   @override
-  State<NewScheduleScreen> createState() => _NewScheduleScreenState();
+  State<ScheduleDetailsScreen> createState() => _ScheduleDetailsScreenState();
 }
 
-class _NewScheduleScreenState extends State<NewScheduleScreen> {
+class _ScheduleDetailsScreenState extends State<ScheduleDetailsScreen> {
   List<String> roomList = <String>['room1', 'room2', 'room3', 'room4'];
   List<String> boardList = <String>['board1', 'board2', 'board3', 'board4'];
   List<String> switchList = <String>[
@@ -32,7 +32,6 @@ class _NewScheduleScreenState extends State<NewScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Scheduler')),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(20, 50, 20, 10),
         child: Column(
