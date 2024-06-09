@@ -1,4 +1,3 @@
-import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/login/login_screen_provider.dart';
@@ -26,6 +25,7 @@ class _LoginScreenState extends BaseWidgetState<LoginScreen> {
     super.dispose();
   }
 
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +71,13 @@ class _LoginScreenState extends BaseWidgetState<LoginScreen> {
               controller: passwordInputController,
             ),
             const SizedBox(height: 20),
+            CustomButton(
+              btnText: 'LOGIN',
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/home');
+              },
+              width: double.infinity,
+              color: Colors.blueAccent,
             Visibility(
               visible: isLoading,
               replacement: CustomButton(

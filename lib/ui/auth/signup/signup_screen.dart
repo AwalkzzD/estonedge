@@ -113,6 +113,19 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
               ),
             ),
             const SizedBox(height: 20),
+            CustomButton(
+              btnText: 'CREATE ACCOUNT',
+              onPressed: () {
+                signOut();
+                /*initiateSignUp(
+                  name: nameInputController.text,
+                  email: emailInputController.text,
+                  password: passwordInputController.text,
+                );*/
+              },
+              width: double.infinity,
+              color: Colors.blueAccent,
+            ),
             Visibility(
                 visible: isLoading,
                 replacement: CustomButton(
