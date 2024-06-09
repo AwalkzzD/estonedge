@@ -60,6 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
               },
+              width: double.infinity,
+              color: Colors.blueAccent,
             ),
             const SizedBox(height: 20),
             Text.rich(

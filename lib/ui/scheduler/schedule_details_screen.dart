@@ -1,3 +1,5 @@
+import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/ui/scheduler/schedule_time_screen.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleDetailsScreen extends StatefulWidget {
@@ -33,7 +35,7 @@ class _ScheduleDetailsScreenState extends State<ScheduleDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20, 50, 20, 10),
+        padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,38 +60,32 @@ class _ScheduleDetailsScreenState extends State<ScheduleDetailsScreen> {
                 selectedSwitch = newValue;
               });
             }),
-            SizedBox(
-              height: 180,
+            const SizedBox(
+              height: 80,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.blue,
-                    side: BorderSide(color: Colors.blue),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(8), // Less rounded border
-                    ),
-                    minimumSize: Size(100, 40), // More width
-                  ),
-                  child: Text('Select'),
-                ),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.grey,
-                    side: BorderSide(color: Colors.grey),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(8), // Less rounded border
-                    ),
-                    minimumSize: Size(100, 40), // More width
-                  ),
-                  child: Text('Cancel'),
-                ),
+                CustomButton(
+                    btnText: 'Select',
+                    width: 145.0,
+                    color: Colors.blue,
+                    onPressed: () async {
+                      await Future.delayed(const Duration(seconds: 2), () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                ScheduleTimeScreen(),
+                          ),
+                        );
+                      });
+                    }),
+                CustomButton(
+                    btnText: 'Cancel',
+                    width: 145.0,
+                    color: Colors.grey,
+                    onPressed: () {}),
               ],
             ),
           ],
@@ -98,6 +94,7 @@ class _ScheduleDetailsScreenState extends State<ScheduleDetailsScreen> {
     );
   }
 
+  ///drop down list
   Widget _ddl(String ddlName, List<String> items, String? selectedValue,
       ValueChanged<String?> onChanged) {
     return Column(

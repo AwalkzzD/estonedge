@@ -96,6 +96,8 @@ class _SignupScreenState extends State<SignupScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
               },
+              width: double.infinity,
+              color: Colors.blueAccent,
             ),
           ],
         ),
