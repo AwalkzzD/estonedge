@@ -1,17 +1,31 @@
+import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
+import 'package:estonedge/ui/auth/login/login_screen_provider.dart';
 import 'package:estonedge/ui/auth/utils/custom_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends BaseWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  BaseWidgetState<BaseWidget> getState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends BaseWidgetState<LoginScreen> {
+  final TextEditingController emailInputController = TextEditingController();
+  final TextEditingController passwordInputController = TextEditingController();
+
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    emailInputController.dispose();
+    passwordInputController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,23 +57,51 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Email',
               icon: Icon(Icons.email),
               isPassword: false,
+              controller: emailInputController,
             ),
             const SizedBox(height: 20),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Password',
               icon: Icon(Icons.lock),
               isPassword: true,
+              controller: passwordInputController,
             ),
             const SizedBox(height: 20),
-            CustomButton(
-              btnText: 'LOGIN',
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
-              },
+            Visibility(
+              visible: isLoading,
+              replacement: CustomButton(
+                btnText: 'LOGIN',
+                onPressed: () {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  ref
+                      .read(loginProvider([
+                    emailInputController.text,
+                    passwordInputController.text,
+                  ]).future)
+                      .then((loginResponse) {
+                    if (loginResponse.signInResult != null) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      navigateToHomeScreen();
+                    } else {
+                      showSnackBar(loginResponse.loginException.name);
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  }).catchError((error) {
+                    getErrorView();
+                  });
+                },
+              ),
+              child: getLoadingView(),
             ),
             const SizedBox(height: 20),
             Text.rich(
@@ -85,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void navigateToSignUpScreen() {
-    Navigator.pushNamed(context, '/signup');
-  }
+  void navigateToSignUpScreen() => Navigator.pushNamed(context, '/signup');
+
+  void navigateToHomeScreen() =>
+      Navigator.pushReplacementNamed(context, '/home');
 }

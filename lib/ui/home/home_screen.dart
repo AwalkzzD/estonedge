@@ -1,6 +1,7 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_appBar.dart';
+import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
@@ -52,6 +53,9 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    ref.read(authRepositoryProvider).getUserAttributes();
+
     final titles = getTitles();
     final imgs = getImages();
     return Scaffold(
@@ -123,7 +127,10 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
               buildCustomDrawerItem(
                   text: 'Logout',
                   iconData: Icons.login_outlined,
-                  onClick: () {}),
+                  onClick: () {
+                    ref.read(authRepositoryProvider).logout();
+                    Navigator.of(context).pop();
+                  }),
               const SizedBox(
                 height: 50,
               ),

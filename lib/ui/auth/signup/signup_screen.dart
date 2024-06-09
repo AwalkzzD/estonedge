@@ -1,21 +1,34 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
-import 'package:estonedge/data/remote/auth/auth_repository.dart';
+import 'package:estonedge/ui/auth/signup/signup_screen_provider.dart';
 import 'package:estonedge/ui/auth/utils/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends BaseWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  BaseWidgetState<BaseWidget> getState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends BaseWidgetState<SignupScreen> {
   final TextEditingController nameInputController = TextEditingController();
   final TextEditingController emailInputController = TextEditingController();
   final TextEditingController passwordInputController = TextEditingController();
+  final TextEditingController verificationCodeController =
+      TextEditingController();
+
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    nameInputController.dispose();
+    emailInputController.dispose();
+    passwordInputController.dispose();
+    verificationCodeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,48 +113,45 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            CustomButton(
-              btnText: 'CREATE ACCOUNT',
-              onPressed: () {
-                signOut();
-                /*initiateSignUp(
-                  name: nameInputController.text,
-                  email: emailInputController.text,
-                  password: passwordInputController.text,
-                );*/
-              },
-            ),
+            Visibility(
+                visible: isLoading,
+                replacement: CustomButton(
+                  btnText: 'CREATE ACCOUNT',
+                  onPressed: () {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    ref
+                        .read(signUpProvider([
+                      emailInputController.text,
+                      passwordInputController.text,
+                      nameInputController.text
+                    ]).future)
+                        .then((signUpResponse) {
+                      if (signUpResponse.signUpResult != null) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        verifyEmail(email: emailInputController.text);
+                      } else {
+                        showSnackBar(signUpResponse.signUpException.name);
+                      }
+                    }).catchError((error) {
+                      getErrorView();
+                    });
+                  },
+                ),
+                child: getLoadingView()),
           ],
         ),
       ),
     );
   }
 
-  Future<void> initiateSignUp({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    final sendVerificationCode = await AuthRepository()
-        .initiateSignUp(email: email, password: password, name: name);
-
-    if (sendVerificationCode != null && sendVerificationCode == true) {
-      showOtpDialog(email: email);
-    }
-  }
-
-  Future<void> completeSignUp({
-    required String email,
-    required String verificationCode,
-  }) async {
-    final isSignUpComplete = await AuthRepository()
-        .completeSignUp(email: email, verificationCode: verificationCode);
-  }
-
-  void showOtpDialog({required String email}) {
-    TextEditingController otpController = TextEditingController();
+  void verifyEmail({required String email}) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
@@ -152,7 +162,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 fontWeight: FontWeight.bold),
           ),
           content: TextField(
-            controller: otpController,
+            controller: verificationCodeController,
             keyboardType: TextInputType.number,
             maxLength: 6,
             decoration: const InputDecoration(
@@ -173,10 +183,28 @@ class _SignupScreenState extends State<SignupScreen> {
                   //fontWeight: FontWeight.bold
                 ),
               ),
-              onPressed: () async {
-                completeSignUp(
-                    email: email, verificationCode: otpController.text);
-                Navigator.of(context).pop();
+              onPressed: () {
+                if (verificationCodeController.text.length == 6) {
+                  ref
+                      .read(verifyEmailProvider([
+                    emailInputController.text,
+                    verificationCodeController.text
+                  ]).future)
+                      .then((signUpResponse) {
+                    if (signUpResponse.signUpResult != null) {
+                      Navigator.of(context).pop();
+                      navigateToHomeScreen();
+                    } else {
+                      showSnackBar(signUpResponse.signUpException.name);
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Navigator.of(context).pop();
+                    }
+                  }).catchError((error) {
+                    getErrorView();
+                  });
+                }
               },
             ),
           ],
@@ -185,7 +213,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void navigateToHome() => Navigator.pushReplacementNamed(context, '/home');
-
-  void signOut() async => await Amplify.Auth.signOut();
+  void navigateToHomeScreen() =>
+      Navigator.pushReplacementNamed(context, '/home');
 }

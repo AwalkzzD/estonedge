@@ -1,5 +1,6 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends BaseWidget {
@@ -43,8 +44,11 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
   }
 
   Future<void> navigateToHomeScreen() async {
+    final isUserSessionActive = await ref.read(userSessionProvider);
     await Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, '/signup');
+      isUserSessionActive
+          ? Navigator.pushReplacementNamed(context, '/home')
+          : Navigator.pushReplacementNamed(context, '/login');
     });
   }
 

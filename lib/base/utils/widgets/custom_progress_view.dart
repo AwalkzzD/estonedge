@@ -15,9 +15,9 @@ class CustomProgressView extends StatelessWidget {
         width: 20,
         child: CircularProgressIndicator(
           color: switch (progressType) {
-            ProgressType.loading => Colors.green,
+            ProgressType.loading => Colors.blueAccent,
             ProgressType.error => Colors.red,
-            ProgressType.noData => Colors.black,
+            ProgressType.noData => Colors.blueAccent,
           },
         ),
       ),

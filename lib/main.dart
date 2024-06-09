@@ -8,14 +8,15 @@ import 'package:estonedge/ui/introduction/get_started.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await _configureAmplify();
-    runApp(const MainApp());
+    runApp(const ProviderScope(child: MainApp()));
   } on AmplifyException catch (e) {
-    runApp(Text("Error configuring Amplify: ${e.message}"));
+    runApp(Text("Something went wrong: ${e.message}"));
   }
 }
 
@@ -23,7 +24,6 @@ Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
     await Amplify.configure(amplifyconfig);
-    final isSessionActive = (await Amplify.Auth.fetchAuthSession()).isSignedIn;
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
   }
