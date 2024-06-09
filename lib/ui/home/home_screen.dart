@@ -1,6 +1,6 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/base/utils/widgets/custom_appBar.dart';
+import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';

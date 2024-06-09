@@ -1,5 +1,5 @@
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
-import 'package:estonedge/ui/scheduler/schedule_time_screen.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleDetailsScreen extends StatefulWidget {

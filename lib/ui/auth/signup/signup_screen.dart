@@ -2,7 +2,7 @@ import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen_provider.dart';
-import 'package:estonedge/ui/auth/utils/custom_app_bar.dart';
+import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends BaseWidget {
@@ -113,19 +113,6 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            CustomButton(
-              btnText: 'CREATE ACCOUNT',
-              onPressed: () {
-                signOut();
-                /*initiateSignUp(
-                  name: nameInputController.text,
-                  email: emailInputController.text,
-                  password: passwordInputController.text,
-                );*/
-              },
-              width: double.infinity,
-              color: Colors.blueAccent,
-            ),
             Visibility(
                 visible: isLoading,
                 replacement: CustomButton(
@@ -153,6 +140,8 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
                       getErrorView();
                     });
                   },
+                  width: double.infinity,
+                  color: Colors.blueAccent,
                 ),
                 child: getLoadingView()),
           ],
