@@ -2,9 +2,9 @@ import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_appBar.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
-import 'package:estonedge/ui/room/room_screen.dart';
-import 'package:estonedge/ui/scheduler/schedule_details_screen.dart';
-import 'package:estonedge/ui/scheduler/schedule_home_screen.dart';
+import 'package:estonedge/ui/home/room/room_screen.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends BaseWidget {

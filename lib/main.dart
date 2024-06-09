@@ -1,14 +1,32 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:estonedge/amplifyconfiguration.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
-import 'package:estonedge/ui/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() {
-  runApp(const MainApp());
+Future<void> main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await _configureAmplify();
+    runApp(const MainApp());
+  } on AmplifyException catch (e) {
+    runApp(Text("Error configuring Amplify: ${e.message}"));
+  }
+}
+
+Future<void> _configureAmplify() async {
+  try {
+    await Amplify.addPlugin(AmplifyAuthCognito());
+    await Amplify.configure(amplifyconfig);
+    final isSessionActive = (await Amplify.Auth.fetchAuthSession()).isSignedIn;
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
 }
 
 class MainApp extends StatelessWidget {
