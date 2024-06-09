@@ -1,0 +1,58 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-estonedge-dev-c52ec-authRole",
+      "UnauthRoleArn": "arn:aws:iam::471112819038:role/amplify-estonedge-dev-c52ec-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::471112819038:role/amplify-estonedge-dev-c52ec-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-estonedge-dev-c52ec-deployment",
+      "UnauthRoleName": "amplify-estonedge-dev-c52ec-unauthRole",
+      "StackName": "amplify-estonedge-dev-c52ec",
+      "StackId": "arn:aws:cloudformation:eu-north-1:471112819038:stack/amplify-estonedge-dev-c52ec/2cf7be90-2580-11ef-bb3d-0e7e3cba53f0",
+      "AmplifyAppId": "d1oq537h2gwpla"
+    }
+  },
+  "auth": {
+    "estonedge07147c81": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-estonedge-dev-c52ec-deployment/amplify-cfn-templates/auth/estonedge07147c81-cloudformation-template.json",
+        "logicalId": "authestonedge07147c81"
+      },
+      "lastPushTimeStamp": "2024-06-08T10:26:13.614Z",
+      "output": {
+        "UserPoolId": "eu-north-1_Rie5bq3YL",
+        "AppClientIDWeb": "2d0hcqmqba94bkdeqcuhtuosbu",
+        "AppClientID": "2t3pa64v2o9h9dtno38mrtrd95",
+        "IdentityPoolId": "eu-north-1:36f9349d-ce4d-4261-b6b0-d46fd87f6bca",
+        "UserPoolArn": "arn:aws:cognito-idp:eu-north-1:471112819038:userpool/eu-north-1_Rie5bq3YL",
+        "IdentityPoolName": "estonedge07147c81_identitypool_07147c81__dev",
+        "UserPoolName": "estonedge07147c81_userpool_07147c81"
+      },
+      "lastPushDirHash": "a66kav2LImYeuR16MWbw1wWKnYA="
+    }
+  }
+}
