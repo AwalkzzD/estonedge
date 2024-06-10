@@ -86,17 +86,11 @@ class AuthRepository {
     }
   }
 
-  Future<void> getUserAttributes() async {
-    String userName = (await Amplify.Auth.getCurrentUser()).username;
-
-    print(userName);
-
+  Future<List<AuthUserAttribute>> getUserAttributes() async {
     List<AuthUserAttribute> userAttributes =
         await Amplify.Auth.fetchUserAttributes();
 
-    for (final element in userAttributes) {
-      safePrint('key: ${element.userAttributeKey}; value: ${element.value}');
-    }
+    return userAttributes;
   }
 
   /// logout method to destroy authSession in AWS Amplify

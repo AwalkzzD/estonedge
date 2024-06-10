@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomAppbar extends StatelessWidget {
   final String title;
   final String appBarImage;
+
   const CustomAppbar(BuildContext context,
       {super.key, required this.title, required this.appBarImage});
 

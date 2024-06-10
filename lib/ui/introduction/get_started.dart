@@ -19,7 +19,7 @@ class _GetStartedState extends BaseWidgetState<GetStarted> {
           children: <Widget>[
             Image.asset(AppImages.getStartedHomeIllutstration),
             const Padding(
-              padding:  EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Column(
                 children: <Widget>[
                   Text(
@@ -53,7 +53,7 @@ class _GetStartedState extends BaseWidgetState<GetStarted> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0))),
               child: const Padding(
-                padding:  EdgeInsets.all(15.0),
+                padding: EdgeInsets.all(15.0),
                 child: Text(
                   'GET STARTED',
                   style: TextStyle(
