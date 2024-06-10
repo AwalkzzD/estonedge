@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-estonedge-dev-c52ec-authRole",
+      "UnauthRoleArn": "arn:aws:iam::471112819038:role/amplify-estonedge-dev-c52ec-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::471112819038:role/amplify-estonedge-dev-c52ec-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-estonedge-dev-c52ec-deployment",
+      "UnauthRoleName": "amplify-estonedge-dev-c52ec-unauthRole",
+      "StackName": "amplify-estonedge-dev-c52ec",
+      "StackId": "arn:aws:cloudformation:eu-north-1:471112819038:stack/amplify-estonedge-dev-c52ec/2cf7be90-2580-11ef-bb3d-0e7e3cba53f0",
+      "AmplifyAppId": "d1oq537h2gwpla"
+    },
+    "categories": {
+      "auth": {
+        "estonedge07147c81": {}
+      }
+    }
+  }
+}

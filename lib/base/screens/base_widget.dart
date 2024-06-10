@@ -1,7 +1,8 @@
 import 'package:estonedge/base/utils/widgets/custom_progress_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-abstract class BaseWidget extends StatefulWidget {
+abstract class BaseWidget extends ConsumerStatefulWidget {
   const BaseWidget({super.key});
 
   @override
@@ -10,7 +11,7 @@ abstract class BaseWidget extends StatefulWidget {
   BaseWidgetState getState();
 }
 
-abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
+abstract class BaseWidgetState<T extends BaseWidget> extends ConsumerState<T> {
   void showSnackBar(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
