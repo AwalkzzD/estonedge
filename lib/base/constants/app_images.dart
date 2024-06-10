@@ -8,9 +8,15 @@ class AppImages {
   static const String getStartedHomeIllutstration =
       'assets/images/introduction_home_illustration.png';
 
+  static const String roomDummyImage = 'assets/images/dummy_room.png';
+
   // common icons
   static const String appLogo = 'assets/icons/app_logo.png';
   static const String homeProfileIcon = 'assets/icons/profile_icon.png';
   static const String drawerIcon = 'assets/icons/drawer_ham_icon.png';
+  static const String appBarPlusIcon = 'assets/icons/app_bar_plus_icon.png';
   static const String addRoomPlusIcon = 'assets/icons/add_room_plus_icon.png';
+
+  static const String switchActiveThumbImage = 'assets/icons/switch_active_thumb_image.png';
+  static const String switchInactiveThumbImage = 'assets/icons/switch_inactive_thumb_image.png';
 }

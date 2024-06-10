@@ -1,29 +1,34 @@
 import 'package:estonedge/base/constants/app_images.dart';
+import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends BaseWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  BaseWidgetState<BaseWidget> getState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
-  /// 0 -> For showing Add new Room Button
-  /// 1 -> For showing frequently used data
-  int flag = 0;
+class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
+  bool isRoomAdded = false;
   List<bool> switchStates = List.generate(10, (index) => false);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: flag == 0 ? addRoomButton() : frequentlyUsed(),
+      body: SafeArea(
+        child: Visibility(
+          visible: isRoomAdded,
+          replacement: addRoomButton(),
+          child: frequentlyUsed(),
+        ),
+      ),
     );
   }
 
   Widget addRoomButton() {
     return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20, top: 40),
+      padding: const EdgeInsets.only(right: 30, left: 30, top: 40),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(
@@ -31,7 +36,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           color: const Color.fromRGBO(192, 192, 192, 1),
         )),
         child: MaterialButton(
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              isRoomAdded = !isRoomAdded;
+            });
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15),
             child: Row(
@@ -59,13 +68,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget frequentlyUsed() {
     return Padding(
-      padding: EdgeInsets.only(top: 25),
+      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.only(left: 20),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
               'Frequently Used',
               style: TextStyle(
                   fontSize: 20,
@@ -73,11 +82,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(
-            height: 480,
+          Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(8.0),
-              itemCount: 10, // Total number of containers
+              itemCount: 5, // Total number of containers
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // 2 containers per row
                 crossAxisSpacing: 8.0,
@@ -118,8 +125,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required Function(bool) onToggle,
   }) {
     return Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,
@@ -128,49 +135,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 3,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min, // Adjust to fit content
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               deviceImage,
               Switch(
-                thumbColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return Colors.orange.withOpacity(.48);
-                  }
-                  return Colors.white;
-                }),
-                activeColor: Colors.blueAccent,
-                // activeTrackColor: Colors.pink,
-                trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
-                    (Set<WidgetState> states) {
-                  return Colors.white; // Use the default color.
-                }),
+                activeThumbImage:
+                    const AssetImage(AppImages.switchActiveThumbImage),
+                inactiveThumbImage:
+                    const AssetImage(AppImages.switchInactiveThumbImage),
+                activeTrackColor: Colors.blueAccent,
+                inactiveTrackColor: Colors.black,
                 value: isSwitched,
                 onChanged: onToggle,
               ),
             ],
           ),
-          SizedBox(height: 8.0), // Reduced height
           Text(
+            overflow: TextOverflow.fade,
             deviceName,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
             ),
           ),
-          SizedBox(height: 8.0), // Reduced height
           Text(
+            overflow: TextOverflow.ellipsis,
             'Total devices: $totalDevices',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14.0,
               color: Colors.grey,
             ),

@@ -5,8 +5,6 @@ enum LoginException {
   USER_ALREADY_EXISTS,
   INVALID_FORM_FIELD,
   SERVER_ERROR,
-  CODE_MISMATCH,
-  CODE_DELIVERY_FAILED,
 }
 
 class LoginResponse {

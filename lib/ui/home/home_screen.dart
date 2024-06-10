@@ -1,12 +1,15 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/utils/extension_functions.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
+import 'package:estonedge/ui/home/home_screen_provider.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends BaseWidget {
   const HomeScreen({super.key});
@@ -17,33 +20,29 @@ class HomeScreen extends BaseWidget {
 
 class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   /// Get user name from the database
-  String userName = 'Drax';
+  String userName = 'User';
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    DashboardScreen(),
-    RoomScreen(),
-    ScheduleHomeScreen(),
-    ScheduleDetailsScreen(),
+    const DashboardScreen(),
+    const RoomScreen(),
+    const ScheduleHomeScreen(),
+    const ScheduleDetailsScreen(),
   ];
 
-  List<String> getTitles() {
-    return [
-      'Hi $userName',
-      'My Rooms',
-      'New Screen',
-      'Scheduler',
-    ];
-  }
+  get getTitles => [
+        'Hi $userName',
+        'My Rooms',
+        'New Screen',
+        'Scheduler',
+      ];
 
-  List<String> getImages() {
-    return [
-      AppImages.homeProfileIcon,
-      AppImages.addRoomPlusIcon,
-      AppImages.addRoomPlusIcon,
-      AppImages.addRoomPlusIcon,
-    ];
-  }
+  get getImages => [
+        AppImages.homeProfileIcon,
+        AppImages.appBarPlusIcon,
+        AppImages.appBarPlusIcon,
+        AppImages.appBarPlusIcon,
+      ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -53,12 +52,18 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _userName = ref.watch(userNameProvider);
 
-    ref.read(authRepositoryProvider).getUserAttributes();
-
-    final titles = getTitles();
-    final imgs = getImages();
+    _userName.when(
+        data: (authUserAttributesList) {
+          setState(() {
+            userName = authUserAttributesList.getUsername();
+          });
+        },
+        error: (Object error, StackTrace stackTrace) {},
+        loading: () {});
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
@@ -71,15 +76,14 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
             );
           },
         ),
-
         //automaticallyImplyLeading: false,
         title: Builder(builder: (context) {
           return SafeArea(
             child: Column(
               children: <Widget>[
                 CustomAppbar(context,
-                    title: titles[_selectedIndex],
-                    appBarImage: imgs[_selectedIndex]),
+                    title: getTitles[_selectedIndex],
+                    appBarImage: getImages[_selectedIndex]),
                 const SizedBox(
                   height: 10,
                 ),
@@ -129,7 +133,7 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
                   iconData: Icons.login_outlined,
                   onClick: () {
                     ref.read(authRepositoryProvider).logout();
-                    Navigator.of(context).pop();
+                    navigateToLogin();
                   }),
               const SizedBox(
                 height: 50,
@@ -139,41 +143,37 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
         ),
       ),
       body: _pages[_selectedIndex],
-      floatingActionButton: _buildBottomNavigationBar(),
-    );
-  }
-
-  Widget _buildBottomNavigationBar() {
-    return Container(
-      margin: const EdgeInsets.only(left: 28),
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      padding: const EdgeInsets.symmetric(
-          horizontal: 20.0), // Equal spacing from both sides
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(0.5),
-        //currentIndex: _selectedIndex,
-        //onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        // Hide labels by default
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bed_outlined),
-            label: 'Rooms',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+        decoration: const BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+        padding: const EdgeInsets.symmetric(
+            horizontal: 20.0), // Equal spacing from both sides
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(0.5),
+          //currentIndex: _selectedIndex,
+          //onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+          // Hide labels by default
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard),
+              label: 'Dashboard',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bed_outlined),
+              label: 'Rooms',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -211,5 +211,11 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
         )
       ],
     );
+  }
+
+  void navigateToLogin() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.of(context, rootNavigator: true).pushReplacementNamed('/login');
+    });
   }
 }
