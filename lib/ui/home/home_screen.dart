@@ -152,6 +152,7 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
         padding: const EdgeInsets.symmetric(
             horizontal: 20.0), // Equal spacing from both sides
         child: BottomNavigationBar(
+          showSelectedLabels: true,
           backgroundColor: Colors.transparent,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white.withOpacity(0.5),
@@ -192,8 +193,6 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
           onPressed: () {
             onClick();
             Navigator.pop(context);
-
-            /// Close the drawer after clicking an item
           },
           icon: Icon(
             iconData,

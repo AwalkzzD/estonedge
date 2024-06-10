@@ -195,7 +195,7 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
                       .then((signUpResponse) {
                     if (signUpResponse.signUpResult != null) {
                       Navigator.of(context).pop();
-                      navigateToHomeScreen();
+                      navigateToLoginScreen();
                     } else {
                       showSnackBar(signUpResponse.signUpException.name);
                       setState(() {
@@ -215,6 +215,6 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
     );
   }
 
-  void navigateToHomeScreen() =>
-      Navigator.pushReplacementNamed(context, '/home');
+  void navigateToLoginScreen() =>
+      Navigator.pushReplacementNamed(context, '/login');
 }
