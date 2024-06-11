@@ -81,9 +81,12 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
           return SafeArea(
             child: Column(
               children: <Widget>[
-                CustomAppbar(context,
-                    title: getTitles[_selectedIndex],
-                    appBarImage: getImages[_selectedIndex]),
+                CustomAppbar(
+                  context,
+                  title: getTitles[_selectedIndex],
+                  appBarImage: getImages[_selectedIndex],
+                  trailingIconAction: () {},
+                ),
                 const SizedBox(
                   height: 10,
                 ),

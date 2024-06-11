@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class CustomAppbar extends StatelessWidget {
   final String title;
   final String appBarImage;
+  final Function()? trailingIconAction;
 
   const CustomAppbar(BuildContext context,
-      {super.key, required this.title, required this.appBarImage});
+      {super.key,
+      required this.title,
+      required this.appBarImage,
+      this.trailingIconAction});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,10 @@ class CustomAppbar extends StatelessWidget {
               ),
             ],
           ),
-          Image.asset(img),
+          InkWell(
+            onTap: trailingIconAction,
+            child: Image.asset(img),
+          ),
         ],
       ),
     );
