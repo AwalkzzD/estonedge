@@ -9,3 +9,5 @@ final loginProvider = FutureProvider.autoDispose
       .read(authRepositoryProvider)
       .login(email: signUpParams[0], password: signUpParams[1]);
 });
+
+/// forgot password provider to get instance of AuthRepository and call forgot password method

@@ -93,6 +93,9 @@ class AuthRepository {
     return userAttributes;
   }
 
+  /// forgot password method to reset password
+
+
   /// logout method to destroy authSession in AWS Amplify
   Future<bool> logout() async {
     try {

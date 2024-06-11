@@ -59,16 +59,27 @@ class _LoginScreenState extends BaseWidgetState<LoginScreen> {
             const SizedBox(height: 30),
             CustomTextField(
               hintText: 'Email',
-              icon: Icon(Icons.email),
+              icon: const Icon(Icons.email),
               isPassword: false,
               controller: emailInputController,
             ),
             const SizedBox(height: 20),
             CustomTextField(
               hintText: 'Password',
-              icon: Icon(Icons.lock),
+              icon: const Icon(Icons.lock),
               isPassword: true,
               controller: passwordInputController,
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: _forgotPassword,
+              child: const Text(
+                "Forgot Password?",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: 'Rubik-W92V',
+                    color: Colors.blueAccent),
+              ),
             ),
             const SizedBox(height: 20),
             Visibility(
@@ -133,4 +144,8 @@ class _LoginScreenState extends BaseWidgetState<LoginScreen> {
 
   void navigateToHomeScreen() =>
       Navigator.pushReplacementNamed(context, '/home');
+
+  void _forgotPassword() {
+    
+  }
 }
