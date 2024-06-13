@@ -5,6 +5,8 @@ import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
+import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
+import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';
 import 'package:flutter/gestures.dart';
@@ -65,6 +67,8 @@ class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
           '/home': (context) => const HomeScreen(),
           '/login': (context) => const LoginScreen(),
           '/signup': (context) => const SignupScreen(),
+        '/addRoom': (context) => const AddRoomScreen(),
+        '/selectRoomImage': (context) => const SelectRoomImageScreen()
         },
       ),
     );
