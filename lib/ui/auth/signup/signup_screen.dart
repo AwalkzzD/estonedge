@@ -3,6 +3,7 @@ import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen_provider.dart';
 import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
+import 'package:estonedge/ui/auth/validators.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends BaseWidget {
@@ -186,26 +187,33 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
                 ),
               ),
               onPressed: () {
-                if (verificationCodeController.text.length == 6) {
-                  ref
-                      .read(verifyEmailProvider([
-                    emailInputController.text,
-                    verificationCodeController.text
-                  ]).future)
-                      .then((signUpResponse) {
-                    if (signUpResponse.signUpResult != null) {
-                      Navigator.of(context).pop();
-                      navigateToLoginScreen();
-                    } else {
-                      showSnackBar(signUpResponse.signUpException.name);
-                      setState(() {
-                        isLoading = false;
-                      });
-                      Navigator.of(context).pop();
-                    }
-                  }).catchError((error) {
-                    getErrorView();
-                  });
+                if (validatePassword(passwordInputController.text) == 'ok' &&
+                    validateEmail(emailInputController.text) == 'ok' &&
+                    validateName(nameInputController.text) == 'ok') {
+                  print('oj');
+                  if (verificationCodeController.text.length == 6) {
+                    ref
+                        .read(verifyEmailProvider([
+                      emailInputController.text,
+                      verificationCodeController.text
+                    ]).future)
+                        .then((signUpResponse) {
+                      if (signUpResponse.signUpResult != null) {
+                        Navigator.of(context).pop();
+                        navigateToLoginScreen();
+                      } else {
+                        showSnackBar(signUpResponse.signUpException.name);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Navigator.of(context).pop();
+                      }
+                    }).catchError((error) {
+                      getErrorView();
+                    });
+                  }
+                } else {
+                  print('not ok');
                 }
               },
             ),
