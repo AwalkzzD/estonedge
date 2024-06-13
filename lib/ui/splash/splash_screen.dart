@@ -47,8 +47,8 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
     final isUserSessionActive = await ref.read(userSessionProvider);
     await Future.delayed(const Duration(seconds: 2), () {
       isUserSessionActive
-          ? Navigator.pushReplacementNamed(context, '/signup')
-          : Navigator.pushReplacementNamed(context, '/signup');
+          ? Navigator.pushReplacementNamed(context, '/home')
+          : Navigator.pushReplacementNamed(context, '/home');
     });
   }
 

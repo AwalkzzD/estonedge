@@ -22,6 +22,10 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
 
   bool isLoading = false;
 
+  String? nameError;
+  String? emailError;
+  String? passwordError;
+
   @override
   void dispose() {
     nameInputController.dispose();
@@ -38,114 +42,152 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
         automaticallyImplyLeading: false,
         title: const CustomAppBar(),
       ),
-      body: Container(
-        margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
-        child: Column(
-          children: [
-            const SizedBox(
-              width: double.infinity,
-              child: Text(
-                'SIGN UP',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'RubikMedium-DRPE',
-                    fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
+          child: Column(
+            children: [
+              const SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'SIGN UP',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'RubikMedium-DRPE',
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            const Text(
-              'Looks like you don’t have an account. Let’s create a new account for you.',
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Rubik-W92V',
-                //fontWeight: FontWeight.bold
-              ),
-            ),
-            const SizedBox(height: 30),
-            CustomTextField(
-              hintText: 'Name',
-              icon: const Icon(Icons.person),
-              isPassword: false,
-              controller: nameInputController,
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              hintText: 'Email',
-              icon: const Icon(Icons.email),
-              isPassword: false,
-              controller: emailInputController,
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              hintText: 'Password',
-              icon: const Icon(Icons.lock),
-              isPassword: true,
-              controller: passwordInputController,
-            ),
-            const SizedBox(height: 20),
-            RichText(
-              text: const TextSpan(
-                text: 'By selecting Create Account below, I agree to ',
+              const Text(
+                'Looks like you don’t have an account. Let’s create a new account for you.',
                 style: TextStyle(
                   fontSize: 14,
                   fontFamily: 'Rubik-W92V',
-                  color: Colors.black87, // Set the default text color
+                  //fontWeight: FontWeight.bold
                 ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Terms of Service',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold, // Bold
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' & ',
-                  ),
-                  TextSpan(
-                    text: 'Privacy Policy',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold, // Bold
-                    ),
-                  ),
-                  TextSpan(
-                    text: '.',
-                  ),
-                ],
               ),
-            ),
-            const SizedBox(height: 20),
-            Visibility(
+              const SizedBox(height: 30),
+              CustomTextField(
+                hintText: 'Name',
+                icon: const Icon(Icons.person),
+                isPassword: false,
+                controller: nameInputController,
+                errorText: nameError,
+                onChanged: (text) {
+                  setState(() {
+                    nameError = validateName(text);
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                hintText: 'Email',
+                icon: const Icon(Icons.email),
+                isPassword: false,
+                controller: emailInputController,
+                errorText: emailError,
+                onChanged: (text) {
+                  setState(() {
+                    emailError = validateEmail(text);
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                hintText: 'Password',
+                icon: const Icon(Icons.lock),
+                isPassword: true,
+                controller: passwordInputController,
+                errorText: passwordError,
+                onChanged: (text) {
+                  setState(() {
+                    passwordError = validatePassword(text);
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              RichText(
+                text: const TextSpan(
+                  text: 'By selecting Create Account below, I agree to ',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: 'Rubik-W92V',
+                    color: Colors.black87, // Set the default text color
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Terms of Service',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, // Bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' & ',
+                    ),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, // Bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: '.',
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Visibility(
                 visible: isLoading,
                 replacement: CustomButton(
                   btnText: 'CREATE ACCOUNT',
                   onPressed: () {
                     setState(() {
-                      isLoading = true;
+                      nameError = validateName(nameInputController.text);
+                      emailError = validateEmail(emailInputController.text);
+                      passwordError =
+                          validatePassword(passwordInputController.text);
                     });
-                    ref
-                        .read(signUpProvider([
-                      emailInputController.text,
-                      passwordInputController.text,
-                      nameInputController.text
-                    ]).future)
-                        .then((signUpResponse) {
-                      if (signUpResponse.signUpResult != null) {
-                        setState(() {
-                          isLoading = false;
-                        });
-                        verifyEmail(email: emailInputController.text);
-                      } else {
-                        showSnackBar(signUpResponse.signUpException.name);
-                      }
-                    }).catchError((error) {
-                      getErrorView();
-                    });
+
+                    if (nameError == null &&
+                        emailError == null &&
+                        passwordError == null) {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      ref
+                          .read(signUpProvider([
+                        emailInputController.text,
+                        passwordInputController.text,
+                        nameInputController.text
+                      ]).future)
+                          .then((signUpResponse) {
+                        if (signUpResponse.signUpResult != null) {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          verifyEmail(email: emailInputController.text);
+                        } else {
+                          showSnackBar(signUpResponse.signUpException.name);
+                        }
+                      }).catchError((error) {
+                        getErrorView();
+                      });
+                    }
                   },
                   width: double.infinity,
                   color: Colors.blueAccent,
                 ),
-                child: getLoadingView()),
-          ],
+                child: getLoadingView(),
+              ),
+              TextButton(
+                onPressed: () {
+                  navigateToLoginScreen();
+                },
+                child: Text('Already a user?'),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -187,33 +229,26 @@ class _SignupScreenState extends BaseWidgetState<SignupScreen> {
                 ),
               ),
               onPressed: () {
-                if (validatePassword(passwordInputController.text) == 'ok' &&
-                    validateEmail(emailInputController.text) == 'ok' &&
-                    validateName(nameInputController.text) == 'ok') {
-                  print('oj');
-                  if (verificationCodeController.text.length == 6) {
-                    ref
-                        .read(verifyEmailProvider([
-                      emailInputController.text,
-                      verificationCodeController.text
-                    ]).future)
-                        .then((signUpResponse) {
-                      if (signUpResponse.signUpResult != null) {
-                        Navigator.of(context).pop();
-                        navigateToLoginScreen();
-                      } else {
-                        showSnackBar(signUpResponse.signUpException.name);
-                        setState(() {
-                          isLoading = false;
-                        });
-                        Navigator.of(context).pop();
-                      }
-                    }).catchError((error) {
-                      getErrorView();
-                    });
-                  }
-                } else {
-                  print('not ok');
+                if (verificationCodeController.text.length == 6) {
+                  ref
+                      .read(verifyEmailProvider([
+                    emailInputController.text,
+                    verificationCodeController.text
+                  ]).future)
+                      .then((signUpResponse) {
+                    if (signUpResponse.signUpResult != null) {
+                      Navigator.of(context).pop();
+                      navigateToLoginScreen();
+                    } else {
+                      showSnackBar(signUpResponse.signUpException.name);
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Navigator.of(context).pop();
+                    }
+                  }).catchError((error) {
+                    getErrorView();
+                  });
                 }
               },
             ),
