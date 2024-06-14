@@ -8,6 +8,7 @@ import 'package:estonedge/ui/home/home_screen_provider.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
+import 'package:estonedge/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,14 +28,14 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   final List<Widget> _pages = [
     const DashboardScreen(),
     const RoomScreen(),
-    const ScheduleHomeScreen(),
+    const ProfileScreen(),
     const ScheduleDetailsScreen(),
   ];
 
   get getTitles => [
         'Hi $userName',
         'My Rooms',
-        'New Screen',
+        'Account',
         'Scheduler',
       ];
 
@@ -162,10 +163,9 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
           backgroundColor: Colors.transparent,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white.withOpacity(0.5),
-          //currentIndex: _selectedIndex,
-          //onTap: _onItemTapped,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
-          // Hide labels by default
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.dashboard),

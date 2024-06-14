@@ -4,14 +4,17 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon icon;
   final bool isPassword;
+  final String? errorText;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged; 
 
   const CustomTextField(
       {super.key,
       required this.hintText,
       required this.icon,
       required this.isPassword,
-      this.controller});
+      this.controller,
+      required this.errorText, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +22,10 @@ class CustomTextField extends StatelessWidget {
       cursorColor: Colors.black,
       keyboardType: TextInputType.emailAddress,
       obscureText: isPassword,
+      onChanged: onChanged,
       controller: controller,
       decoration: InputDecoration(
+        errorText: errorText,
         filled: true,
         fillColor: Colors.grey.shade200,
         prefixIcon: icon,
@@ -30,6 +35,7 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0), // Rounded corners
         ),
         hintText: hintText,
+        
       ),
     );
   }

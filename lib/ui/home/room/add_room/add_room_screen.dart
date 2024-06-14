@@ -47,7 +47,8 @@ class _AddRoomScreenState extends BaseWidgetState<AddRoomScreen> {
                 controller: roomName,
                 hintText: 'Room Name',
                 icon: const Icon(Icons.house),
-                isPassword: false),
+                isPassword: false,
+                errorText: '',),
             SizedBox(height: 50),
             CustomButton(
                 btnText: 'Continue',

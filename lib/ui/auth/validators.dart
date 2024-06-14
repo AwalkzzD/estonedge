@@ -4,7 +4,7 @@ String? validateName(String? value) {
   if (value == null || value.isEmpty) {
     return 'Name is required';
   }
-  return 'ok';
+  return null; // No error
 }
 
 String? validateEmail(String? value) {
@@ -15,7 +15,7 @@ String? validateEmail(String? value) {
   if (!emailRegExp.hasMatch(value)) {
     return 'Enter a valid email address';
   }
-  return 'ok';
+  return null; // No error
 }
 
 String? validatePassword(String? value) {
@@ -34,5 +34,5 @@ String? validatePassword(String? value) {
   if (!RegExp(r'[!@#\$&*~]').hasMatch(value)) {
     return 'Password must contain at least one special character';
   }
-  return 'ok';
+  return null; // No error
 }
