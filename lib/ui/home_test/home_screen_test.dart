@@ -1,24 +1,26 @@
-import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/base/utils/extension_functions.dart';
-import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
-import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
-import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
-import 'package:estonedge/ui/home/home_screen_provider.dart';
-import 'package:estonedge/ui/home/room/room_screen.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
+import 'package:estonedge/base/basePage.dart';
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/ui/home_test/home_screen_test_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends BaseWidget {
-  const HomeScreen({super.key});
+import '../../base/constants/app_images.dart';
+import '../../base/utils/widgets/custom_appbar.dart';
+import '../home/dashboard/dashboard_screen.dart';
+import '../home/room/room_screen.dart';
+import '../home/scheduler/schedule_details_screen.dart';
+import '../home/scheduler/schedule_home_screen.dart';
+
+class HomeScreenTest extends BasePage {
+  const HomeScreenTest({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _HomeScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _HomeScreenTestState();
 }
 
-class _HomeScreenState extends BaseWidgetState<HomeScreen> {
+class _HomeScreenTestState
+    extends BasePageState<HomeScreenTest, HomeScreenTestBloc> {
+  final HomeScreenTestBloc _bloc = HomeScreenTestBloc();
 
   /// Get user name from the database
   String userName = 'User';
@@ -52,19 +54,13 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final _userName = ref.watch(userNameProvider);
+  void initState() {
+    getInitData();
+    super.initState();
+  }
 
-    getLoadingView();
-
-    _userName.when(
-        data: (authUserAttributesList) {
-          setState(() {
-            userName = authUserAttributesList.getUsername();
-          });
-        },
-        error: (Object error, StackTrace stackTrace) {},
-        loading: () {});
+  @override
+  Widget buildWidget(BuildContext context) {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -74,29 +70,37 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
               icon: Image.asset(
                   AppImages.drawerIcon), // You can use the built-in menu icon
               onPressed: () {
+                openDrawer();
                 Scaffold.of(context).openDrawer();
               },
             );
           },
         ),
         //automaticallyImplyLeading: false,
-        title: Builder(builder: (context) {
-          return SafeArea(
-            child: Column(
-              children: <Widget>[
-                CustomAppbar(
-                  context,
-                  title: getTitles[_selectedIndex],
-                  appBarImage: getImages[_selectedIndex],
-                  trailingIconAction: () {},
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          );
-        }),
+        title: StreamBuilder<String>(
+            stream: getBloc().userNameStream,
+            builder: (context, snapshot) {
+              if(snapshot.data != null) {
+                userName = snapshot.data!;
+              }
+              return Builder(builder: (context) {
+                return SafeArea(
+                  child: Column(
+                    children: <Widget>[
+                      CustomAppbar(
+                        context,
+                        title: getTitles[_selectedIndex],
+                        appBarImage: getImages[_selectedIndex],
+                        trailingIconAction: () {},
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                );
+              });
+            }),
       ),
       drawer: Drawer(
         backgroundColor: Colors.blueAccent,
@@ -138,7 +142,6 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
                   text: 'Logout',
                   iconData: Icons.login_outlined,
                   onClick: () {
-                    ref.read(authRepositoryProvider).logout();
                     navigateToLogin();
                   }),
               const SizedBox(
@@ -221,6 +224,15 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   void navigateToLogin() {
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.of(context, rootNavigator: true).pushReplacementNamed('/login');
+    });
+  }
+
+  @override
+  HomeScreenTestBloc getBloc() => _bloc;
+
+  void getInitData() {
+    getBloc().getUserAttributes((value) {
+      print(value);
     });
   }
 }

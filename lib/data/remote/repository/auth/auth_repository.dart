@@ -95,7 +95,6 @@ class AuthRepository {
 
   /// forgot password method to reset password
 
-
   /// logout method to destroy authSession in AWS Amplify
   Future<bool> logout() async {
     try {
@@ -105,5 +104,16 @@ class AuthRepository {
       print(ex.toString());
       return false;
     }
+  }
+}
+
+void apiGetUserAttributes(
+    Function(List<AuthUserAttribute>) onSuccess, Function() onError) async {
+  try {
+    await Amplify.Auth.fetchUserAttributes().then((attrList) {
+      onSuccess(attrList);
+    });
+  } catch (ex) {
+    onError;
   }
 }
