@@ -55,7 +55,19 @@ Widget RoomList(Map<String, String> roomList) {
           children: [
             Stack(
               children: [
-                Image.asset(roomImage, fit: BoxFit.cover),
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image(
+                        image: AssetImage(roomImage),
+                        fit: BoxFit.fill, // use this
+                      ),
+                    )),
                 Padding(
                   padding: EdgeInsets.only(left: 10, top: 10),
                   child: Wrap(

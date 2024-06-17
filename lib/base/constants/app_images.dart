@@ -24,10 +24,13 @@ class AppImages {
 
   // room images
   static const String noRoomFoundImage = 'assets/images/noRoom.png';
-  static const String room1 = 'assets/images/room1.png';
-  static const String room2 = 'assets/images/room2.png';
-  static const String room3 = 'assets/images/room3.png';
-  static const String room4 = 'assets/images/room4.png';
-  static const String room5 = 'assets/images/room5.png';
-  static const String room6 = 'assets/images/room6.png';
+  static const String room1 = 'assets/images/room1.jpg';
+  static const String room2 = 'assets/images/room2.jpg';
+  static const String room3 = 'assets/images/room3.jpg';
+  static const String room4 = 'assets/images/room4.jpg';
+  static const String room5 = 'assets/images/room5.jpg';
+  static const String room6 = 'assets/images/room6.jpg';
+
+  //qr code
+  static const String qrCode = 'assets/images/qrCode.png';
 }

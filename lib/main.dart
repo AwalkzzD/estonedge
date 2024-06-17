@@ -1,6 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:estonedge/amplifyconfiguration.dart';
+import 'package:estonedge/ui/add_device/qr_screen.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
@@ -62,7 +63,8 @@ class MainApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/addRoom': (context) => const AddRoomScreen(),
         '/selectRoomImage': (context) => const SelectRoomImageScreen(),
-        '/homeScreenTest': (context) => const HomeScreenTest()
+        '/homeScreenTest': (context) => const HomeScreenTest(),
+        '/qrScanner' : (context) => const QrScreen()
       },
     );
   }

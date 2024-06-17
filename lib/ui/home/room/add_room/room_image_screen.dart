@@ -85,8 +85,15 @@ class _SelectRoomImageScreenState
                           ),
                         ],
                       ),
-                      child:
-                          Image.asset(roomImages[index]), // Display the image
+                      child: Container(
+                        child: AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: Image(
+                            image: AssetImage(roomImages[index]),
+                            fit: BoxFit.fill, // use this
+                          ),
+                        ),
+                      ), 
                     ),
                   );
                 },
@@ -103,7 +110,9 @@ class _SelectRoomImageScreenState
                   onPressed: () {
                     if (selectedImageIndex != null) {
                       final selectedImage = roomImages[selectedImageIndex!];
-                      ref.read(roomListProvider.notifier).addRoom(roomName, selectedImage);
+                      ref
+                          .read(roomListProvider.notifier)
+                          .addRoom(roomName, selectedImage);
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
