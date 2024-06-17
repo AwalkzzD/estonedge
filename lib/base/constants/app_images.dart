@@ -17,6 +17,17 @@ class AppImages {
   static const String appBarPlusIcon = 'assets/icons/app_bar_plus_icon.png';
   static const String addRoomPlusIcon = 'assets/icons/add_room_plus_icon.png';
 
-  static const String switchActiveThumbImage = 'assets/icons/switch_active_thumb_image.png';
-  static const String switchInactiveThumbImage = 'assets/icons/switch_inactive_thumb_image.png';
+  static const String switchActiveThumbImage =
+      'assets/icons/switch_active_thumb_image.png';
+  static const String switchInactiveThumbImage =
+      'assets/icons/switch_inactive_thumb_image.png';
+
+  // room images
+  static const String noRoomFoundImage = 'assets/images/noRoom.png';
+  static const String room1 = 'assets/images/room1.png';
+  static const String room2 = 'assets/images/room2.png';
+  static const String room3 = 'assets/images/room3.png';
+  static const String room4 = 'assets/images/room4.png';
+  static const String room5 = 'assets/images/room5.png';
+  static const String room6 = 'assets/images/room6.png';
 }

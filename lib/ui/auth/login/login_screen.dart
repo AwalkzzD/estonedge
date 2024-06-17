@@ -49,7 +49,7 @@ class _LoginScreenState extends BaseWidgetState<LoginScreen> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       fontSize: 20,
-                      fontFamily: 'RubikMedium-DRPE',
+                      fontFamily: 'Lexend',
                       fontWeight: FontWeight.bold),
                 ),
               ),

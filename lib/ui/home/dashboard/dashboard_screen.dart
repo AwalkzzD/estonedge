@@ -1,6 +1,8 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/ui/home/room/add_room/room_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashboardScreen extends BaseWidget {
   const DashboardScreen({super.key});
@@ -10,18 +12,17 @@ class DashboardScreen extends BaseWidget {
 }
 
 class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
-  bool isRoomAdded = false;
   List<bool> switchStates = List.generate(10, (index) => false);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Visibility(
-          visible: isRoomAdded,
-          replacement: addRoomButton(),
-          child: frequentlyUsed(),
-        ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final roomList = ref.watch(roomListProvider);
+
+          return roomList.isEmpty ? addRoomButton() : addRoomButton();
+        },
       ),
     );
   }
@@ -37,9 +38,7 @@ class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
         )),
         child: MaterialButton(
           onPressed: () {
-            setState(() {
-              isRoomAdded = !isRoomAdded;
-            });
+            Navigator.pushNamed(context, '/addRoom');
           },
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15),
@@ -66,7 +65,7 @@ class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
     );
   }
 
-  Widget frequentlyUsed() {
+  Widget frequentlyUsed(List<String> roomList) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Column(
@@ -84,7 +83,7 @@ class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: 5, // Total number of containers
+              itemCount: roomList.length, // Total number of rooms
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // 2 containers per row
                 crossAxisSpacing: 8.0,
@@ -94,7 +93,7 @@ class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
               itemBuilder: (context, index) {
                 // Replace these values with your actual device data
                 Icon deviceImage = const Icon(Icons.lightbulb);
-                String deviceName = 'Device ${index + 1}';
+                String deviceName = roomList[index];
                 int totalDevices = 5;
 
                 return customContainer(
@@ -111,7 +110,7 @@ class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
               },
             ),
           ),
-          addRoomButton()
+          addRoomButton(),
         ],
       ),
     );
