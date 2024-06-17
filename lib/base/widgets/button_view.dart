@@ -74,7 +74,7 @@ class ButtonView extends StatelessWidget {
                               color: textColor ?? white,
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
-                              fontFamily: fontFamilyPoppins))),
+                              fontFamily: fontFamilyLexend))),
               postfix == null
                   ? const SizedBox()
                   : Container(

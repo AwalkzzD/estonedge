@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants/app_styles.dart';
+
 // class CustomButton extends StatelessWidget {
 //   final String btnText;
 //   final double width;
@@ -73,7 +75,10 @@ class CustomButton extends StatelessWidget {
         ),
         minimumSize: Size(width, 40), // More width
       ),
-      child: Text(btnText),
+      child: Text(
+        btnText,
+        style: fs14WhiteMedium
+      ),
     );
   }
 }

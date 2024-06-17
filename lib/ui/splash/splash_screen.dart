@@ -48,7 +48,7 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
     await Future.delayed(const Duration(seconds: 2), () {
       isUserSessionActive
           ? Navigator.pushReplacementNamed(context, '/homeScreenTest')
-          : Navigator.pushReplacementNamed(context, '/homeScreenTest');
+          : Navigator.pushReplacementNamed(context, '/login');
     });
   }
 

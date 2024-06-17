@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:dio/dio.dart';
 import 'package:estonedge/data/remote/model/auth/login/login_response.dart';
 import 'package:estonedge/data/remote/model/auth/signup/signup_response.dart';
 
@@ -115,5 +116,77 @@ void apiGetUserAttributes(
     });
   } catch (ex) {
     onError;
+  }
+}
+
+void apiUserLogin(String email, String password,
+    Function(SignInResult) onSuccess, Function(String) onError) async {
+  try {
+    final response =
+        await Amplify.Auth.signIn(username: email, password: password);
+    onSuccess(response);
+  } on UserNotFoundException catch (ex) {
+    onError(ex.message);
+  } on DioException catch (ex) {
+    onError(ex.message ?? "Something went wrong");
+  } catch (ex) {
+    onError(ex.toString());
+  }
+}
+
+void apiUserSignUp(
+  String email,
+  String password,
+  String name,
+  Function(SignUpResult) onSuccess,
+  Function(String) onError,
+) async {
+  try {
+    final response = await Amplify.Auth.signUp(
+        username: email,
+        password: password,
+        options: SignUpOptions(userAttributes: <AuthUserAttributeKey, String>{
+          AuthUserAttributeKey.name: name,
+        }));
+    onSuccess(response);
+  } on UsernameExistsException catch (ex) {
+    onError(ex.message);
+  } on AuthValidationException catch (ex) {
+    onError(ex.message);
+  } catch (ex) {
+    onError(ex.toString());
+  }
+}
+
+/// signup method to complete email verification
+/// @required params - email, verificationCode
+void apiUserSignUpVerification(
+  String email,
+  String verificationCode,
+  Function(SignUpResult) onSuccess,
+  Function(String) onError,
+) async {
+  try {
+    final response = await Amplify.Auth.confirmSignUp(
+      username: email,
+      confirmationCode: verificationCode,
+    );
+    onSuccess(response);
+  } on CodeMismatchException catch (ex) {
+    onError(ex.message);
+  } on CodeDeliveryFailureException catch (ex) {
+    onError(ex.message);
+  } catch (ex) {
+    onError(ex.toString());
+  }
+}
+
+void apiLogout(
+    Function(SignOutResult) onSuccess, Function(String) onError) async {
+  try {
+    final response = await Amplify.Auth.signOut();
+    onSuccess(response);
+  } catch (ex) {
+    onError(ex.toString());
   }
 }

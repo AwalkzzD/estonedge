@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-
-import '../src_constants.dart';
 
 extension Unique<E, Id> on List<E> {
   List<E> unique([Id Function(E element)? id, bool inplace = true]) {
@@ -26,10 +24,10 @@ extension IndexedIterable<E> on Iterable<E> {
   }
 }
 
-Future<String?> networkImageToBase64(String imageUrl) async {
+Future<String> networkImageToBase64(String imageUrl) async {
   http.Response response = await http.get(Uri.parse(imageUrl));
   final bytes = response.bodyBytes;
-  return (bytes != null ? base64Encode(bytes) : null);
+  return (base64Encode(bytes));
 }
 
 Uint8List getUint8List(String path) {

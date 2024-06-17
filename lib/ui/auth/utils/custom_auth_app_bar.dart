@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget {
                 'EstonEdge',
                 style: TextStyle(
                     fontSize: 34,
-                    fontFamily: 'RubikMedium-DRPE',
+                    fontFamily: 'Lexend',
                     fontWeight: FontWeight.bold),
               ),
             ],
