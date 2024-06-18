@@ -24,10 +24,25 @@ class _QrScreenState extends BaseWidgetState<QrScreen> {
       appBar: AppBar(
         backgroundColor: Colors.blue.shade300,
         title: const Center(
-            child: Text(
-          'Scan QR Code',
-          style: TextStyle(color: Colors.white),
-        )),
+          child: Text(
+            'Scan QR Code',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              _isFlashOn ? Icons.flash_on : Icons.flash_off,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _isFlashOn = !_isFlashOn;
+                // Handle flash toggle
+              });
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -59,7 +74,9 @@ class _QrScreenState extends BaseWidgetState<QrScreen> {
             ),
             const SizedBox(height: 50),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                scanQR();
+              },
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.blue.shade300,
                 backgroundColor: Colors.white,
@@ -75,5 +92,31 @@ class _QrScreenState extends BaseWidgetState<QrScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> scanQR() async {
+    setState(() {
+      _isScanning = true;
+    });
+
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666',
+        'Cancel',
+        _isFlashOn,
+        ScanMode.QR,
+      );
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanCode = barcodeScanRes != '-1' ? barcodeScanRes : null;
+      print("Scanned CODE : $_scanCode");
+      _isScanning = false;
+    });
   }
 }

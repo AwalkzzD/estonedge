@@ -1,5 +1,7 @@
 // validators.dart
 
+import 'package:estonedge/base/constants/app_constants.dart';
+
 String? validateName(String? value) {
   if (value == null || value.isEmpty) {
     return 'Name is required';
@@ -22,17 +24,18 @@ String? validatePassword(String? value) {
   if (value == null || value.isEmpty) {
     return 'Password is required';
   }
-  if (value.length < 8) {
+  if (value.length < passwordLength) {
     return 'Password must be at least 8 characters long';
   }
-  /*if (!RegExp(r'[A-Z]').hasMatch(value)) {
-    return 'Password must contain at least one uppercase letter';
+  return null; // No error
+}
+
+String? validateSSID(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'ID is required';
   }
-  if (!RegExp(r'[a-z]').hasMatch(value)) {
-    return 'Password must contain at least one lowercase letter';
+  if (value.length < ssidLength || value.length > ssidLength) {
+    return 'Length must be 12 characters long';
   }
-  if (!RegExp(r'[!@#\$&*~]').hasMatch(value)) {
-    return 'Password must contain at least one special character';
-  }*/
   return null; // No error
 }

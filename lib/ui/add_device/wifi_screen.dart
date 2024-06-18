@@ -4,21 +4,21 @@ import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/validators.dart';
 import 'package:flutter/material.dart';
 
-class MacidScreen extends BaseWidget {
-  const MacidScreen({super.key});
+class WifiScreen extends BaseWidget {
+  const WifiScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _MacidScreenState();
+  BaseWidgetState<BaseWidget> getState() => _WifiScreenState();
 }
 
-class _MacidScreenState extends BaseWidgetState<MacidScreen> {
-  final TextEditingController ssidController = TextEditingController();  
+class _WifiScreenState extends BaseWidgetState<WifiScreen> {
+  final TextEditingController wifiController = TextEditingController();
 
-  String? ssidError;
+  String? wifiError;
 
   @override
   void dispose() {
-    ssidController.dispose();    
+    wifiController.dispose();
     super.dispose();
   }
 
@@ -28,7 +28,7 @@ class _MacidScreenState extends BaseWidgetState<MacidScreen> {
         appBar: AppBar(
           title: const Center(
             child: Text(
-              'MacID Details',
+              'WiFi Details',
               style: TextStyle(
                   fontFamily: 'Lexend',
                   fontSize: 24,
@@ -41,7 +41,7 @@ class _MacidScreenState extends BaseWidgetState<MacidScreen> {
           child: Column(children: [
             const SizedBox(height: 20),
             const Text(
-              'Enter Wi-Fi credential of the device',
+              'Enter your personal Wi-Fi credential to connect with smart device',
               style: TextStyle(
                   fontFamily: 'Lexend',
                   fontSize: 18,
@@ -50,20 +50,20 @@ class _MacidScreenState extends BaseWidgetState<MacidScreen> {
             ),
             const SizedBox(height: 40),
             CustomTextfieldWiFi(
-              labelText: 'MacID/SSID',
-              hintText: 'Enter MacID/SSID',
-              controller: ssidController,
-              errorText: ssidError,
+              labelText: 'Wi-Fi',
+              hintText: 'Enter your WiFi name',
+              controller: wifiController,
+              errorText: wifiError,
               onChanged: (text) {
                 setState(() {
-                  ssidError = validateSSID(text);
+                  wifiError = validateSSID(text);
                 });
               },
             ),
             const SizedBox(height: 40),
             const CustomTextfieldWiFi(
               labelText: 'Password',
-              hintText: 'Enter your password',              
+              hintText: 'Enter your password',
             ),
             const SizedBox(height: 70),
             CustomButton(
@@ -72,9 +72,9 @@ class _MacidScreenState extends BaseWidgetState<MacidScreen> {
                 color: Colors.blue,
                 onPressed: () {
                   setState(() {
-                    ssidError = validateSSID(ssidController.text);
+                    wifiError = validateSSID(wifiController.text);
                   });
-                  if (ssidError == null) {
+                  if (wifiError == null) {
                     print('OK');
                   }
                 })

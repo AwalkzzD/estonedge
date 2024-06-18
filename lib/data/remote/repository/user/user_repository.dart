@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:estonedge/base/constants/api_constants.dart';
+import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
 
 import '../../utils/dio_manager.dart';
@@ -9,7 +9,7 @@ void apiGetUserData(
   try {
     final response = userResponseFromJson(
         (await (await DioManager.getInstance())!.get(
-                '${ApiConstants.getUsers}/2',
+                '${getUsers}/2',
                 options: Options(responseType: ResponseType.plain)))
             .data);
 

@@ -2,7 +2,9 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:estonedge/amplifyconfiguration.dart';
 import 'package:estonedge/base/src_components.dart';
+import 'package:estonedge/ui/add_device/macid_screen.dart';
 import 'package:estonedge/ui/add_device/qr_screen.dart';
+import 'package:estonedge/ui/add_device/wifi_screen.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
@@ -62,7 +64,9 @@ class MainApp extends StatelessWidget {
           '/addRoom': (context) => const AddRoomScreen(),
           '/selectRoomImage': (context) => const SelectRoomImageScreen(),
           '/homeScreenTest': (context) => const HomeScreenTest(),
-          '/qrScanner' : (context) => const QrScreen()
+          '/qrScanner' : (context) => const QrScreen(),
+          '/macIdScreen' : (context) => const MacidScreen(),
+          '/wifiScreen' : (context) => const WifiScreen()
         },
         debugShowCheckedModeBanner: false,
         title: "EstonEdge"
