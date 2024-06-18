@@ -1,14 +1,14 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/widgets/keep_alive_widget.dart';
+import 'package:estonedge/ui/home/dashboard/dashboard_appbar.dart';
 import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
+import 'package:estonedge/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../base/src_constants.dart';
-import '../../base/utils/widgets/custom_appbar.dart';
 import 'dashboard/dashboard_screen.dart';
 
 class HomeScreen extends BasePage {
@@ -27,11 +27,25 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const KeepAlivePage(child: DashboardScreen()),
-    const KeepAlivePage(child: RoomScreen()),
-    const KeepAlivePage(child: ScheduleHomeScreen()),
-    const KeepAlivePage(child: ScheduleDetailsScreen()),
+    const DashboardScreen(),
+    const RoomScreen(),
+    const ScheduleHomeScreen(),
+    const ScheduleDetailsScreen(),
   ];
+
+  get getTitles => [
+        'Hi $userName',
+        'My Rooms',
+        'New Screen',
+        'Schedule',
+      ];
+
+  get getImages => [
+        AppImages.homeProfileIcon,
+        AppImages.appBarPlusIcon,
+        AppImages.appBarPlusIcon,
+        AppImages.appBarPlusIcon,
+      ];
 
   void _onItemTapped(int index) {
     getBloc().updateCurrentIndex(index);
@@ -113,7 +127,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                       buildCustomDrawerItem(
                           text: 'Schedule',
                           iconData: Icons.schedule_outlined,
-                          onClick: () => navigateToLogin()),
+                          onClick: () => _onItemTapped(3)),
                     ],
                   ),
                 ],
@@ -136,7 +150,18 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   @override
   Widget? getAppBar() {
-    return AppBar(
+    return DashboardAppbar.build(
+        title: 'Hi, Devarshi',
+        onLeadingPressed: () => openDrawer(),
+        trailing: [
+          InkWell(
+            onTap: () {
+              getBloc().updateCurrentIndex(2);
+            },
+            child: Image.asset(AppImages.homeProfileIcon),
+          ),
+        ]);
+    /*return AppBar(
       leading: Builder(
         builder: (context) {
           return IconButton(
@@ -147,113 +172,31 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
           );
         },
       ),
-      title: StreamBuilder<int>(
-          stream: getBloc().currentPageIndexStream,
+      title: StreamBuilder<String>(
+          stream: getBloc().userNameStream,
           builder: (context, snapshot) {
             if (snapshot.data != null) {
-              if (snapshot.data == 0) {
-                return StreamBuilder<String>(
-                    stream: getBloc().userNameStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.data != null) {
-                        userName = snapshot.data!;
-                      }
-                      return Builder(builder: (context) {
-                        return SafeArea(
-                          child: Column(
-                            children: <Widget>[
-                              CustomAppbar(
-                                context,
-                                title: 'Hi $userName',
-                                appBarImage: AppImages.homeProfileIcon,
-                                trailingIconAction: () {
-                                  getBloc().updateCurrentIndex(2);
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                    });
-              } else if (snapshot.data == 1) {
-                return StreamBuilder<String>(
-                    stream: getBloc().userNameStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.data != null) {
-                        userName = snapshot.data!;
-                      }
-                      return Builder(builder: (context) {
-                        return SafeArea(
-                          child: Column(
-                            children: <Widget>[
-                              CustomAppbar(
-                                context,
-                                title: 'My Rooms',
-                                appBarImage: AppImages.appBarPlusIcon,
-                                trailingIconAction: () {
-                                  getBloc().updateCurrentIndex(1);
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                    });
-              } else if (snapshot.data == 2) {
-                return StreamBuilder<String>(
-                    stream: getBloc().userNameStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.data != null) {
-                        userName = snapshot.data!;
-                      }
-                      return Builder(builder: (context) {
-                        return SafeArea(
-                          child: Column(
-                            children: <Widget>[
-                              CustomAppbar(
-                                context,
-                                title: 'Your Profile',
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                    });
-              } else {
-                return Builder(builder: (context) {
-                  return SafeArea(
-                    child: Column(
-                      children: <Widget>[
-                        CustomAppbar(
-                          context,
-                          title: 'Hi $userName',
-                          appBarImage: AppImages.homeProfileIcon,
-                          trailingIconAction: () {
-                            getBloc().updateCurrentIndex(2);
-                          },
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  );
-                });
-              }
-            } else {
-              return const SizedBox();
+              userName = snapshot.data!;
             }
+            return Builder(builder: (context) {
+              return SafeArea(
+                child: Column(
+                  children: <Widget>[
+                    CustomAppbar(
+                      context,
+                      title: getTitles[_selectedIndex],
+                      appBarImage: getImages[_selectedIndex],
+                      trailingIconAction: () {},
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              );
+            });
           }),
-    );
+    );*/
   }
 
   @override
