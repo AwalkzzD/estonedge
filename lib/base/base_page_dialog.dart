@@ -125,7 +125,6 @@ abstract class BasePageDialogState<T extends BasePageDialog,
           value: getSystemUIOverlayStyle(),
           sized: false,
           child: buildWidget(context));
-      // return buildWidget(context);
     } else {
       return AnnotatedRegion<SystemUiOverlayStyle>(
           value: getSystemUIOverlayStyle(), sized: false, child: getScaffold());

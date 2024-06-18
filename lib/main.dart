@@ -1,6 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:estonedge/amplifyconfiguration.dart';
+import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/ui/add_device/qr_screen.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'base/constants/app_widgets.dart';
 
 Future<void> main() async {
   try {
@@ -48,24 +50,23 @@ class MainApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      builder: () => MaterialApp(
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/introduction': (context) => const GetStarted(),
+          '/home': (context) => const HomeScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/signup': (context) => const SignupScreen(),
+          '/addRoom': (context) => const AddRoomScreen(),
+          '/selectRoomImage': (context) => const SelectRoomImageScreen(),
+          '/homeScreenTest': (context) => const HomeScreenTest(),
+          '/qrScanner' : (context) => const QrScreen()
+        },
+        debugShowCheckedModeBanner: false,
+        title: "EstonEdge"
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/introduction': (context) => const GetStarted(),
-        '/home': (context) => const HomeScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignupScreen(),
-        '/addRoom': (context) => const AddRoomScreen(),
-        '/selectRoomImage': (context) => const SelectRoomImageScreen(),
-        '/homeScreenTest': (context) => const HomeScreenTest(),
-        '/qrScanner' : (context) => const QrScreen()
-      },
     );
   }
 }

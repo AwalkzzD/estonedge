@@ -19,7 +19,7 @@ class ConfirmationDialog {
       child: Text(negativeButtonText,
           style: TextStyle(
               fontSize: 13.sp,
-              fontFamily: fontFamilyPoppins,
+              fontFamily: fontFamilyLexend,
               color: themeOf().appBarTextColor)),
     );
     Widget continueButton = TextButton(
@@ -27,7 +27,7 @@ class ConfirmationDialog {
       child: Text(positiveButtonText,
           style: TextStyle(
               fontSize: 13.sp,
-              fontFamily: fontFamilyPoppins,
+              fontFamily: fontFamilyLexend,
               color: themeOf().appBarTextColor)),
     );
 
@@ -35,13 +35,13 @@ class ConfirmationDialog {
       title: Text(title,
           style: TextStyle(
               fontSize: 16.sp,
-              fontFamily: fontFamilyPoppins,
+              fontFamily: fontFamilyLexend,
               color: themeOf().textPrimaryColor,
               fontWeight: FontWeight.w600)),
       content: Text(message,
           style: TextStyle(
               fontSize: 14.sp,
-              fontFamily: fontFamilyPoppins,
+              fontFamily: fontFamilyLexend,
               color: themeOf().textPrimaryColor)),
       actions: [
         cancelButton,

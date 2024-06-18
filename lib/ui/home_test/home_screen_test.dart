@@ -1,5 +1,5 @@
-import 'package:estonedge/base/basePage.dart';
 import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/ui/home_test/home_screen_test_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +80,7 @@ class _HomeScreenTestState
         title: StreamBuilder<String>(
             stream: getBloc().userNameStream,
             builder: (context, snapshot) {
-              if(snapshot.data != null) {
+              if (snapshot.data != null) {
                 userName = snapshot.data!;
               }
               return Builder(builder: (context) {
@@ -222,6 +222,7 @@ class _HomeScreenTestState
   }
 
   void navigateToLogin() {
+    getBloc().logout();
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.of(context, rootNavigator: true).pushReplacementNamed('/login');
     });
