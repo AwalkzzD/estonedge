@@ -10,7 +10,6 @@ import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
-import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_list_provider.dart';
 import 'package:estonedge/ui/home_test/home_screen_test.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
@@ -63,7 +62,6 @@ class MainApp extends StatelessWidget {
           '/login': (context) => const LoginScreen(),
           '/signup': (context) => const SignupScreen(),
           '/addRoom': (context) => const AddRoomScreen(),
-          '/room': (context) => const RoomScreen(),
           '/selectRoomImage': (context) => const SelectRoomImageScreen(),
           '/homeScreenTest': (context) => const HomeScreenTest(),
           '/qrScanner' : (context) => const QrScreen(),

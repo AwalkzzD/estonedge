@@ -8,7 +8,6 @@ double fs12 = 12.sp;
 double fs14 = 14.sp;
 double fs16 = 16.sp;
 double fs20 = 20.sp;
-double fs32 = 32.sp;
 
 FontWeight semiBold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
@@ -76,13 +75,4 @@ TextStyle fs20BlackSemibold = TextStyle(
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
-);
-
-/// Font size - 32
-
-TextStyle fs32BlackBold = TextStyle(
-  fontSize: fs32,
-  color: black,
-  fontFamily: fontFamilyLexend,
-  fontWeight: bold,
 );
