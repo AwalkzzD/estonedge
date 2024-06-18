@@ -11,8 +11,10 @@ import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_list_provider.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/home_test/home_screen_test.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
+import 'package:estonedge/ui/profile/profile_details_screen.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,9 +66,11 @@ class MainApp extends StatelessWidget {
           '/addRoom': (context) => const AddRoomScreen(),
           '/selectRoomImage': (context) => const SelectRoomImageScreen(),
           '/homeScreenTest': (context) => const HomeScreenTest(),
+          '/scheduleHome': (context) => const ScheduleHomeScreen(),          
           '/qrScanner' : (context) => const QrScreen(),
           '/macIdScreen' : (context) => const MacidScreen(),
-          '/wifiScreen' : (context) => const WifiScreen()
+          '/wifiScreen' : (context) => const WifiScreen(),
+          '/profileDetails' : (context) => const ProfileDetailsScreen()
         },
         debugShowCheckedModeBanner: false,
         title: "EstonEdge"
