@@ -1,11 +1,11 @@
-import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/ui/home/room/add_room/add_room_provider.dart';
 import 'package:estonedge/ui/home/room/add_room/room_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../base/constants/app_images.dart';
+import '../../../../base/utils/widgets/custom_button.dart';
 
 class SelectRoomImageScreen extends BaseWidget {
   const SelectRoomImageScreen({super.key});
@@ -46,7 +46,7 @@ class _SelectRoomImageScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select Room Image',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -54,47 +54,47 @@ class _SelectRoomImageScreenState
                   fontFamily: 'Lexend',
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Flexible(
               child: GridView.builder(
-                itemCount: 6, // Total number of containers
+                itemCount: roomImages.length, // Total number of containers
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // 2 containers per row
                   crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 0,
-                  childAspectRatio: 1.3, // Adjust the aspect ratio if needed
+                  mainAxisSpacing: 1,
+                  childAspectRatio: 1.7, // Adjust the aspect ratio if needed
                 ),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        selectedImageIndex =
-                            index; // Set the selected image index
+                        selectedImageIndex = index;
                       });
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: selectedImageIndex == index
-                                ? Colors.black.withOpacity(0.5)
-                                : Colors.black.withOpacity(0),
-                            spreadRadius: 0.8,
-                            blurRadius: 8.0,
-                          ),
-                        ],
-                      ),
-                      child: Container(
-                        child: AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: Image(
-                            image: AssetImage(roomImages[index]),
-                            fit: BoxFit.fill, // use this
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16.0),
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image(
+                              image: AssetImage(roomImages[index]),
+                              fit: BoxFit.fill, // use this
+                            ),
                           ),
                         ),
-                      ), 
+                        if (selectedImageIndex == index)
+                          const Positioned(
+                            top: 8,
+                            right: 8,
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.blueAccent,
+                            ),
+                          ),
+                      ],
                     ),
                   );
                 },
@@ -117,7 +117,7 @@ class _SelectRoomImageScreenState
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          title: Icon(Icons.add_task),
+                          title: const Icon(Icons.add_task),
                           content: Text('$roomName Added Successfully'),
                           actions: <Widget>[
                             TextButton(
@@ -128,7 +128,7 @@ class _SelectRoomImageScreenState
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, "/home", (route) => false);
                                 },
-                                child: Text('OK'),
+                                child: const Text('OK'),
                               ),
                             ),
                           ],
@@ -136,7 +136,7 @@ class _SelectRoomImageScreenState
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please select an image')),
+                        const SnackBar(content: Text('Please select an image')),
                       );
                     }
                   },
