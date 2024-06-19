@@ -1,16 +1,18 @@
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
+import 'package:estonedge/ui/splash/splash_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends BaseWidget {
+class SplashScreen extends BasePage {
   const SplashScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _SplashScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _SplashScreenState();
 }
 
-class _SplashScreenState extends BaseWidgetState<SplashScreen>
+class _SplashScreenState extends BasePageState<SplashScreen, SplashScreenBloc>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
@@ -21,6 +23,8 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
     curve: Curves.easeOut,
   );
 
+  final SplashScreenBloc _bloc = SplashScreenBloc();
+
   @override
   void initState() {
     super.initState();
@@ -28,27 +32,21 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
     navigateToHomeScreen();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: FadeTransition(
-          opacity: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
-          child: Padding(
-            padding: const EdgeInsets.all(7.0),
-            child: Image.asset(AppImages.splashImage),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> navigateToHomeScreen() async {
-    final isUserSessionActive = await ref.read(userSessionProvider);
-    await Future.delayed(const Duration(seconds: 2), () {
-      isUserSessionActive
-          ? Navigator.pushReplacementNamed(context, '/home')
-          : Navigator.pushReplacementNamed(context, '/introduction');
+  void navigateToHomeScreen() async {
+    getBloc().checkUserSession((isActive) async {
+      if (isActive) {
+        await Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pushReplacementNamed(context, '/home');
+        });
+      } else {
+        await Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pushReplacementNamed(context, '/login');
+        });
+      }
+    }, (errorMsg) async {
+      await Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pushReplacementNamed(context, '/login');
+      });
     });
   }
 
@@ -57,4 +55,21 @@ class _SplashScreenState extends BaseWidgetState<SplashScreen>
     _controller.dispose();
     super.dispose();
   }
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    return Center(
+      child: FadeTransition(
+        opacity: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Image.asset(AppImages.splashImage),
+        ),
+      ),
+    );
+  }
+
+
+  @override
+  SplashScreenBloc getBloc() => _bloc;
 }

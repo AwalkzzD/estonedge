@@ -6,7 +6,9 @@ import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../../base/src_components.dart';
 import '../../base/src_constants.dart';
 import '../../base/utils/widgets/custom_appbar.dart';
 import 'dashboard/dashboard_screen.dart';
@@ -24,13 +26,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   /// Get user name from the database
   String userName = 'User';
-
-  final List<Widget> _pages = [
-    const KeepAlivePage(child: DashboardScreen()),
-    const KeepAlivePage(child: RoomScreen()),
-    const KeepAlivePage(child: ScheduleHomeScreen()),
-    const KeepAlivePage(child: ScheduleDetailsScreen()),
-  ];
+  List<Widget> _pages = [];
 
   void _onItemTapped(int index) {
     getBloc().updateCurrentIndex(index);
@@ -179,6 +175,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                       });
                     });
               }
+
               /// Rooms Screen
               else if (snapshot.data == 1) {
                 return StreamBuilder<String>(
@@ -208,6 +205,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                       });
                     });
               }
+
               /// Profile Screen
               else if (snapshot.data == 2) {
                 return StreamBuilder<String>(
@@ -262,21 +260,65 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   @override
   void initState() {
-    getInitData();
+    _pages = [
+      const KeepAlivePage(child: DashboardScreen()),
+      const KeepAlivePage(child: RoomScreen()),
+      const KeepAlivePage(child: ScheduleHomeScreen()),
+      const KeepAlivePage(child: ScheduleDetailsScreen()),
+    ];
     super.initState();
+  }
+
+  @override
+  void onReady() {
+    getInitData();
+    super.onReady();
   }
 
   @override
   Widget buildWidget(BuildContext context) {
     return StreamBuilder<int>(
-        stream: getBloc().currentPageIndexStream,
-        builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            return _pages[snapshot.data!];
-          } else {
-            return getBaseLoadingWidget();
+      stream: getBloc().currentPageIndexStream,
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          return _pages[snapshot.data!];
+        } else {
+          return getBaseLoadingWidget();
+        }
+      },
+    );
+  }
+
+  @override
+  bool customBackPressed() => true;
+
+  @override
+  void onBackPressed(bool didPop, BuildContext context) {
+    print('step 1');
+    if (!didPop) {
+      print('step 2');
+      if (isDrawerOpen()) {
+        print('step 3');
+        closeDrawer();
+      } else {
+        print('step 4');
+        if (getBloc().currentPageIndex.value != 0) {
+          print('step 5');
+          getBloc().currentPageIndex.add(0);
+        } else if (getBloc().currentPageIndex.value == 0) {
+          print('step 6');
+          SystemNavigator.pop();
+        } else {
+          print('step 7');
+          final navigator = Navigator.of(context);
+          bool value = isOTSLoading();
+          if (!value) {
+            print('step 8');
+            navigator.pop();
           }
-        });
+        }
+      }
+    }
   }
 
   Widget buildCustomDrawerItem({
