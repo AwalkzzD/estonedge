@@ -1,92 +1,74 @@
-import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/base/utils/extension_functions.dart';
-import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
-import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
-import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
-import 'package:estonedge/ui/home/home_screen_provider.dart';
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/widgets/keep_alive_widget.dart';
+import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
-import 'package:estonedge/ui/profile/profile_screen.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends BaseWidget {
+import '../../base/src_constants.dart';
+import '../../base/utils/widgets/custom_appbar.dart';
+import 'dashboard/dashboard_screen.dart';
+
+class HomeScreen extends BasePage {
   const HomeScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _HomeScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseWidgetState<HomeScreen> {
+class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
+  final HomeScreenBloc _bloc = HomeScreenBloc();
+
   /// Get user name from the database
   String userName = 'User';
 
   final List<Widget> _pages = [
-    const DashboardScreen(),
-    const RoomScreen(),
-    const ProfileScreen(),
-    const ScheduleDetailsScreen(),
+    const KeepAlivePage(child: DashboardScreen()),
+    const KeepAlivePage(child: RoomScreen()),
+    const KeepAlivePage(child: ScheduleHomeScreen()),
+    const KeepAlivePage(child: ScheduleDetailsScreen()),
   ];
 
-  get getTitles => [
-        'Hi $userName',
-        'My Rooms',
-        'Account',
-        'Scheduler',
-      ];
-
-  get getImages => [
-        AppImages.homeProfileIcon,
-        AppImages.appBarPlusIcon,
-        AppImages.appBarPlusIcon,
-        AppImages.appBarPlusIcon,
-      ];
-
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    getBloc().updateCurrentIndex(index);
   }
 
   @override
-  Widget build(BuildContext context) {
-    final _userName = ref.watch(userNameProvider);
-
-    getLoadingView();
-
-    _userName.when(
-        data: (authUserAttributesList) {
-          setState(() {
-            userName = authUserAttributesList.getUsername();
-          });
-        },
-        error: (Object error, StackTrace stackTrace) {},
-        loading: () {});
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: Image.asset(
-                  AppImages.drawerIcon), // You can use the built-in menu icon
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
+  Widget? getBottomNavigationBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: StreamBuilder<int>(
+          stream: getBloc().currentPageIndexStream,
+          builder: (context, snapshot) {
+            return BottomNavigationBar(
+              currentIndex: (snapshot.data != null &&
+                      (snapshot.data! >= 0 && snapshot.data! <= 2))
+                  ? snapshot.data!
+                  : 0,
+              showSelectedLabels: true,
+              backgroundColor: Colors.transparent,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.white.withOpacity(0.5),
+              type: BottomNavigationBarType.fixed,
+              onTap: (index) {
+                _onItemTapped(index);
               },
-            );
-          },
-        ),
-        //automaticallyImplyLeading: false,
-        title: Builder(builder: (context) {
-          return SafeArea(
-            child: Column(
-              children: <Widget>[
-                CustomAppbar(
-                  context,
-                  title: getTitles[_selectedIndex],
-                  appBarImage: getImages[_selectedIndex],
-                  trailingIconAction: () {},
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.dashboard),
+                  label: 'Dashboard',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.bed_outlined),
+                  label: 'Rooms',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline),
@@ -331,6 +313,7 @@ class _HomeScreenState extends BaseWidgetState<HomeScreen> {
   }
 
   void navigateToLogin() {
+    getBloc().logout();
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.of(context, rootNavigator: true).pushReplacementNamed('/login');
     });
