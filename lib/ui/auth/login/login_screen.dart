@@ -41,7 +41,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
       Navigator.pushReplacementNamed(context, '/signup');
 
   void navigateToHomeScreen() {
-    Navigator.of(context).popAndPushNamed('/home');
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   void _forgotPassword() {}
@@ -172,14 +172,10 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
 
   @override
   void onBackPressed(bool didPop, BuildContext context) {
-    print('step 1');
     if (!didPop) {
-      print('step 2');
       if (isDrawerOpen()) {
-        print('step 3');
         closeDrawer();
       } else {
-        print('step 4');
         hideSoftInput();
         SystemNavigator.pop();
       }

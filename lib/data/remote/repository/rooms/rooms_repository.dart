@@ -7,9 +7,10 @@ import '../../utils/dio_manager.dart';
 void apiGetRoomsData(
     Function(List<RoomsResponse>) onSuccess, Function(String) onError) async {
   try {
+    print('Room API called');
     final response = roomsResponseFromJson(
         (await (await DioManager.getInstance())!.get('$getUsers/2/$getRooms',
-            options: Options(responseType: ResponseType.plain)))
+                options: Options(responseType: ResponseType.plain)))
             .data);
 
     onSuccess(response);

@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
 import 'package:estonedge/base/widgets/keep_alive_widget.dart';
 import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
@@ -261,8 +262,8 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   @override
   void initState() {
     _pages = [
-      const KeepAlivePage(child: DashboardScreen()),
-      const KeepAlivePage(child: RoomScreen()),
+      KeepAlivePage(child: DashboardScreen(key: UniqueKey())),
+      KeepAlivePage(child: RoomScreen(key: UniqueKey())),
       const KeepAlivePage(child: ScheduleHomeScreen()),
       const KeepAlivePage(child: ScheduleDetailsScreen()),
     ];
@@ -281,7 +282,11 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
       stream: getBloc().currentPageIndexStream,
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          return _pages[snapshot.data!];
+          return LazyLoadIndexedStack(
+            index: snapshot.data ?? 0,
+            preloadIndexes: const [],
+            children: _pages,
+          );
         } else {
           return getBaseLoadingWidget();
         }
@@ -294,26 +299,18 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   @override
   void onBackPressed(bool didPop, BuildContext context) {
-    print('step 1');
     if (!didPop) {
-      print('step 2');
       if (isDrawerOpen()) {
-        print('step 3');
         closeDrawer();
       } else {
-        print('step 4');
         if (getBloc().currentPageIndex.value != 0) {
-          print('step 5');
           getBloc().currentPageIndex.add(0);
         } else if (getBloc().currentPageIndex.value == 0) {
-          print('step 6');
           SystemNavigator.pop();
         } else {
-          print('step 7');
           final navigator = Navigator.of(context);
           bool value = isOTSLoading();
           if (!value) {
-            print('step 8');
             navigator.pop();
           }
         }

@@ -1,31 +1,64 @@
-import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/ui/home/room/add_room/room_list_provider.dart';
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
+import 'package:estonedge/ui/home/dashboard/dashboard_screen_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardScreen extends BaseWidget {
+import '../../../base/src_constants.dart';
+
+class DashboardScreen extends BasePage {
   const DashboardScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _DashboardScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _DashboardScreenState();
 }
 
-class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
+class _DashboardScreenState
+    extends BasePageState<DashboardScreen, DashboardScreenBloc> {
+  final DashboardScreenBloc _bloc = DashboardScreenBloc();
+
   List<bool> switchStates = List.generate(10, (index) => false);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer(
-        builder: (context, ref, child) {
-          final roomList = ref.watch(roomListProvider);
+  void onReady() {
+    getBloc().getRooms();
+    super.onReady();
+  }
 
-          return roomList.isEmpty ? addRoomButton() : addRoomButton();
-        },
-      ),
+  @override
+  bool isRefreshEnable() => true;
+
+  @override
+  Future<void> onRefresh() async {
+    return getBloc().getRooms();
+  }
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    return StreamBuilder<List<RoomsResponse>>(
+      stream: getBloc().roomListStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          if (snapshot.data!.isNotEmpty) {
+            /// change to return frequentlyUsed()
+            return const Center(
+              child: SizedBox(
+                child: Text('Show Frequently Used'),
+              ),
+            );
+          } else {
+            return addRoomButton();
+          }
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
+
+  @override
+  DashboardScreenBloc getBloc() => _bloc;
 
   Widget addRoomButton() {
     return Padding(
@@ -49,13 +82,9 @@ class _DashboardScreenState extends BaseWidgetState<DashboardScreen> {
                 const SizedBox(
                   width: 20,
                 ),
-                const Text(
+                Text(
                   'Add New Room',
-                  style: TextStyle(
-                    fontFamily: 'Lexend',
-                    fontSize: 14,
-                    color: Color.fromRGBO(192, 192, 192, 1),
-                  ),
+                  style: fs14GrayRegular,
                 )
               ],
             ),

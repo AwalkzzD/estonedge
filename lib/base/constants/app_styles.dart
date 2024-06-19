@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 const String fontFamilyLexend = "Lexend";
 
-double fs12 = 12.sp;
-double fs14 = 14.sp;
-double fs16 = 16.sp;
-double fs20 = 20.sp;
-double fs32 = 32.sp;
+double fs12 = 12;
+double fs14 = 14;
+double fs16 = 16;
+double fs20 = 20;
+double fs32 = 32;
 
 FontWeight semiBold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
@@ -58,6 +58,13 @@ TextStyle fs14WhiteMedium = TextStyle(
   color: white,
   fontFamily: fontFamilyLexend,
   fontWeight: medium,
+);
+
+TextStyle fs14GrayRegular = TextStyle(
+  fontSize: fs14,
+  color: textGrayColor,
+  fontFamily: fontFamilyLexend,
+  fontWeight: regular,
 );
 
 /// Font size - 16

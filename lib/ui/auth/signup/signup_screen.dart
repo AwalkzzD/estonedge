@@ -263,14 +263,10 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
 
   @override
   void onBackPressed(bool didPop, BuildContext context) {
-    print('step 1');
     if (!didPop) {
-      print('step 2');
       if (isDrawerOpen()) {
-        print('step 3');
         closeDrawer();
       } else {
-        print('step 4');
         hideSoftInput();
         SystemNavigator.pop();
       }
