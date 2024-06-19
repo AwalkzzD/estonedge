@@ -23,8 +23,10 @@ import 'package:estonedge/ui/profile/profile_details_screen.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'base/constants/app_widgets.dart';
 
 Future<void> main() async {
@@ -59,24 +61,23 @@ class MainApp extends StatelessWidget {
     ]);
     return ScreenUtilInit(
       builder: () => MaterialApp(
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const SplashScreen(),
-            '/introduction': (context) => const GetStarted(),
-            '/home': (context) => const HomeScreen(),
-            '/login': (context) => const LoginScreen(),
-            '/signup': (context) => const SignupScreen(),
-            '/addRoom': (context) => const AddRoomScreen(),
-            '/selectRoomImage': (context) => const SelectRoomImageScreen(),
-            '/homeScreenTest': (context) => const HomeScreenTest(),
-            '/scheduleHome': (context) => const ScheduleHomeScreen(),
-
-            '/addDevice': (context) => AddDeviceScreen(), 
-            '/qrScanner': (context) => const QrScreen(),
-            '/macIdScreen': (context) => const MacidScreen(),
-            '/wifiScreen': (context) => const WifiScreen(),
-
-            '/profileDetails': (context) => const ProfileDetailsScreen(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/introduction': (context) => const GetStarted(),
+          '/home': (context) => const HomeScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/signup': (context) => const SignupScreen(),
+          '/addRoom': (context) => const AddRoomScreen(),
+          '/room': (context) => const RoomScreen(),
+          '/selectRoomImage': (context) => const RoomImageScreen(),
+          '/homeScreenTest': (context) => const HomeScreenTest(),
+          '/scheduleHome': (context) => const ScheduleHomeScreen(),
+          '/addDevice': (context) => AddDeviceScreen(), 
+          '/qrScanner' : (context) => const QrScreen(),
+          '/macIdScreen' : (context) => const MacidScreen(),
+          '/wifiScreen' : (context) => const WifiScreen(),
+          '/profileDetails': (context) => const ProfileDetailsScreen(),
             '/roomDetails': (context) => const RoomDetailsScreen(
                   roomName: '',
                   roomImage: '',
@@ -84,9 +85,10 @@ class MainApp extends StatelessWidget {
             '/addBoard': (context) => const AddBoardScreen(),
             '/boardDetails': (context) => BoardDetailsScreen(),
             '/switchDetails': (context) => SwitchDetailsScreen(),
-          },
-          debugShowCheckedModeBanner: false,
-          title: "EstonEdge"),
+        },
+        debugShowCheckedModeBanner: false,
+        title: "EstonEdge"
+      ),
     );
   }
 }
