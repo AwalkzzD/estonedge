@@ -19,7 +19,6 @@ class HomeScreen extends BaseWidget {
 }
 
 class _HomeScreenState extends BaseWidgetState<HomeScreen> {
-
   /// Get user name from the database
   String userName = 'User';
   int _selectedIndex = 0;

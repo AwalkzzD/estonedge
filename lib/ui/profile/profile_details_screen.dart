@@ -1,6 +1,7 @@
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
+import 'package:estonedge/base/widgets/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -32,18 +33,25 @@ class _ProfileDetailsScreenState extends BaseWidgetState<ProfileDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Profile details',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               CustomTextField(
                 hintText: 'Name',
                 icon: null,
                 obscureText: false,
               ),
-              SizedBox(height: 16),
-              GenderDropdown(),
+              const SizedBox(height: 16),
+              GenericDropdown(
+                items: ['Male', 'Female', 'Non-Binary', 'Prefer not to answer'],
+                hint: 'Gender',
+                onChanged: (String? value) {
+                  // Handle the selected value
+                  print('Selected gender: $value');
+                },
+              ),
               SizedBox(height: 16),
               CustomTextField(
                 hintText: 'Date',
@@ -135,50 +143,6 @@ class CustomTextField extends StatelessWidget {
               )
             : null,
       ),
-    );
-  }
-}
-
-class GenderDropdown extends StatefulWidget {
-  @override
-  _GenderDropdownState createState() => _GenderDropdownState();
-}
-
-class _GenderDropdownState extends State<GenderDropdown> {
-  String? selectedGender;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-      value: selectedGender,
-      hint: Text('Gender'),
-      icon: Icon(Icons.arrow_drop_down),
-      items: <String>['Male', 'Female', 'Non-Binary', 'Prefer not to answer']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (String? newValue) {
-        setState(() {
-          selectedGender = newValue;
-        });
-      },
     );
   }
 }

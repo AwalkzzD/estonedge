@@ -1,6 +1,7 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/ui/home/room/add_room/room_list_provider.dart';
+import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,75 +49,88 @@ Widget RoomList(Map<String, String> roomList) {
     itemBuilder: (context, index) {
       final roomName = roomList.keys.elementAt(index);
       final roomImage = roomList.values.elementAt(index);
-      return Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        margin: const EdgeInsets.all(30),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20))),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Image(
-                        image: AssetImage(roomImage),
-                        fit: BoxFit.fill, // use this
-                      ),
-                    )),
-                Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Wrap(
-                    direction: Axis.vertical,
-                    children: [
-                      Text(
-                        roomName,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Text(
-                        '3/3',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20))),
-              child: const Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                    height: 60,
-                  ),
-                  CircleAvatar(
-                      backgroundColor: Colors.white, child: Icon(Icons.air)),
-                  SizedBox(width: 10),
-                  CircleAvatar(
-                      backgroundColor: Colors.white, child: Icon(Icons.tv)),
-                  SizedBox(width: 10),
-                  CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.lightbulb_outline)),
-                ],
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RoomDetailsScreen(
+                roomName: roomName,
+                roomImage: roomImage,
               ),
             ),
-          ],
+          );
+        },
+        child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          margin: const EdgeInsets.all(30),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20))),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image(
+                          image: AssetImage(roomImage),
+                          fit: BoxFit.fill, // use this
+                        ),
+                      )),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      children: [
+                        Text(
+                          roomName,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const Text(
+                          '3/3',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20))),
+                child: const Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
+                      height: 60,
+                    ),
+                    CircleAvatar(
+                        backgroundColor: Colors.white, child: Icon(Icons.air)),
+                    SizedBox(width: 10),
+                    CircleAvatar(
+                        backgroundColor: Colors.white, child: Icon(Icons.tv)),
+                    SizedBox(width: 10),
+                    CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.lightbulb_outline)),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       );
     },

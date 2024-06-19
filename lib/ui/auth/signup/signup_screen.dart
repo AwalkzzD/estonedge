@@ -8,6 +8,7 @@ import 'package:estonedge/ui/auth/signup/signup_screen_bloc.dart';
 import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../validators.dart';
 
@@ -312,142 +313,150 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              width: double.infinity,
-              child: Text(
-                'SIGN UP',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.bold),
+    return WillPopScope(
+      onWillPop: () async {
+        SystemNavigator.pop(); // Exit the app
+        return false; // Prevent default back button behavior
+      },
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'SIGN UP',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Lexend',
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            const Text(
-              'Looks like you don’t have an account. Let’s create a new account for you.',
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Lexend',
-                //fontWeight: FontWeight.bold
-              ),
-            ),
-            const SizedBox(height: 30),
-            CustomTextField(
-              hintText: 'Name',
-              icon: const Icon(Icons.person),
-              isPassword: false,
-              controller: nameInputController,
-              errorText: nameError,
-              onChanged: (text) {
-                setState(() {
-                  nameError = validateName(text);
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              hintText: 'Email',
-              icon: const Icon(Icons.email),
-              isPassword: false,
-              controller: emailInputController,
-              errorText: emailError,
-              onChanged: (text) {
-                setState(() {
-                  emailError = validateEmail(text);
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              hintText: 'Password',
-              icon: const Icon(Icons.lock),
-              isPassword: true,
-              controller: passwordInputController,
-              errorText: passwordError,
-              onChanged: (text) {
-                setState(() {
-                  passwordError = validatePassword(text);
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            RichText(
-              text: const TextSpan(
-                text: 'By selecting Create Account below, I agree to ',
+              const Text(
+                'Looks like you don’t have an account. Let’s create a new account for you.',
                 style: TextStyle(
                   fontSize: 14,
                   fontFamily: 'Lexend',
-                  color: Colors.black87, // Set the default text color
+                  //fontWeight: FontWeight.bold
                 ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Terms of Service',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold, // Bold
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' & ',
-                  ),
-                  TextSpan(
-                    text: 'Privacy Policy',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold, // Bold
-                    ),
-                  ),
-                  TextSpan(
-                    text: '.',
-                  ),
-                ],
               ),
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              btnText: 'CREATE ACCOUNT',
-              onPressed: () {
-                setState(() {
-                  nameError = validateName(nameInputController.text);
-                  emailError = validateEmail(emailInputController.text);
-                  passwordError =
-                      validatePassword(passwordInputController.text);
-                });
-
-                if (nameError == null &&
-                    emailError == null &&
-                    passwordError == null) {
-                  getBloc().attemptSignUp(
-                      emailInputController.text,
-                      passwordInputController.text,
-                      nameInputController.text, (response) {
-                    if (response.nextStep.signUpStep ==
-                        AuthSignUpStep.confirmSignUp) {
-                      verifyEmail(email: emailInputController.text);
-                    }
-                  }, (errorMsg) {});
-                }
-              },
-              width: double.infinity,
-              color: Colors.blueAccent,
-            ),
-            const SizedBox(height: 20),
-            Text.rich(
-              TextSpan(
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => navigateToLoginScreen(),
-                text: 'Already a user?',
-                style: const TextStyle(
+              const SizedBox(height: 30),
+              CustomTextField(
+                hintText: 'Name',
+                icon: const Icon(Icons.person),
+                isPassword: false,
+                controller: nameInputController,
+                errorText: nameError,
+                onChanged: (text) {
+                  setState(() {
+                    nameError = validateName(text);
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                hintText: 'Email',
+                icon: const Icon(Icons.email),
+                isPassword: false,
+                controller: emailInputController,
+                errorText: emailError,
+                onChanged: (text) {
+                  setState(() {
+                    emailError = validateEmail(text);
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                hintText: 'Password',
+                icon: const Icon(Icons.lock),
+                isPassword: true,
+                controller: passwordInputController,
+                errorText: passwordError,
+                onChanged: (text) {
+                  setState(() {
+                    passwordError = validatePassword(text);
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              RichText(
+                text: const TextSpan(
+                  text: 'By selecting Create Account below, I agree to ',
+                  style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'Lexend',
-                    color: Colors.blueAccent),
+                    color: Colors.black87, // Set the default text color
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Terms of Service',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, // Bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' & ',
+                    ),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, // Bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: '.',
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              CustomButton(
+                btnText: 'CREATE ACCOUNT',
+                onPressed: () {
+                  setState(() {
+                    nameError = validateName(nameInputController.text);
+                    emailError = validateEmail(emailInputController.text);
+                    passwordError =
+                        validatePassword(passwordInputController.text);
+                  });
+
+                  if (nameError == null &&
+                      emailError == null &&
+                      passwordError == null) {
+                    getBloc().attemptSignUp(
+                        emailInputController.text,
+                        passwordInputController.text,
+                        nameInputController.text, (response) {
+                      if (response.nextStep.signUpStep ==
+                          AuthSignUpStep.confirmSignUp) {
+                        verifyEmail(email: emailInputController.text);
+                      }
+                    }, (errorMsg) {});
+                  }
+                },
+                width: double.infinity,
+                color: Colors.blueAccent,
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text.rich(
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => navigateToLoginScreen(),
+                    text: 'Already a user?',
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'Lexend',
+                        color: Colors.blueAccent),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
