@@ -1,19 +1,25 @@
-import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/base/utils/widgets/custom_button.dart';
-import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
-import 'package:estonedge/ui/auth/validators.dart';
-import 'package:estonedge/ui/home/room/add_room/add_room_provider.dart';
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/ui/home/room/add_room/add_room_screen_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddRoomScreen extends BaseWidget {
+import '../../../../base/src_constants.dart';
+import '../../../../base/utils/widgets/custom_button.dart';
+import '../../../../base/utils/widgets/custom_textfield.dart';
+import '../../../auth/validators.dart';
+
+class AddRoomScreen extends BasePage {
   const AddRoomScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _AddRoomScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _AddRoomScreenState();
 }
 
-class _AddRoomScreenState extends BaseWidgetState<AddRoomScreen> {
+class _AddRoomScreenState
+    extends BasePageState<AddRoomScreen, AddRoomScreenBloc> {
+  final AddRoomScreenBloc _bloc = AddRoomScreenBloc();
+
   var roomNameController = TextEditingController();
   String? nameError;
 
@@ -24,70 +30,75 @@ class _AddRoomScreenState extends BaseWidgetState<AddRoomScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Add Room',
-            textAlign: TextAlign.center,
+  Widget buildWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Room Name',
             style: TextStyle(
                 fontSize: 24,
                 fontFamily: 'Lexend',
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.w600),
           ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Room Name',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Lexend',
-                  fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              controller: roomNameController,
-              hintText: 'Room Name',
-              icon: const Icon(Icons.house),
-              isPassword: false,
-              errorText: nameError,
-              onChanged: (text) {
-                setState(() {
-                  nameError = validateName(text);
-                });
-              },
-            ),
-            SizedBox(height: 50),
-            Consumer(
-              builder: (context, ref, _) {
-                return CustomButton(
-                  btnText: 'Continue',
-                  width: double.infinity,
-                  color: Colors.blueAccent,
-                  onPressed: () {
-                    setState(() {
-                      nameError = validateName(roomNameController.text);
-                    });
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextField(
+            controller: roomNameController,
+            hintText: 'Room Name',
+            icon: const Icon(Icons.house),
+            isPassword: false,
+            errorText: nameError,
+            onChanged: (text) {
+              setState(() {
+                nameError = validateName(text);
+              });
+            },
+          ),
+          const SizedBox(height: 50),
+          CustomButton(
+            btnText: 'Continue',
+            width: double.infinity,
+            color: Colors.blueAccent,
+            onPressed: () {
+              setState(() {
+                nameError = validateName(roomNameController.text);
+              });
 
-                    if (nameError == null) {
-                      ref.read(roomNameProvider.notifier).state =
-                          roomNameController.text;
-                      Navigator.pushNamed(context, '/selectRoomImage');
-                    }
-                  },
-                );
-              },
-            ),
-          ],
-        ),
+              if (nameError == null) {
+                Navigator.pushNamed(context, '/selectRoomImage');
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  AddRoomScreenBloc getBloc() => _bloc;
+
+  @override
+  Widget? getAppBar() {
+    return AppBar(
+      centerTitle: true,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      ),
+      title: const Text(
+        'Add Room',
+        style: TextStyle(
+            fontSize: 24, fontFamily: 'Lexend', fontWeight: FontWeight.bold),
       ),
     );
   }

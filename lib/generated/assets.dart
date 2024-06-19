@@ -13,6 +13,7 @@ class Assets {
   static const String fontsRubikMediumDRPE = 'assets/fonts/RubikMedium-DRPE.ttf';
   static const String fontsRubikW92V = 'assets/fonts/Rubik-W92V.ttf';
   static const String iconsAddRoomPlusIcon = 'assets/icons/add_room_plus_icon.png';
+  static const String iconsAppBarBackIcon = 'assets/icons/app_bar_back_icon.png';
   static const String iconsAppBarPlusIcon = 'assets/icons/app_bar_plus_icon.png';
   static const String iconsAppLogo = 'assets/icons/app_logo.png';
   static const String iconsDrawerHamIcon = 'assets/icons/drawer_ham_icon.png';
@@ -21,6 +22,15 @@ class Assets {
   static const String iconsSwitchInactiveThumbImage = 'assets/icons/switch_inactive_thumb_image.png';
   static const String imagesDummyRoom = 'assets/images/dummy_room.png';
   static const String imagesIntroductionHomeIllustration = 'assets/images/introduction_home_illustration.png';
+  static const String imagesNoRoom = 'assets/images/noRoom.png';
   static const String imagesOrganizationLogo = 'assets/images/organization_logo.png';
+  static const String imagesQrCode = 'assets/images/qrCode.png';
+  static const String imagesRoom = 'assets/images/room.png';
+  static const String imagesRoom1 = 'assets/images/room1.jpg';
+  static const String imagesRoom2 = 'assets/images/room2.jpg';
+  static const String imagesRoom3 = 'assets/images/room3.jpg';
+  static const String imagesRoom4 = 'assets/images/room4.jpg';
+  static const String imagesRoom5 = 'assets/images/room5.jpg';
+  static const String imagesRoom6 = 'assets/images/room6.jpg';
 
 }

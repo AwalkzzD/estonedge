@@ -9,6 +9,7 @@ const String baseUrl =
 
 // API Endpoints
 const String getUsers = 'users';
+const String getRooms = 'rooms';
 
 //validation constants
 const int ssidLength = 12;
