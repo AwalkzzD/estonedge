@@ -27,11 +27,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'base/constants/app_widgets.dart';
+import 'base/src_utils.dart';
 
 Future<void> main() async {
+
   try {
     WidgetsFlutterBinding.ensureInitialized();
     final sharedPreferences = await SharedPreferences.getInstance();
+    await SpUtil.getInstance();
     await _configureAmplify();
     runApp(ProviderScope(overrides: [
       sharedPreferencesProvider.overrideWithValue(sharedPreferences),
