@@ -1,7 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_colors.dart';
+import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen_bloc.dart';
@@ -55,150 +55,145 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        SystemNavigator.pop(); // Exit the app
-        return false; // Prevent default back button behavior
-      },
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                width: double.infinity,
-                child: Text(
-                  'SIGN UP',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Lexend',
-                      fontWeight: FontWeight.bold),
-                ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: double.infinity,
+              child: Text(
+                'SIGN UP',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Lexend',
+                    fontWeight: FontWeight.bold),
               ),
-              const Text(
-                'Looks like you don’t have an account. Let’s create a new account for you.',
+            ),
+            const Text(
+              'Looks like you don’t have an account. Let’s create a new account for you.',
+              style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'Lexend',
+                //fontWeight: FontWeight.bold
+              ),
+            ),
+            const SizedBox(height: 30),
+            CustomTextField(
+              hintText: 'Name',
+              icon: const Icon(Icons.person),
+              isPassword: false,
+              controller: nameInputController,
+              errorText: nameError,
+              onChanged: (text) {
+                setState(() {
+                  nameError = validateName(text);
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomTextField(
+              hintText: 'Email',
+              icon: const Icon(Icons.email),
+              isPassword: false,
+              controller: emailInputController,
+              errorText: emailError,
+              onChanged: (text) {
+                setState(() {
+                  emailError = validateEmail(text);
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomTextField(
+              hintText: 'Password',
+              icon: const Icon(Icons.lock),
+              isPassword: true,
+              controller: passwordInputController,
+              errorText: passwordError,
+              onChanged: (text) {
+                setState(() {
+                  passwordError = validatePassword(text);
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            RichText(
+              text: const TextSpan(
+                text: 'By selecting Create Account below, I agree to ',
                 style: TextStyle(
                   fontSize: 14,
                   fontFamily: 'Lexend',
-                  //fontWeight: FontWeight.bold
+                  color: Colors.black87, // Set the default text color
                 ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Terms of Service',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold, // Bold
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' & ',
+                  ),
+                  TextSpan(
+                    text: 'Privacy Policy',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold, // Bold
+                    ),
+                  ),
+                  TextSpan(
+                    text: '.',
+                  ),
+                ],
               ),
-              const SizedBox(height: 30),
-              CustomTextField(
-                hintText: 'Name',
-                icon: const Icon(Icons.person),
-                isPassword: false,
-                controller: nameInputController,
-                errorText: nameError,
-                onChanged: (text) {
-                  setState(() {
-                    nameError = validateName(text);
+            ),
+            const SizedBox(height: 20),
+            CustomButton(
+              btnText: 'CREATE ACCOUNT',
+              onPressed: () {
+                setState(() {
+                  nameError = validateName(nameInputController.text);
+                  emailError = validateEmail(emailInputController.text);
+                  passwordError =
+                      validatePassword(passwordInputController.text);
+                });
+
+                if (nameError == null &&
+                    emailError == null &&
+                    passwordError == null) {
+                  getBloc().attemptSignUp(
+                      emailInputController.text,
+                      passwordInputController.text,
+                      nameInputController.text, (response) {
+                    if (response.nextStep.signUpStep ==
+                        AuthSignUpStep.confirmSignUp) {
+                      showMessageBar('OTP sent to your email');
+                      verifyEmail(email: emailInputController.text);
+                    }
+                  }, (errorMsg) {
+                    showMessageBar(errorMsg);
                   });
-                },
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                hintText: 'Email',
-                icon: const Icon(Icons.email),
-                isPassword: false,
-                controller: emailInputController,
-                errorText: emailError,
-                onChanged: (text) {
-                  setState(() {
-                    emailError = validateEmail(text);
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                hintText: 'Password',
-                icon: const Icon(Icons.lock),
-                isPassword: true,
-                controller: passwordInputController,
-                errorText: passwordError,
-                onChanged: (text) {
-                  setState(() {
-                    passwordError = validatePassword(text);
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              RichText(
-                text: const TextSpan(
-                  text: 'By selecting Create Account below, I agree to ',
-                  style: TextStyle(
+                }
+              },
+              width: double.infinity,
+              color: Colors.blueAccent,
+            ),
+            const SizedBox(height: 20),
+            Text.rich(
+              TextSpan(
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => navigateToLoginScreen(),
+                text: 'Already a user?',
+                style: const TextStyle(
                     fontSize: 14,
                     fontFamily: 'Lexend',
-                    color: Colors.black87, // Set the default text color
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Terms of Service',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Bold
-                      ),
-                    ),
-                    TextSpan(
-                      text: ' & ',
-                    ),
-                    TextSpan(
-                      text: 'Privacy Policy',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Bold
-                      ),
-                    ),
-                    TextSpan(
-                      text: '.',
-                    ),
-                  ],
-                ),
+                    color: Colors.blueAccent),
               ),
-              const SizedBox(height: 20),
-              CustomButton(
-                btnText: 'CREATE ACCOUNT',
-                onPressed: () {
-                  setState(() {
-                    nameError = validateName(nameInputController.text);
-                    emailError = validateEmail(emailInputController.text);
-                    passwordError =
-                        validatePassword(passwordInputController.text);
-                  });
-
-                  if (nameError == null &&
-                      emailError == null &&
-                      passwordError == null) {
-                    getBloc().attemptSignUp(
-                        emailInputController.text,
-                        passwordInputController.text,
-                        nameInputController.text, (response) {
-                      if (response.nextStep.signUpStep ==
-                          AuthSignUpStep.confirmSignUp) {
-                        verifyEmail(email: emailInputController.text);
-                      }
-                    }, (errorMsg) {});
-                  }
-                },
-                width: double.infinity,
-                color: Colors.blueAccent,
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text.rich(
-                  TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => navigateToLoginScreen(),
-                    text: 'Already a user?',
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Lexend',
-                        color: Colors.blueAccent),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -211,7 +206,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (_) {
         return AlertDialog(
           title: const Text(
             'Enter 6-digit OTP',
@@ -246,15 +241,13 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                 if (verificationCodeController.text.length == 6) {
                   getBloc().attemptUserSignUpVerification(
                       email, verificationCodeController.text, (response) {
-                    print("Response ----> $response");
                     if (response.isSignUpComplete &&
                         response.nextStep.signUpStep == AuthSignUpStep.done) {
-                      Navigator.of(context).pop();
+                      showMessageBar('Login to continue');
                       navigateToLoginScreen();
                     }
                   }, (errorMsg) {
-                    Navigator.of(context).pop();
-                    print("Error ------> $errorMsg");
+                    showMessageBar(errorMsg);
                   });
                 }
               },
@@ -263,6 +256,25 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
         );
       },
     );
+  }
+
+  @override
+  bool customBackPressed() => true;
+
+  @override
+  void onBackPressed(bool didPop, BuildContext context) {
+    print('step 1');
+    if (!didPop) {
+      print('step 2');
+      if (isDrawerOpen()) {
+        print('step 3');
+        closeDrawer();
+      } else {
+        print('step 4');
+        hideSoftInput();
+        SystemNavigator.pop();
+      }
+    }
   }
 
   void navigateToLoginScreen() =>

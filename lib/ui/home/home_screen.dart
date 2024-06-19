@@ -1,8 +1,10 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
-import 'package:estonedge/base/widgets/keep_alive_widget.dart';
-import 'package:estonedge/ui/home/home_screen_bloc.dart';
+import 'package:estonedge/base/constants/app_images.dart';
+import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/utils/extension_functions.dart';
+import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
+import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
+import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
+import 'package:estonedge/ui/home/home_screen_provider.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
@@ -262,8 +264,8 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   @override
   void initState() {
     _pages = [
-      KeepAlivePage(child: DashboardScreen(key: UniqueKey())),
-      KeepAlivePage(child: RoomScreen(key: UniqueKey())),
+      const KeepAlivePage(child: DashboardScreen()),
+      const KeepAlivePage(child: RoomScreen()),
       const KeepAlivePage(child: ScheduleHomeScreen()),
       const KeepAlivePage(child: ScheduleDetailsScreen()),
     ];
@@ -299,18 +301,26 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   @override
   void onBackPressed(bool didPop, BuildContext context) {
+    print('step 1');
     if (!didPop) {
+      print('step 2');
       if (isDrawerOpen()) {
+        print('step 3');
         closeDrawer();
       } else {
+        print('step 4');
         if (getBloc().currentPageIndex.value != 0) {
+          print('step 5');
           getBloc().currentPageIndex.add(0);
         } else if (getBloc().currentPageIndex.value == 0) {
+          print('step 6');
           SystemNavigator.pop();
         } else {
+          print('step 7');
           final navigator = Navigator.of(context);
           bool value = isOTSLoading();
           if (!value) {
+            print('step 8');
             navigator.pop();
           }
         }
