@@ -16,6 +16,7 @@ class AppImages {
   static const String drawerIcon = 'assets/icons/drawer_ham_icon.png';
   static const String appBarPlusIcon = 'assets/icons/app_bar_plus_icon.png';
   static const String addRoomPlusIcon = 'assets/icons/add_room_plus_icon.png';
+  static const String appBarBackIcon = 'assets/icons/app_bar_back_icon.png';
 
   static const String switchActiveThumbImage =
       'assets/icons/switch_active_thumb_image.png';

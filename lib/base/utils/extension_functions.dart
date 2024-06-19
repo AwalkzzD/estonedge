@@ -24,4 +24,13 @@ extension AuthUserAttributeExtensions on List<AuthUserAttribute> {
       return 'User';
     }
   }
+
+  String getUserId() {
+    try {
+      return firstWhere((attribute) =>
+      attribute.userAttributeKey == AuthUserAttributeKey.sub).value;
+    } catch (e) {
+      return 'null';
+    }
+  }
 }

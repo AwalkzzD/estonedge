@@ -1,5 +1,7 @@
 import '../base/src_utils.dart';
 
+const String keyUserId = "userId";
+
 const String keyScaleFactor = "scaleFactor";
 const String keyThemeMode = "theme";
 const String keyTerminologies = "terminologies";
@@ -25,6 +27,11 @@ const String keyCalendarViewType = "calendarViewType";
 Future<void> sharedPrefClear() async {
   await SpUtil.clear();
 }
+
+/// User Id
+void setUserId(String userId) => SpUtil.putString(keyUserId, userId);
+
+String getUserId() => SpUtil.getString(keyUserId);
 
 /// Scale Factor
 void setScaleFactor(double value) {

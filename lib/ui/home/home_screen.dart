@@ -24,7 +24,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   /// Get user name from the database
   String userName = 'User';
-  int _selectedIndex = 0;
 
   final List<Widget> _pages = [
     const KeepAlivePage(child: DashboardScreen()),
@@ -151,6 +150,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
           stream: getBloc().currentPageIndexStream,
           builder: (context, snapshot) {
             if (snapshot.data != null) {
+              /// Dashboard Screen
               if (snapshot.data == 0) {
                 return StreamBuilder<String>(
                     stream: getBloc().userNameStream,
@@ -178,7 +178,9 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                         );
                       });
                     });
-              } else if (snapshot.data == 1) {
+              }
+              /// Rooms Screen
+              else if (snapshot.data == 1) {
                 return StreamBuilder<String>(
                     stream: getBloc().userNameStream,
                     builder: (context, snapshot) {
@@ -194,7 +196,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                                 title: 'My Rooms',
                                 appBarImage: AppImages.appBarPlusIcon,
                                 trailingIconAction: () {
-                                  getBloc().updateCurrentIndex(1);
+                                  navigateToAddRoom();
                                 },
                               ),
                               const SizedBox(
@@ -205,7 +207,9 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                         );
                       });
                     });
-              } else if (snapshot.data == 2) {
+              }
+              /// Profile Screen
+              else if (snapshot.data == 2) {
                 return StreamBuilder<String>(
                     stream: getBloc().userNameStream,
                     builder: (context, snapshot) {
@@ -322,5 +326,9 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
     getBloc().getUserAttributes((value) {
       print(value);
     });
+  }
+
+  void navigateToAddRoom() {
+    Navigator.of(context).pushNamed('/addRoom');
   }
 }
