@@ -70,6 +70,7 @@ class MainApp extends StatelessWidget {
             '/wifiScreen': (context) => const WifiScreen()
           },
           debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey,
           title: "EstonEdge"),
     );
   }

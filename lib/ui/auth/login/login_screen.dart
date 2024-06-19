@@ -7,6 +7,9 @@ import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:estonedge/ui/auth/validators.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../../base/src_constants.dart';
 
 class LoginScreen extends BasePage {
   const LoginScreen({super.key});
@@ -34,10 +37,12 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
     super.dispose();
   }
 
-  void navigateToSignUpScreen() => Navigator.pushNamed(context, '/signup');
+  void navigateToSignUpScreen() =>
+      Navigator.pushReplacementNamed(context, '/signup');
 
-  void navigateToHomeScreen() =>
-      Navigator.pushReplacementNamed(context, '/home');
+  void navigateToHomeScreen() {
+    Navigator.of(context).popAndPushNamed('/home');
+  }
 
   void _forgotPassword() {}
 
@@ -124,13 +129,13 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                         emailInputController.text, passwordInputController.text,
                         (response) {
                       if (response.isSignedIn) {
+                        showMessageBar('Welcome to EstonEdge');
                         navigateToHomeScreen();
                       } else {
-                        print('Not Signed In');
+                        showMessageBar('Something went wrong');
                       }
-                    }, (msg) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(msg)));
+                    }, (errorMsg) {
+                      showMessageBar(errorMsg);
                     });
                   }
                 },
@@ -160,6 +165,25 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
         ),
       ),
     );
+  }
+
+  @override
+  bool customBackPressed() => true;
+
+  @override
+  void onBackPressed(bool didPop, BuildContext context) {
+    print('step 1');
+    if (!didPop) {
+      print('step 2');
+      if (isDrawerOpen()) {
+        print('step 3');
+        closeDrawer();
+      } else {
+        print('step 4');
+        hideSoftInput();
+        SystemNavigator.pop();
+      }
+    }
   }
 
   @override

@@ -1,13 +1,14 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_colors.dart';
+import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen_bloc.dart';
 import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../validators.dart';
 
@@ -169,9 +170,12 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                       nameInputController.text, (response) {
                     if (response.nextStep.signUpStep ==
                         AuthSignUpStep.confirmSignUp) {
+                      showMessageBar('OTP sent to your email');
                       verifyEmail(email: emailInputController.text);
                     }
-                  }, (errorMsg) {});
+                  }, (errorMsg) {
+                    showMessageBar(errorMsg);
+                  });
                 }
               },
               width: double.infinity,
@@ -202,7 +206,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (_) {
         return AlertDialog(
           title: const Text(
             'Enter 6-digit OTP',
@@ -237,15 +241,13 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                 if (verificationCodeController.text.length == 6) {
                   getBloc().attemptUserSignUpVerification(
                       email, verificationCodeController.text, (response) {
-                    print("Response ----> $response");
                     if (response.isSignUpComplete &&
                         response.nextStep.signUpStep == AuthSignUpStep.done) {
-                      Navigator.of(context).pop();
+                      showMessageBar('Login to continue');
                       navigateToLoginScreen();
                     }
                   }, (errorMsg) {
-                    Navigator.of(context).pop();
-                    print("Error ------> $errorMsg");
+                    showMessageBar(errorMsg);
                   });
                 }
               },
@@ -254,6 +256,25 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
         );
       },
     );
+  }
+
+  @override
+  bool customBackPressed() => true;
+
+  @override
+  void onBackPressed(bool didPop, BuildContext context) {
+    print('step 1');
+    if (!didPop) {
+      print('step 2');
+      if (isDrawerOpen()) {
+        print('step 3');
+        closeDrawer();
+      } else {
+        print('step 4');
+        hideSoftInput();
+        SystemNavigator.pop();
+      }
+    }
   }
 
   void navigateToLoginScreen() =>

@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import '../src_constants.dart';
@@ -30,4 +31,18 @@ backArrow(context, {onTap, arrowColor = black, path = 'left_arrow'}) {
           child: Center(
               child: imageAsset(context, path,
                   height: 20.0, width: 20.0, color: arrowColor ?? black))));
+}
+
+showMessageBar(String message) {
+  Flushbar(
+    flushbarPosition: FlushbarPosition.BOTTOM,
+    flushbarStyle: FlushbarStyle.GROUNDED,
+    isDismissible: true,
+    duration: const Duration(seconds: 3),
+    messageText: Text(
+      message,
+      maxLines: 3,
+      style: fs14WhiteRegular.copyWith(color: white),
+    ),
+  ).show(globalContext);
 }
