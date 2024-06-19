@@ -1,6 +1,7 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
+import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -83,8 +84,8 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
               context,
               MaterialPageRoute(
                 builder: (context) => RoomDetailsScreen(
-                  roomName: roomName,
-                  roomImage: roomImage,
+                  roomName: roomsList[index].roomName,
+                  roomImage: AppImages.room1,
                 ),
               ),
             );

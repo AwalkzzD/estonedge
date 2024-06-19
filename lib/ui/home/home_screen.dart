@@ -1,21 +1,19 @@
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
-import 'package:estonedge/base/utils/extension_functions.dart';
-import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
-import 'package:estonedge/data/remote/repository/auth/auth_repository_provider.dart';
+import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
-import 'package:estonedge/ui/home/home_screen_provider.dart';
+import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
+import 'package:estonedge/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../base/src_components.dart';
 import '../../base/src_constants.dart';
-import '../../base/utils/widgets/custom_appbar.dart';
-import 'dashboard/dashboard_screen.dart';
+import '../../base/widgets/keep_alive_widget.dart';
 
 class HomeScreen extends BasePage {
   const HomeScreen({super.key});
@@ -265,10 +263,10 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   @override
   void initState() {
     _pages = [
-      KeepAlivePage(child: DashboardScreen(key: UniqueKey())),
-      KeepAlivePage(child: RoomScreen(key: UniqueKey())),
+      const KeepAlivePage(child: DashboardScreen()),
+      const KeepAlivePage(child: RoomScreen()),
+      const KeepAlivePage(child: ProfileScreen()),
       const KeepAlivePage(child: ScheduleHomeScreen()),
-      const KeepAlivePage(child: ScheduleDetailsScreen()),
     ];
     super.initState();
   }
