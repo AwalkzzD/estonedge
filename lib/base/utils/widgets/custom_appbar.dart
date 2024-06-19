@@ -2,21 +2,17 @@ import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String title;
-  final String appBarImage;
+  final String? appBarImage;
   final Function()? trailingIconAction;
 
   const CustomAppbar(BuildContext context,
       {super.key,
       required this.title,
-      required this.appBarImage,
+      this.appBarImage,
       this.trailingIconAction});
 
   @override
   Widget build(BuildContext context) {
-    return buildCustomAppBar(context, title, appBarImage);
-  }
-
-  Widget buildCustomAppBar(BuildContext context, String title, String img) {
     /// Row widget to create a custom appbar
     return Padding(
       padding: const EdgeInsets.only(
@@ -37,12 +33,15 @@ class CustomAppbar extends StatelessWidget {
               ),
             ],
           ),
-          InkWell(
+          (appBarImage != null)
+              ? InkWell(
             onTap: trailingIconAction,
-            child: Image.asset(img),
-          ),
+            child: Image.asset(appBarImage!),
+          )
+              : const SizedBox(),
         ],
       ),
     );
   }
+
 }
