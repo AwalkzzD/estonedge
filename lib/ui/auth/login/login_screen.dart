@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/login/login_screen_bloc.dart';
@@ -41,7 +42,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
       Navigator.pushReplacementNamed(context, '/signup');
 
   void navigateToHomeScreen() {
-    Navigator.of(context).popAndPushNamed('/home');
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   void _forgotPassword() {}
@@ -69,14 +70,8 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              const Text(
-                'Looks like you don’t have an account. Let’s create a new account for you.',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Rubik-W92V',
-                  //fontWeight: FontWeight.bold
-                ),
-              ),
+             Text('Sign in to access your account.',
+                    style: fs14BlackRegular),
               const SizedBox(height: 30),
               CustomTextField(
                 hintText: 'Email',
@@ -110,7 +105,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                   "Forgot Password?",
                   style: TextStyle(
                       fontSize: 14,
-                      fontFamily: 'Rubik-W92V',
+                      fontFamily: 'Lexend',
                       color: Colors.blueAccent),
                 ),
               ),
@@ -146,16 +141,13 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
               Text.rich(
                 TextSpan(
                   text: "Don't have an account? ",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Lexend',
-                  ),
+                  style: fs14BlackRegular,
                   children: <TextSpan>[
                     TextSpan(
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => navigateToSignUpScreen(),
                       text: 'Sign Up',
-                      style: const TextStyle(color: Colors.blueAccent),
+                      style: const TextStyle(color: Colors.blueAccent, fontFamily: 'Lexend'),
                     ),
                   ],
                 ),
@@ -172,14 +164,10 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
 
   @override
   void onBackPressed(bool didPop, BuildContext context) {
-    print('step 1');
     if (!didPop) {
-      print('step 2');
       if (isDrawerOpen()) {
-        print('step 3');
         closeDrawer();
       } else {
-        print('step 4');
         hideSoftInput();
         SystemNavigator.pop();
       }

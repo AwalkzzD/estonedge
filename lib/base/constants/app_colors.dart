@@ -30,6 +30,8 @@ const Color columnChartColor = Color(0xFF1F78B4);
 const Color gray5AColor = Color(0xFF5A5A5A);
 Color underLineColor = const Color(0x52200A4D).withOpacity(0.16);
 
+const Color textGrayColor = Color.fromRGBO(192, 192, 192, 1);
+
 List<Color> backgroundColors = const [
   Color(0xFFFFF6DF),
   Color(0xFFEDECEB),

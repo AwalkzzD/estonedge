@@ -1,6 +1,8 @@
 import '../base/src_utils.dart';
+import '../data/remote/model/rooms/rooms_response.dart';
 
 const String keyUserId = "userId";
+const String keyRoomsList = "roomsList";
 
 const String keyScaleFactor = "scaleFactor";
 const String keyThemeMode = "theme";
@@ -32,6 +34,13 @@ Future<void> sharedPrefClear() async {
 void setUserId(String userId) => SpUtil.putString(keyUserId, userId);
 
 String getUserId() => SpUtil.getString(keyUserId);
+
+/// Rooms
+void saveRoomsList(List<RoomsResponse> roomsList) =>
+    SpUtil.putObjectList(keyRoomsList, roomsList);
+
+List<RoomsResponse> getRoomsList() => SpUtil.getObjList(keyRoomsList,
+    (value) => RoomsResponse.fromJson(value as Map<String, dynamic>));
 
 /// Scale Factor
 void setScaleFactor(double value) {

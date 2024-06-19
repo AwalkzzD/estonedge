@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 const String fontFamilyLexend = "Lexend";
 
-double fs12 = 12.sp;
-double fs14 = 14.sp;
-double fs16 = 16.sp;
-double fs20 = 20.sp;
-double fs32 = 32.sp;
+double fs12 = 12;
+double fs14 = 14;
+double fs16 = 16;
+double fs20 = 20;
+double fs24 = 24.sp;
+double fs32 = 32;
 
 FontWeight semiBold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
@@ -29,7 +30,12 @@ TextStyle fs12BlackSemibold = TextStyle(
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
-
+TextStyle fs12WhiteSemibold = TextStyle(
+  fontSize: fs12,
+  color: white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: semiBold,
+);
 /// Font size - 14
 
 TextStyle fs14BlackRegular = TextStyle(
@@ -60,6 +66,13 @@ TextStyle fs14WhiteMedium = TextStyle(
   fontWeight: medium,
 );
 
+TextStyle fs14GrayRegular = TextStyle(
+  fontSize: fs14,
+  color: textGrayColor,
+  fontFamily: fontFamilyLexend,
+  fontWeight: regular,
+);
+
 /// Font size - 16
 
 TextStyle fs16BlackSemibold = TextStyle(
@@ -73,6 +86,14 @@ TextStyle fs16BlackSemibold = TextStyle(
 
 TextStyle fs20BlackSemibold = TextStyle(
   fontSize: fs20,
+  color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: semiBold,
+);
+
+//Font size -24
+TextStyle fs24BlackSemibold = TextStyle(
+  fontSize: fs24,
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
