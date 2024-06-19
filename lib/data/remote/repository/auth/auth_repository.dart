@@ -190,11 +190,3 @@ void apiLogout(
     onError(ex.toString());
   }
 }
-
-void apiCheckUserSession(Function(bool) onSuccess, Function(String) onError) async {
-  try {
-    onSuccess((await Amplify.Auth.fetchAuthSession()).isSignedIn);
-  } catch (ex) {
-    onError(ex.toString());
-  }
-}

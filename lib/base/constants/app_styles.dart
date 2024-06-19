@@ -8,7 +8,7 @@ double fs12 = 12.sp;
 double fs14 = 14.sp;
 double fs16 = 16.sp;
 double fs20 = 20.sp;
-double fs32 = 32.sp;
+double fs24 = 24.sp;
 
 FontWeight semiBold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
@@ -26,6 +26,13 @@ TextStyle fs12BlackRegular = TextStyle(
 TextStyle fs12BlackSemibold = TextStyle(
   fontSize: fs12,
   color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: semiBold,
+);
+
+TextStyle fs12WhiteSemibold = TextStyle(
+  fontSize: fs12,
+  color: white,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
@@ -78,11 +85,10 @@ TextStyle fs20BlackSemibold = TextStyle(
   fontWeight: semiBold,
 );
 
-/// Font size - 32
-
-TextStyle fs32BlackBold = TextStyle(
-  fontSize: fs32,
+//Font size -24
+TextStyle fs24BlackSemibold = TextStyle(
+  fontSize: fs24,
   color: black,
   fontFamily: fontFamilyLexend,
-  fontWeight: bold,
+  fontWeight: semiBold,
 );
