@@ -17,6 +17,7 @@ import 'package:estonedge/ui/home/room/board/board_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/home_test/home_screen_test.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
@@ -74,8 +75,9 @@ class MainApp extends StatelessWidget {
           '/addRoom': (context) => const AddRoomScreen(),
           '/room': (context) => const RoomScreen(),
           '/selectRoomImage': (context) => const RoomImageScreen(),
-          '/homeScreenTest': (context) => const HomeScreenTest(),
+          // '/homeScreenTest': (context) => const HomeScreenTest(),
           '/scheduleHome': (context) => const ScheduleHomeScreen(),
+          '/scheduleDetails': (context) => const ScheduleDetailsScreen(),
           '/addDevice': (context) => AddDeviceScreen(), 
           '/qrScanner' : (context) => const QrScreen(),
           '/macIdScreen' : (context) => const MacidScreen(),

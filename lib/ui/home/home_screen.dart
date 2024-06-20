@@ -110,7 +110,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                       buildCustomDrawerItem(
                           text: 'Schedule',
                           iconData: Icons.schedule_outlined,
-                          onClick: () => navigateToLogin()),
+                          onClick: () => navigateToScheduleRoom()),
                     ],
                   ),
                 ],
@@ -370,5 +370,11 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   void navigateToAddRoom() {
     Navigator.of(context).pushNamed('/addRoom');
+  }
+
+  void navigateToScheduleRoom() {
+    print('NAVIGATE');
+    Navigator.of(context).push(ScheduleHomeScreen.route());
+    // Navigator.of(context).pushNamed('/scheduleHome');
   }
 }

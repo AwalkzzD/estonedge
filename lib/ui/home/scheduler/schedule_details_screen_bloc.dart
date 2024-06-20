@@ -1,16 +1,14 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
-import 'package:estonedge/utils/shared_pref.dart';
+import 'package:estonedge/data/remote/repository/rooms/rooms_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../data/remote/repository/rooms/rooms_repository.dart';
-
-class RoomScreenBloc extends BasePageBloc {
+class ScheduleDetailsScreenBloc extends BasePageBloc {
   late BehaviorSubject<List<RoomsResponse>> roomList;
 
-  get roomListStream => roomList.stream;
+  Stream<List<RoomsResponse>> get roomListStream => roomList.stream;
 
-  RoomScreenBloc() {
+  ScheduleDetailsScreenBloc() {
     roomList = BehaviorSubject.seeded([]);
   }
 
@@ -19,10 +17,9 @@ class RoomScreenBloc extends BasePageBloc {
     apiGetRoomsData((response) {
       hideLoading();
       roomList.add(response);
-      saveRoomsList(response);
     }, (error) {
       hideLoading();
-      print('Error fetching data');
+      print('Error fetching data: $error');
     });
   }
 }
