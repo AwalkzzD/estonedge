@@ -74,8 +74,8 @@ class MainApp extends StatelessWidget {
           '/signup': (context) => const SignupScreen(),
           '/addRoom': (context) => const AddRoomScreen(),
           '/room': (context) => const RoomScreen(),
-          '/selectRoomImage': (context) => const RoomImageScreen(),
-          // '/homeScreenTest': (context) => const HomeScreenTest(),
+
+
           '/scheduleHome': (context) => const ScheduleHomeScreen(),
           '/scheduleDetails': (context) => const ScheduleDetailsScreen(),
           '/addDevice': (context) => AddDeviceScreen(), 

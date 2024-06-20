@@ -69,3 +69,7 @@ Future<void> closeApp() async {
     }
   }
 }
+
+String generateUniqueKey() {
+  return UniqueKey().toString().replaceAll('[', '').replaceAll(']', '');
+}

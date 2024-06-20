@@ -1,6 +1,7 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/ui/home/room/add_room/add_room_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/src_constants.dart';
@@ -69,7 +70,8 @@ class _AddRoomScreenState
               });
 
               if (nameError == null) {
-                Navigator.pushNamed(context, '/selectRoomImage');
+                Navigator.of(context)
+                    .push(RoomImageScreen.route(roomNameController.text));
               }
             },
           ),

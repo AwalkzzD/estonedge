@@ -32,6 +32,8 @@ class AppImages {
   static const String room5 = 'assets/images/room5.jpg';
   static const String room6 = 'assets/images/room6.jpg';
 
+  static const String icRoomAdded = 'assets/icons/ic_room_added.png';
+
   //qr code
   static const String qrCode = 'assets/images/qrCode.png';
 }
