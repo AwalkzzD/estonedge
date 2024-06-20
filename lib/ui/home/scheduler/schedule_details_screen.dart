@@ -1,6 +1,7 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/base/widgets/drop_down_list.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen_bloc.dart';
@@ -14,17 +15,21 @@ class ScheduleDetailsScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _ScheduleDetailsScreenState();
+
+      static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const ScheduleDetailsScreen());
+  }
 }
 
 class _ScheduleDetailsScreenState
     extends BasePageState<ScheduleDetailsScreen, ScheduleDetailsScreenBloc> {
-  ScheduleDetailsScreenBloc _bloc =
-      ScheduleDetailsScreenBloc(); // Initialize the bloc
+
+  ScheduleDetailsScreenBloc _bloc = ScheduleDetailsScreenBloc(); // Initialize the bloc
 
   @override
   ScheduleDetailsScreenBloc getBloc() => _bloc;
 
-  List<String> roomList = [];
+  List<String> roomList = ['room1', 'room2', 'room3', 'room4'];
   List<String> boardList = ['board1', 'board2', 'board3', 'board4'];
   List<String> switchList = ['switch1', 'switch2', 'switch3', 'switch4'];
 
@@ -35,9 +40,10 @@ class _ScheduleDetailsScreenState
   @override
   void initState() {
     super.initState();
+    selectedRoom = roomList.first;
     selectedBoard = boardList.first;
     selectedSwitch = switchList.first;
-    fetchRooms();
+    //fetchRooms();
   }
 
   void fetchRooms() {
@@ -49,13 +55,16 @@ class _ScheduleDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildRoomDropdown(),
+            _ddl('Room', roomList, selectedRoom, (newValue) {
+              setState(() {
+                selectedRoom = newValue;
+              });
+            }),
             const SizedBox(height: 20),
             _ddl('Board', boardList, selectedBoard, (newValue) {
               setState(() {
@@ -98,19 +107,13 @@ class _ScheduleDetailsScreenState
             ),
           ],
         ),
-      ),
-    );
+      );    
   }
 
   Widget _buildRoomDropdown() {
     if (roomList.isEmpty) {
       return Center(child: CircularProgressIndicator());
     } else {
-      // return _ddl('Room', roomList, selectedRoom, (newValue) {
-      //   setState(() {
-      //     selectedRoom = newValue;
-      //   });
-      // });
       return GenericDropdown(
         items: roomList,
         hint: 'Room',

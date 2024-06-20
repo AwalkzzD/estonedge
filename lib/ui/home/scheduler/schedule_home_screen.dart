@@ -20,29 +20,57 @@ class ScheduleHomeScreen extends BasePage {
 
 class _ScheduleHomeScreenState
     extends BasePageState<ScheduleHomeScreen, ScheduleHomeScreenBloc> {
-  List<String> days = ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  List<Map<String, dynamic>> schedules = [];
+  List<String> days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
   Set<int> selectedIndices = Set<int>();
-  
+
   ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
 
   @override
   ScheduleHomeScreenBloc getBloc() => _bloc;
 
   @override
+  void initState() {
+    super.initState();
+    _loadSchedules();
+  }
+
+  Future<void> _loadSchedules() async {
+    schedules = await _bloc.getSchedules();
+    setState(() {});
+  }
+
+  @override
+  Widget? getAppBar() {
+    return AppBar(
+      title: Text('Schedule'),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/scheduleDetails');
+            },
+            icon: Icon(Icons.add))
+      ],
+    );
+  }
+
+  @override
   Widget buildWidget(BuildContext context) {
     return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, index) {        
+      itemCount: schedules.length,
+      itemBuilder: (context, index) {
+        final schedule = schedules[index];
+        print('SCHEDULE : $schedule');
+        // List<String> selectedDays = schedule['days'];
         return SafeArea(
           child: Card(
               elevation: 4,
               margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Row(
+                  const SizedBox(height: 10),
+                  Row(
                     children: [
                       SizedBox(
                         width: 5,
@@ -55,17 +83,15 @@ class _ScheduleHomeScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hall Tube',
+                            'Schedule ${index + 1}',
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: 100,
-                      ),
+                      const SizedBox(width: 100),
                       Text(
-                        '08:45 AM',
+                        schedule['onTime'],
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -78,7 +104,7 @@ class _ScheduleHomeScreenState
                         width: 40,
                       ),
                       Text(
-                        'ON',
+                        'OFF: ${schedule['offTime']}',
                         style: fs14BlackSemibold,
                       )
                     ],
@@ -106,7 +132,7 @@ class _ScheduleHomeScreenState
                             });
                           },
                           icon: CircleAvatar(
-                            backgroundColor: selectedIndices.contains(index)
+                            backgroundColor: days.contains(schedule['days'])
                                 ? Colors.blue
                                 : Colors.grey.shade400,
                             child: Text(days[index]),

@@ -1,24 +1,48 @@
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/home/room/switch/switch_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
-class SwitchDetailsScreen extends StatelessWidget {
-  SwitchDetailsScreen({super.key});
+class SwitchDetailsScreen extends BasePage {
+  const SwitchDetailsScreen({super.key});
 
+  @override
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _SwitchDetailsScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const SwitchDetailsScreen());
+  }
+}
+
+class _SwitchDetailsScreenState
+    extends BasePageState<SwitchDetailsScreen, SwitchDetailsScreenBloc> {
+  SwitchDetailsScreenBloc _bloc = SwitchDetailsScreenBloc();
+
+  @override
+  SwitchDetailsScreenBloc getBloc() => _bloc;
   List<String> roomList = ['room1', 'room2', 'room3'];
+
   List<bool> switchStates = List.generate(10, (index) => false);
 
   @override
-  Widget build(BuildContext context) {
+  Widget? getAppBar() {
+    return AppBar(
+      title: Center(
+          child: Text(
+        'Switch Details',
+        style: fs24BlackSemibold,
+      )),
+    );
+  }
+
+  @override
+  Widget buildWidget(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-          'Switch Details',
-          style: fs24BlackSemibold,
-        )),
-      ),
       body: frequentlyUsed(roomList),
     );
   }

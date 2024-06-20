@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/home/room/add_room/add_room_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,10 @@ class AddRoomScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _AddRoomScreenState();
+
+        static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const AddRoomScreen());
+  }
 }
 
 class _AddRoomScreenState

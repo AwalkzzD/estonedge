@@ -1,54 +1,68 @@
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/add_device/qr_scanner/qr_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class QrScreen extends BaseWidget {
+class QrScreen extends BasePage {
   const QrScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _QrScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _QrScreenState();
+
+      static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const QrScreen());
+  }
 }
 
-class _QrScreenState extends BaseWidgetState<QrScreen> {
+class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
+  final QrScreenBloc _bloc = QrScreenBloc();
   String? _scanCode;
   bool _isFlashOn = false;
   bool _isScanning = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget? getAppBar() {
+    return AppBar(
+      backgroundColor: Colors.blue.shade300,
+      title: const Center(
+        child: Text(
+          'Scan QR Code',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            _isFlashOn ? Icons.flash_on : Icons.flash_off,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _isFlashOn = !_isFlashOn;
+              // Handle flash toggle
+            });
+          },
+        )
+      ],
+    );
+  }
+
+  @override
+  Widget buildWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
-      appBar: AppBar(
-        backgroundColor: Colors.blue.shade300,
-        title: const Center(
-          child: Text(
-            'Scan QR Code',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              _isFlashOn ? Icons.flash_on : Icons.flash_off,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isFlashOn = !_isFlashOn;
-                // Handle flash toggle
-              });
-            },
-          )
-        ],
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             const Text(
@@ -119,4 +133,7 @@ class _QrScreenState extends BaseWidgetState<QrScreen> {
       _isScanning = false;
     });
   }
+
+  @override
+  QrScreenBloc getBloc() => _bloc;
 }

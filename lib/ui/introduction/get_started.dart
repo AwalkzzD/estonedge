@@ -1,71 +1,83 @@
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/introduction/get_started_bloc.dart';
 import 'package:flutter/material.dart';
 
-class GetStarted extends BaseWidget {
+class GetStarted extends BasePage {
   const GetStarted({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _GetStartedState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _GetStartedState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const GetStarted());
+  }
 }
 
-class _GetStartedState extends BaseWidgetState<GetStarted> {
+class _GetStartedState extends BasePageState<GetStarted, GetStartedBloc> {
+  GetStartedBloc _bloc = GetStartedBloc();
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Image.asset(AppImages.getStartedHomeIllutstration),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Easily Control Your Home',
-                    style: TextStyle(
-                        height: 1.2,
-                        fontFamily: 'Lexend',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Manage your home from anytime, anywhere.',
-                    style: TextStyle(
-                        color: Color.fromRGBO(112, 121, 126, 1),
-                        fontFamily: 'Lexend',
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0))),
-              child: const Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  'GET STARTED',
+  GetStartedBloc getBloc() => _bloc;
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Image.asset(AppImages.getStartedHomeIllutstration),
+          const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Easily Control Your Home',
                   style: TextStyle(
-                      color: Colors.white,
+                      height: 1.2,
+                      fontFamily: 'Lexend',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Manage your home from anytime, anywhere.',
+                  style: TextStyle(
+                      color: Color.fromRGBO(112, 121, 126, 1),
                       fontFamily: 'Lexend',
                       fontWeight: FontWeight.normal,
                       fontSize: 16),
                 ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))),
+            child: const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                'GET STARTED',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Lexend',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

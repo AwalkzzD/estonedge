@@ -3,6 +3,7 @@ import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
 import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
@@ -21,6 +22,10 @@ class HomeScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _HomeScreenState();
+
+      static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const HomeScreen());
+  }
 }
 
 class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {

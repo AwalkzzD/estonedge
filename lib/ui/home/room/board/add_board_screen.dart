@@ -3,7 +3,7 @@ import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/widgets/drop_down_list.dart';
 import 'package:flutter/material.dart';
 
-class AddBoardScreen extends StatelessWidget {
+class AddBoardScreen extends BasePa {
   const AddBoardScreen({super.key});
 
   @override

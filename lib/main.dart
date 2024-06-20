@@ -3,9 +3,9 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:estonedge/amplifyconfiguration.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/ui/add_device/add_your_device_screen.dart';
-import 'package:estonedge/ui/add_device/macid_screen.dart';
-import 'package:estonedge/ui/add_device/qr_screen.dart';
-import 'package:estonedge/ui/add_device/wifi_screen.dart';
+import 'package:estonedge/ui/add_device/macid/macid_screen.dart';
+import 'package:estonedge/ui/add_device/qr_scanner/qr_screen.dart';
+import 'package:estonedge/ui/add_device/wifi/wifi_screen.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
@@ -19,6 +19,7 @@ import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
 import 'package:estonedge/ui/home_test/home_screen_test.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
 import 'package:estonedge/ui/profile/profile_details_screen.dart';
@@ -75,13 +76,17 @@ class MainApp extends StatelessWidget {
           '/addRoom': (context) => const AddRoomScreen(),
           '/room': (context) => const RoomScreen(),
           '/selectRoomImage': (context) => const RoomImageScreen(),
-          // '/homeScreenTest': (context) => const HomeScreenTest(),
+          
+
           '/scheduleHome': (context) => const ScheduleHomeScreen(),
           '/scheduleDetails': (context) => const ScheduleDetailsScreen(),
+          '/scheduleTime': (context) => const ScheduleTimeScreen(),
+
           '/addDevice': (context) => AddDeviceScreen(), 
           '/qrScanner' : (context) => const QrScreen(),
           '/macIdScreen' : (context) => const MacidScreen(),
           '/wifiScreen' : (context) => const WifiScreen(),
+
           '/profileDetails': (context) => const ProfileDetailsScreen(),
             '/roomDetails': (context) => const RoomDetailsScreen(
                   roomName: '',

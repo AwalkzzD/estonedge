@@ -4,7 +4,6 @@ import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/ui/splash/splash_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
-
 class SplashScreen extends BasePage {
   const SplashScreen({super.key});
 
@@ -37,7 +36,7 @@ class _SplashScreenState extends BasePageState<SplashScreen, SplashScreenBloc>
     getBloc().checkUserSession((isActive) async {
       if (isActive) {
         await Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/scheduleHome');
         });
       } else {
         await Future.delayed(const Duration(seconds: 2), () {
@@ -69,7 +68,6 @@ class _SplashScreenState extends BasePageState<SplashScreen, SplashScreenBloc>
       ),
     );
   }
-
 
   @override
   SplashScreenBloc getBloc() => _bloc;
