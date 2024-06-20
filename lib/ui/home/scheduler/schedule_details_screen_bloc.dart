@@ -5,8 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ScheduleDetailsScreenBloc extends BasePageBloc {
   late BehaviorSubject<List<RoomsResponse>> roomList;
-
-  Stream<List<RoomsResponse>> get roomListStream => roomList.stream;
+  get roomListStream => roomList.stream;
 
   ScheduleDetailsScreenBloc() {
     roomList = BehaviorSubject.seeded([]);

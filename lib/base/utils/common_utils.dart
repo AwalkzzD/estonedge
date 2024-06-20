@@ -30,17 +30,17 @@ Future<String> networkImageToBase64(String imageUrl) async {
   return (base64Encode(bytes));
 }
 
-Uint8List getUint8List(String path) {
-  File file = File(path);
-  return file.readAsBytesSync();
+Future<Uint8List> getUint8List(String path) async {
+  final ByteData data = await rootBundle.load(path);
+  return data.buffer.asUint8List();
 }
 
 String getBase64FromUint8List(Uint8List bytes) {
   return base64Encode(bytes);
 }
 
-String getBase64File(String path) {
-  Uint8List bytes = getUint8List(path);
+Future<String> getBase64File(String path) async {
+  Uint8List bytes = await getUint8List(path);
   return getBase64FromUint8List(bytes);
 }
 

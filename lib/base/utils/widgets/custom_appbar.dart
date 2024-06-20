@@ -22,26 +22,24 @@ class CustomAppbar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Wrap(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                    fontSize: 32,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
+          Expanded(
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 32,
+                  fontFamily: 'Lexend',
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           (appBarImage != null)
               ? InkWell(
-            onTap: trailingIconAction,
-            child: Image.asset(appBarImage!),
-          )
+                  onTap: trailingIconAction,
+                  child: Image.asset(appBarImage!),
+                )
               : const SizedBox(),
         ],
       ),
     );
   }
-
 }

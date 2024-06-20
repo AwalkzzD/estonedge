@@ -2,6 +2,8 @@ import '../base/src_utils.dart';
 import '../data/remote/model/rooms/rooms_response.dart';
 
 const String keyUserId = "userId";
+const String keyUserName = "userName";
+const String keyUserEmail = "userEmail";
 const String keyRoomsList = "roomsList";
 
 const String keyScaleFactor = "scaleFactor";
@@ -31,9 +33,20 @@ Future<void> sharedPrefClear() async {
 }
 
 /// User Id
-void setUserId(String userId) => SpUtil.putString(keyUserId, userId);
+void saveUserId(String userId) => SpUtil.putString(keyUserId, userId);
 
 String getUserId() => SpUtil.getString(keyUserId);
+
+/// User Name
+void saveUserName(String userName) => SpUtil.putString(keyUserName, userName);
+
+String getUserName() => SpUtil.getString(keyUserName);
+
+/// User Email
+void saveUserEmail(String userEmail) =>
+    SpUtil.putString(keyUserEmail, userEmail);
+
+String getUserEmail() => SpUtil.getString(keyUserEmail);
 
 /// Rooms
 void saveRoomsList(List<RoomsResponse> roomsList) =>

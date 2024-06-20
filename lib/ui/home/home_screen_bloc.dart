@@ -26,8 +26,8 @@ class HomeScreenBloc extends BasePageBloc {
       hideLoading();
       userName.add(attrList.getUsername());
       onSuccess;
-      setUserId(attrList.getUserId());
-    }, () {
+      saveUserId(attrList.getUserId());
+    }, (errorMsg) {
       hideLoading();
     });
   }

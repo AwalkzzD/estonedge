@@ -4,12 +4,14 @@ import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
+import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/auth/signup/signup_screen_bloc.dart';
 import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../base/src_widgets.dart';
 import '../validators.dart';
 
 class SignupScreen extends BasePage {
@@ -18,6 +20,10 @@ class SignupScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _SignupScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const SignupScreen());
+  }
 }
 
 class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
@@ -274,5 +280,5 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
   }
 
   void navigateToLoginScreen() =>
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.of(context).pushReplacement(LoginScreen.route());
 }

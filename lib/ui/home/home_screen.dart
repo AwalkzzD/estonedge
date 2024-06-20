@@ -1,18 +1,19 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
 import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
+import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/home/home_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../base/src_components.dart';
 import '../../base/src_constants.dart';
+import '../../base/widgets/custom_page_route.dart';
 import '../../base/widgets/keep_alive_widget.dart';
 
 class HomeScreen extends BasePage {
@@ -21,6 +22,10 @@ class HomeScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _HomeScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const HomeScreen());
+  }
 }
 
 class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
@@ -110,7 +115,10 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                       buildCustomDrawerItem(
                           text: 'Schedule',
                           iconData: Icons.schedule_outlined,
-                          onClick: () => navigateToScheduleRoom()),
+                          onClick: () {
+                            Navigator.of(context)
+                                .push(ScheduleHomeScreen.route());
+                          }),
                     ],
                   ),
                 ],
@@ -134,6 +142,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   @override
   Widget? getAppBar() {
     return AppBar(
+      backgroundColor: Colors.white,
       leading: Builder(
         builder: (context) {
           return IconButton(
@@ -195,6 +204,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                                 title: 'My Rooms',
                                 appBarImage: AppImages.appBarPlusIcon,
                                 trailingIconAction: () {
+                                  closeDrawer();
                                   navigateToAddRoom();
                                 },
                               ),
@@ -304,17 +314,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
       if (isDrawerOpen()) {
         closeDrawer();
       } else {
-        if (getBloc().currentPageIndex.value != 0) {
-          getBloc().currentPageIndex.add(0);
-        } else if (getBloc().currentPageIndex.value == 0) {
-          SystemNavigator.pop();
-        } else {
-          final navigator = Navigator.of(context);
-          bool value = isOTSLoading();
-          if (!value) {
-            navigator.pop();
-          }
-        }
+        SystemNavigator.pop();
       }
     }
   }
@@ -355,7 +355,8 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   void navigateToLogin() {
     getBloc().logout();
     Future.delayed(const Duration(seconds: 1), () {
-      Navigator.of(context, rootNavigator: true).pushReplacementNamed('/login');
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacement(LoginScreen.route());
     });
   }
 
@@ -369,12 +370,9 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   }
 
   void navigateToAddRoom() {
-    Navigator.of(context).pushNamed('/addRoom');
+    Navigator.of(globalContext, rootNavigator: true)
+        .push(AddRoomScreen.route());
   }
 
-  void navigateToScheduleRoom() {
-    print('NAVIGATE');
-    Navigator.of(context).push(ScheduleHomeScreen.route());
-    // Navigator.of(context).pushNamed('/scheduleHome');
-  }
+  void navigateToScheduleRoom() {}
 }

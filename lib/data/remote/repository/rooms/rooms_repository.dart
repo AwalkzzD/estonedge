@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:estonedge/data/remote/model/rooms/add_room_response.dart';
+import 'package:estonedge/utils/shared_pref.dart';
 
 import '../../../../base/constants/app_constants.dart';
 import '../../model/rooms/rooms_response.dart';
@@ -11,7 +12,8 @@ void apiGetRoomsData(
     Function(List<RoomsResponse>) onSuccess, Function(String) onError) async {
   try {
     final response = roomsResponseFromJson(
-        (await (await DioManager.getInstance())!.get('$getUsers/2/$rooms',
+        (await (await DioManager.getInstance())!.get(
+                '$getUsers/${getUserId()}/$rooms',
                 options: Options(responseType: ResponseType.plain)))
             .data);
 
@@ -25,12 +27,18 @@ void apiAddRoomData(String addRoomRequestParams,
     Function(AddRoomResponse) onSuccess, Function(String) onError) async {
   try {
     final response = addRoomResponseFromJson(
-        (await (await DioManager.getInstance())!.post('$getUsers/2/$rooms',
-                options: Options(responseType: ResponseType.plain),
-                data: addRoomRequestParams))
+        (await (await DioManager.getInstance())!
+                .post('$getUsers/${getUserId()}/$rooms',
+                    options: Options(
+                      responseType: ResponseType.plain,
+                      validateStatus: (status) => true,
+                    ),
+                    data: addRoomRequestParams))
             .data);
     onSuccess(response);
+    print('${response.roomId}');
   } on DioException catch (ex) {
+    print('${ex.message}');
     onError(ex.message ?? "Something went wrong");
   }
 }

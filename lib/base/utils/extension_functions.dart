@@ -25,10 +25,19 @@ extension AuthUserAttributeExtensions on List<AuthUserAttribute> {
     }
   }
 
+  String getUserEmail() {
+    try {
+      return firstWhere((attribute) =>
+          attribute.userAttributeKey == AuthUserAttributeKey.email).value;
+    } catch (e) {
+      return 'xyz@xyz.xyz';
+    }
+  }
+
   String getUserId() {
     try {
       return firstWhere((attribute) =>
-      attribute.userAttributeKey == AuthUserAttributeKey.sub).value;
+          attribute.userAttributeKey == AuthUserAttributeKey.sub).value;
     } catch (e) {
       return 'null';
     }

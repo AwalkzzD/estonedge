@@ -1,6 +1,9 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/utils/extension_functions.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
+import 'package:estonedge/data/remote/repository/user/user_repository.dart';
+import 'package:estonedge/data/remote/requests/user/create_user_request.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SignupScreenBloc extends BasePageBloc {

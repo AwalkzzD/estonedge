@@ -1,6 +1,8 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/base/src_utils.dart';
+import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_image_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -101,40 +103,75 @@ class _RoomImageScreenState
             btnText: 'Continue',
             width: double.infinity,
             color: Colors.blueAccent,
-            onPressed: () {
+            onPressed: () async {
               if (_selectedImageIndex != null) {
                 final selectedImage = roomImages[_selectedImageIndex!];
 
-                getBloc().addRoom(widget.roomName ?? "null", (response) {
-                  showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const ImageView(
-                              image: AppImages.icRoomAdded,
-                              imageType: ImageType.asset),
-                          const SizedBox(height: 30),
-                          Text('${widget.roomName} Added',
-                              overflow: TextOverflow.ellipsis,
-                              style: fs16BlackSemibold)
+                final imageBase64 = await getBase64File(selectedImage);
+
+                getBloc().addRoom(widget.roomName ?? "null", imageBase64,
+                    (response) {
+                  if (response.roomId != null) {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const ImageView(
+                                image: AppImages.icRoomAdded,
+                                imageType: ImageType.asset),
+                            const SizedBox(height: 30),
+                            Text('${widget.roomName} Added',
+                                overflow: TextOverflow.ellipsis,
+                                style: fs16BlackSemibold)
+                          ],
+                        ),
+                        actions: <Widget>[
+                          CustomButton(
+                              btnText: 'Continue',
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.blueAccent,
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context,
+                                    HomeScreen.route(), (route) => false);
+                              })
                         ],
                       ),
-                      actions: <Widget>[
-                        CustomButton(
-                            btnText: 'Continue',
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.blueAccent,
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, "/home", (route) => false);
-                            })
-                      ],
-                    ),
-                  );
+                    );
+                  } else {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const ImageView(
+                                image: AppImages.icRoomAddFailed,
+                                imageType: ImageType.asset),
+                            const SizedBox(height: 30),
+                            Text('${widget.roomName} Not Added',
+                                overflow: TextOverflow.ellipsis,
+                                style: fs16BlackSemibold)
+                          ],
+                        ),
+                        actions: <Widget>[
+                          CustomButton(
+                              btnText: 'Continue',
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.blueAccent,
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context,
+                                    HomeScreen.route(), (route) => false);
+                              })
+                        ],
+                      ),
+                    );
+                  }
                 }, (errorMsg) {
+                  print('Error ---------> $errorMsg');
                   showMessageBar('Something went wrong!');
                 });
               } else {

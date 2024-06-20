@@ -5,7 +5,8 @@ import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
+
+import '../../../../base/utils/widgets/custom_appbar.dart';
 
 class RoomDetailsScreen extends BasePage {
   final String roomName;
@@ -32,15 +33,37 @@ class _RoomDetailsScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
-      title: Center(child: Text(widget.roomName, style: fs24BlackSemibold)),
-      actions: [
-        IconButton(
-          icon: Image.asset(AppImages.appBarPlusIcon),
-          onPressed: () {
-            Navigator.pushNamed(context, '/addBoard');
-          },
-        ),
-      ],
+      centerTitle: true,
+      backgroundColor: Colors.white,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      ),
+      title: Builder(builder: (context) {
+        return SafeArea(
+          child: Column(
+            children: <Widget>[
+              CustomAppbar(
+                context,
+                title: widget.roomName,
+                appBarImage: AppImages.appBarPlusIcon,
+                trailingIconAction: () {
+                  Navigator.pushNamed(context, '/addBoard');
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -69,7 +92,7 @@ class _RoomDetailsScreenState
           ),
           CustomButton(
               btnText: 'Delete Room',
-              width: 200.0,
+              width: double.infinity,
               color: const Color.fromARGB(255, 237, 83, 83),
               onPressed: () {})
         ],
@@ -121,7 +144,8 @@ class _RoomDetailsScreenState
   Widget boardCard(String boardName, int activeCount, int inactiveCount) {
     return Container(
       width: 150,
-      height: 80, // Set a fixed height
+      height: 80,
+      // Set a fixed height
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.white,

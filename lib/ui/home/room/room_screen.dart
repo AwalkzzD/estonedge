@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
@@ -39,7 +41,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
     return StreamBuilder<List<RoomsResponse>>(
       stream: getBloc().roomListStream,
       builder: (context, snapshot) {
-        if (snapshot.data != null) {
+        if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
             return RoomList(snapshot.data!);
           } else {
@@ -101,14 +103,16 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                     Container(
                         decoration: BoxDecoration(
                             color: Colors.grey.shade200,
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20))),
-                        child: const AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: Image(
-                            image: AssetImage(AppImages.roomDummyImage),
-                            fit: BoxFit.fill, // use this
+                            borderRadius: BorderRadius.circular(20)),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image.memory(
+                                fit: BoxFit.fill,
+                                base64Decode(roomsList[index].roomImage)),
                           ),
                         )),
                     Padding(

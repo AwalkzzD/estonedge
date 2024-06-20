@@ -1,54 +1,62 @@
-import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/ui/profile/profile_details_screen.dart';
+import 'package:estonedge/ui/profile/profile_screen_bloc.dart';
+import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends BaseWidget {
+import '../../base/src_widgets.dart';
+
+class ProfileScreen extends BasePage {
   const ProfileScreen({super.key});
 
   @override
-  BaseWidgetState<BaseWidget> getState() => _ProfileScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _ProfileScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const ProfileScreen());
+  }
 }
 
-class _ProfileScreenState extends BaseWidgetState<ProfileScreen> {
+class _ProfileScreenState
+    extends BasePageState<ProfileScreen, ProfileScreenBloc> {
+  final ProfileScreenBloc _bloc = ProfileScreenBloc();
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.account_circle,
-              ),
-              iconSize: 130,
+  Widget buildWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.account_circle,
             ),
-            const Text(
-              'Ruben Gedit',
-              style: TextStyle(
-                  fontFamily: 'Lexend',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600),
-            ),
-            const Text(
-              'ruben.geidt@example.com',
-              style: TextStyle(fontFamily: 'Lexend', fontSize: 14),
-            ),
-            const SizedBox(height: 20),
-            profileButtons(const Icon(Icons.account_circle), 'Profile Details',
-                () {
-              Navigator.pushNamed(context, '/profileDetails');
-            }),
-            const SizedBox(height: 20),
-            profileButtons(const Icon(Icons.support),
-                'Terms and Service/Privacy Policy', () {}),
-            const SizedBox(height: 20),
-            profileButtons(const Icon(Icons.logout), 'Logout', () {}),
-          ],
-        ),
+            iconSize: 130,
+          ),
+          Text(getUserName(), style: fs20BlackSemibold),
+          Text(
+            getUserEmail(),
+            style: fs14BlackRegular,
+          ),
+          const SizedBox(height: 50),
+          profileButtons(const Icon(Icons.account_circle), 'More Info', () {
+            Navigator.push(context, ProfileDetailsScreen.route());
+          }),
+          const SizedBox(height: 20),
+          profileButtons(const Icon(Icons.support), 'Privacy Policy', () {}),
+          const SizedBox(height: 20),
+          profileButtons(const Icon(Icons.logout), 'Logout', () {}),
+        ],
       ),
     );
   }
+
+  @override
+  ProfileScreenBloc getBloc() => _bloc;
 }
 
 Widget profileButtons(Icon prefixIcon, String btnText, Function() onPressed) {
@@ -61,16 +69,17 @@ Widget profileButtons(Icon prefixIcon, String btnText, Function() onPressed) {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     ),
     child: Row(
-      mainAxisSize: MainAxisSize.max,
       children: [
         Icon(prefixIcon.icon, color: Colors.black),
         const SizedBox(width: 10),
-        Text(
-          btnText,
-          style: const TextStyle(
-              fontFamily: 'Lexend', fontSize: 16, color: Colors.black),
+        Expanded(
+          child: Text(
+            btnText,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                fontFamily: 'Lexend', fontSize: 16, color: Colors.black),
+          ),
         ),
-        const Spacer(),
         const Icon(Icons.chevron_right_sharp, color: Colors.black),
       ],
     ),

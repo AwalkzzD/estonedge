@@ -13,11 +13,13 @@ String roomsResponseToJson(List<RoomsResponse> data) => json.encode({
 class RoomsResponse {
   final String roomId;
   final String roomName;
+  final String roomImage;
   final List<Board> boards;
 
   RoomsResponse({
     required this.roomId,
     required this.roomName,
+    required this.roomImage,
     required this.boards,
   });
 
@@ -25,6 +27,7 @@ class RoomsResponse {
     return RoomsResponse(
       roomId: json["room_id"]["S"],
       roomName: json["room_name"]["S"],
+      roomImage: json["room_image"]["S"],
       boards: (json["boards"]["L"] as List)
           .map((e) => Board.fromJson(e["M"]))
           .toList(),
@@ -35,6 +38,7 @@ class RoomsResponse {
     return {
       "room_id": {"S": roomId},
       "room_name": {"S": roomName},
+      "room_image": {"S": roomImage},
       "boards": {
         "L": boards.map((board) => {"M": board.toJson()}).toList()
       },

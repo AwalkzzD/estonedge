@@ -109,13 +109,13 @@ class AuthRepository {
 }
 
 void apiGetUserAttributes(
-    Function(List<AuthUserAttribute>) onSuccess, Function() onError) async {
+    Function(List<AuthUserAttribute>) onSuccess, Function(String) onError) async {
   try {
     await Amplify.Auth.fetchUserAttributes().then((attrList) {
       onSuccess(attrList);
     });
   } catch (ex) {
-    onError;
+    onError(ex.toString());
   }
 }
 

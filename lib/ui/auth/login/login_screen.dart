@@ -1,16 +1,18 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/ui/auth/login/login_screen_bloc.dart';
+import 'package:estonedge/ui/auth/signup/signup_screen.dart';
 import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:estonedge/ui/auth/validators.dart';
+import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../base/src_constants.dart';
+import '../../../base/widgets/custom_page_route.dart';
 
 class LoginScreen extends BasePage {
   const LoginScreen({super.key});
@@ -18,6 +20,10 @@ class LoginScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _LoginScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const LoginScreen());
+  }
 }
 
 class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
@@ -39,10 +45,12 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
   }
 
   void navigateToSignUpScreen() =>
-      Navigator.pushReplacementNamed(context, '/signup');
+      Navigator.of(context).pushReplacement(SignupScreen.route());
+      // Navigator.pushReplacementNamed(context, '/signup');
 
   void navigateToHomeScreen() {
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.of(context).pushReplacement(HomeScreen.route());
+    // Navigator.pushReplacementNamed(context, '/home');
   }
 
   void _forgotPassword() {}
@@ -70,8 +78,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-             Text('Sign in to access your account.',
-                    style: fs14BlackRegular),
+              Text('Sign in to access your account.', style: fs14BlackRegular),
               const SizedBox(height: 30),
               CustomTextField(
                 hintText: 'Email',
@@ -125,6 +132,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                         (response) {
                       if (response.isSignedIn) {
                         showMessageBar('Welcome to EstonEdge');
+                        getBloc().createUserRecord();
                         navigateToHomeScreen();
                       } else {
                         showMessageBar('Something went wrong');
@@ -147,7 +155,8 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => navigateToSignUpScreen(),
                       text: 'Sign Up',
-                      style: const TextStyle(color: Colors.blueAccent, fontFamily: 'Lexend'),
+                      style: const TextStyle(
+                          color: Colors.blueAccent, fontFamily: 'Lexend'),
                     ),
                   ],
                 ),

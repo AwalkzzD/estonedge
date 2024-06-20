@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../base/src_constants.dart';
 import '../../../../base/utils/widgets/custom_button.dart';
 import '../../../../base/utils/widgets/custom_textfield.dart';
+import '../../../../base/widgets/custom_page_route.dart';
 import '../../../auth/validators.dart';
 
 class AddRoomScreen extends BasePage {
@@ -15,6 +16,10 @@ class AddRoomScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _AddRoomScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const AddRoomScreen());
+  }
 }
 
 class _AddRoomScreenState
@@ -86,13 +91,14 @@ class _AddRoomScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
+      backgroundColor: Colors.white,
       centerTitle: true,
       leading: Builder(
         builder: (context) {
           return IconButton(
             icon: Image.asset(AppImages.appBarBackIcon),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(globalContext).pop();
             },
           );
         },

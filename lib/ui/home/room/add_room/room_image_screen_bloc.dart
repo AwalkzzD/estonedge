@@ -6,11 +6,15 @@ import 'package:estonedge/data/remote/requests/rooms/add_room_request.dart';
 import '../../../../data/remote/repository/rooms/rooms_repository.dart';
 
 class RoomImageScreenBloc extends BasePageBloc {
-  void addRoom(String roomName, Function(AddRoomResponse) onSuccess,
-      Function(String) onError) {
+  void addRoom(String roomName, String imageBase64,
+      Function(AddRoomResponse) onSuccess, Function(String) onError) {
     String addRoomRequestParameters = AddRoomRequestParameters(
-            roomId: generateUniqueKey(), roomName: roomName)
+            roomId: generateUniqueKey(),
+            roomName: roomName,
+            roomImage: imageBase64)
         .toRequestParams();
+
+    print(addRoomRequestParameters);
 
     showLoading();
     apiAddRoomData(addRoomRequestParameters, (addRoomResponse) {

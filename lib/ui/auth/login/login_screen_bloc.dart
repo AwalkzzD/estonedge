@@ -1,11 +1,16 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/utils/extension_functions.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../data/remote/repository/user/user_repository.dart';
+import '../../../data/remote/requests/user/create_user_request.dart';
+
 class LoginScreenBloc extends BasePageBloc {
   late BehaviorSubject<SignInResult?> signInResult;
+
   get signInResultStream => signInResult.stream;
 
   LoginScreenBloc() {
@@ -23,6 +28,33 @@ class LoginScreenBloc extends BasePageBloc {
       hideLoading();
       onError(errorMsg);
     });
+  }
+
+  void createUserRecord() {
+    /// fetch user attributes
+    apiGetUserAttributes((attrList) {
+      /// update shared prefs
+      updateSharedPrefs(attrList);
+
+      String createUserRequestParams = CreateUserRequestParameters(
+              name: attrList.getUsername(), email: attrList.getUserEmail())
+          .toRequestParams();
+
+      /// call create user record api by passing required request params
+      apiCreateUserRecord(createUserRequestParams, (createUserResponse) {
+        print(createUserResponse.userId);
+      }, (errorMsg) {
+        print(errorMsg);
+      });
+    }, (errorMsg) {
+      print(errorMsg);
+    });
+  }
+
+  void updateSharedPrefs(List<AuthUserAttribute> attrList) {
+    saveUserId(attrList.getUserId());
+    saveUserName(attrList.getUsername());
+    saveUserEmail(attrList.getUserEmail());
   }
 
   @override
