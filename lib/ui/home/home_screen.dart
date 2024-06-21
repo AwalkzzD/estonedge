@@ -9,6 +9,7 @@ import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/profile/profile_screen.dart';
+import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -32,7 +33,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   final HomeScreenBloc _bloc = HomeScreenBloc();
 
   /// Get user name from the database
-  String userName = 'User';
+  String userName = getUserName();
   List<Widget> _pages = [];
 
   void _onItemTapped(int index) {
@@ -115,10 +116,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                       buildCustomDrawerItem(
                           text: 'Schedule',
                           iconData: Icons.schedule_outlined,
-                          onClick: () {
-                            Navigator.of(context)
-                                .push(ScheduleHomeScreen.route());
-                          }),
+                          onClick: () => navigateToScheduleRoom()),
                     ],
                   ),
                 ],
@@ -331,8 +329,8 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
         IconButton(
           padding: EdgeInsets.zero,
           onPressed: () {
-            onClick();
             Navigator.pop(context);
+            onClick();
           },
           icon: Icon(
             iconData,
@@ -374,5 +372,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
         .push(AddRoomScreen.route());
   }
 
-  void navigateToScheduleRoom() {}
+  void navigateToScheduleRoom() =>
+      Navigator.of(context).push(ScheduleHomeScreen.route());
 }
