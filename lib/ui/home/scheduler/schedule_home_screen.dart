@@ -26,7 +26,7 @@ class _ScheduleHomeScreenState
 
   Set<int> selectedIndices = Set<int>();
 
-  ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
+  final ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
 
   Offset _longPressPosition = Offset.zero;
 

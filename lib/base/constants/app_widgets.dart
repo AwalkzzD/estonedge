@@ -46,3 +46,17 @@ showMessageBar(String message) {
     ),
   ).show(globalContext);
 }
+
+showMessageBarFloating(String message) {
+  Flushbar(
+    flushbarPosition: FlushbarPosition.TOP,
+    flushbarStyle: FlushbarStyle.FLOATING,
+    isDismissible: true,
+    duration: const Duration(seconds: 3),
+    messageText: Text(
+      message,
+      maxLines: 3,
+      style: fs14WhiteRegular.copyWith(color: white),
+    ),
+  ).show(globalContext);
+}

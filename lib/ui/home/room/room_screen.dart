@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
@@ -20,7 +19,6 @@ class RoomScreen extends BasePage {
   static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const RoomScreen());
   }
-      
 }
 
 class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
@@ -116,9 +114,8 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                               topRight: Radius.circular(20)),
                           child: AspectRatio(
                             aspectRatio: 16 / 9,
-                            child: Image.memory(
-                                fit: BoxFit.fill,
-                                base64Decode(roomsList[index].roomImage)),
+                            child: buildCustomRoomNetworkImage(
+                                imageUrl: roomsList[index].roomImage),
                           ),
                         )),
                     Padding(

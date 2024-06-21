@@ -1,14 +1,14 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/base/src_constants.dart';
-import 'package:estonedge/base/src_utils.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_image_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/src_widgets.dart';
 import '../../../../base/utils/widgets/custom_button.dart';
+import '../../../../base/utils/widgets/custom_room_network_image.dart';
 
 class RoomImageScreen extends BasePage<RoomImageScreenBloc> {
   const RoomImageScreen({this.roomName, super.key});
@@ -29,15 +29,13 @@ class _RoomImageScreenState
     extends BasePageState<RoomImageScreen, RoomImageScreenBloc> {
   final RoomImageScreenBloc _bloc = RoomImageScreenBloc();
 
-  final List<String> roomImages = [
-    AppImages.room1,
-    AppImages.room2,
-    AppImages.room3,
-    AppImages.room4,
-    AppImages.room5,
-    AppImages.room6,
-  ];
   int? _selectedImageIndex;
+
+  @override
+  void onReady() {
+    showMessageBarFloating('Loading images! Please wait...');
+    super.onReady();
+  }
 
   @override
   Widget buildWidget(BuildContext context) {
@@ -79,10 +77,8 @@ class _RoomImageScreenState
                         borderRadius: BorderRadius.circular(16.0),
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
-                          child: Image(
-                            image: AssetImage(roomImages[index]),
-                            fit: BoxFit.fill, // use this
-                          ),
+                          child: buildCustomRoomNetworkImage(
+                              imageUrl: roomImages[index]),
                         ),
                       ),
                       if (_selectedImageIndex == index)
@@ -106,11 +102,8 @@ class _RoomImageScreenState
             color: Colors.blueAccent,
             onPressed: () async {
               if (_selectedImageIndex != null) {
-                final selectedImage = roomImages[_selectedImageIndex!];
-
-                final imageBase64 = await getBase64File(selectedImage);
-
-                getBloc().addRoom(widget.roomName ?? "null", 'https://tinyurl.com/mr35ddz5',
+                getBloc().addRoom(
+                    widget.roomName ?? "null", roomImages[_selectedImageIndex!],
                     (response) {
                   if (response.roomId != null) {
                     showDialog<String>(
@@ -172,7 +165,6 @@ class _RoomImageScreenState
                     );
                   }
                 }, (errorMsg) {
-                  print('Error ---------> $errorMsg');
                   showMessageBar('Something went wrong!');
                 });
               } else {
@@ -210,4 +202,3 @@ class _RoomImageScreenState
     );
   }
 }
-

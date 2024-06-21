@@ -71,5 +71,9 @@ Future<void> closeApp() async {
 }
 
 String generateUniqueKey() {
-  return UniqueKey().toString().replaceAll('[', '').replaceAll(']', '');
+  return UniqueKey()
+      .toString()
+      .replaceAll('#', '')
+      .replaceAll('[', '')
+      .replaceAll(']', '');
 }
