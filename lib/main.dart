@@ -20,7 +20,6 @@ import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
-import 'package:estonedge/ui/home_test/home_screen_test.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
 import 'package:estonedge/ui/profile/profile_details_screen.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';

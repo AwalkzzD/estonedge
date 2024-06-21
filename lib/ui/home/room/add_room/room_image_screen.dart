@@ -110,7 +110,7 @@ class _RoomImageScreenState
 
                 final imageBase64 = await getBase64File(selectedImage);
 
-                getBloc().addRoom(widget.roomName ?? "null", imageBase64,
+                getBloc().addRoom(widget.roomName ?? "null", 'https://tinyurl.com/mr35ddz5',
                     (response) {
                   if (response.roomId != null) {
                     showDialog<String>(

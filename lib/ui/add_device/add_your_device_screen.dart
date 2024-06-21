@@ -1,7 +1,13 @@
 import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/add_device/macid/macid_screen.dart';
+import 'package:estonedge/ui/add_device/qr_scanner/qr_screen.dart';
 import 'package:flutter/material.dart';
 
 class AddDeviceScreen extends StatelessWidget {
+   static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => AddDeviceScreen());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +27,8 @@ class AddDeviceScreen extends StatelessWidget {
               title: 'Scan QR Code',
               subtitle: 'Scan the QR code to add smart device',
               onTap: () {
-                Navigator.pushNamed(context, '/qrScanner');
+                // Navigator.pushNamed(context, '/qrScanner');
+                Navigator.push(context, QrScreen.route());
               },
             ),
             SizedBox(height: 20),
@@ -30,7 +37,8 @@ class AddDeviceScreen extends StatelessWidget {
               title: 'Enter manually',
               subtitle: 'Enter Mac ID of smart device',
               onTap: () {
-                Navigator.pushNamed(context, '/macIdScreen');
+                // Navigator.pushNamed(context, '/macIdScreen');
+                Navigator.push(context, MacidScreen.route());
               },
             ),
           ],

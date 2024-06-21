@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/base/widgets/drop_down_list.dart';
@@ -16,15 +17,14 @@ class ScheduleDetailsScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _ScheduleDetailsScreenState();
 
-      static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const ScheduleDetailsScreen());
   }
 }
 
 class _ScheduleDetailsScreenState
     extends BasePageState<ScheduleDetailsScreen, ScheduleDetailsScreenBloc> {
-
-  ScheduleDetailsScreenBloc _bloc = ScheduleDetailsScreenBloc(); // Initialize the bloc
+  ScheduleDetailsScreenBloc _bloc = ScheduleDetailsScreenBloc();
 
   @override
   ScheduleDetailsScreenBloc getBloc() => _bloc;
@@ -54,60 +54,66 @@ class _ScheduleDetailsScreenState
   }
 
   @override
+  Widget? getAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: Center(
+          child: Text(
+        'Scheduler',
+        style: fs24BlackSemibold,
+      )),
+    );
+  }
+
+  @override
   Widget buildWidget(BuildContext context) {
     return SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _ddl('Room', roomList, selectedRoom, (newValue) {
-              setState(() {
-                selectedRoom = newValue;
-              });
-            }),
-            const SizedBox(height: 20),
-            _ddl('Board', boardList, selectedBoard, (newValue) {
-              setState(() {
-                selectedBoard = newValue;
-              });
-            }),
-            const SizedBox(height: 20),
-            _ddl('Switch', switchList, selectedSwitch, (newValue) {
-              setState(() {
-                selectedSwitch = newValue;
-              });
-            }),
-            const SizedBox(height: 80),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomButton(
-                  btnText: 'Select',
-                  width: 145.0,
-                  color: Colors.blue,
-                  onPressed: () async {
-                    await Future.delayed(const Duration(seconds: 2), () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              ScheduleTimeScreen(),
-                        ),
-                      );
-                    });
-                  },
-                ),
-                CustomButton(
-                  btnText: 'Cancel',
-                  width: 145.0,
-                  color: Colors.grey,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ],
-        ),
-      );    
+      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _ddl('Room', roomList, selectedRoom, (newValue) {
+            setState(() {
+              selectedRoom = newValue;
+            });
+          }),
+          const SizedBox(height: 20),
+          _ddl('Board', boardList, selectedBoard, (newValue) {
+            setState(() {
+              selectedBoard = newValue;
+            });
+          }),
+          const SizedBox(height: 20),
+          _ddl('Switch', switchList, selectedSwitch, (newValue) {
+            setState(() {
+              selectedSwitch = newValue;
+            });
+          }),
+          const SizedBox(height: 80),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomButton(
+                btnText: 'Select',
+                width: 145.0,
+                color: Colors.blue,
+                onPressed: () async {
+                  await Future.delayed(const Duration(seconds: 2), () {
+                    Navigator.push(context, ScheduleTimeScreen.route());
+                  });
+                },
+              ),
+              CustomButton(
+                btnText: 'Cancel',
+                width: 145.0,
+                color: Colors.grey,
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildRoomDropdown() {

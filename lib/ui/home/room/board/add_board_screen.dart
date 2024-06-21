@@ -1,10 +1,16 @@
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/base/widgets/drop_down_list.dart';
+import 'package:estonedge/ui/home/room/board/board_details_screen.dart';
 import 'package:flutter/material.dart';
 
-class AddBoardScreen extends BasePa {
+class AddBoardScreen extends StatelessWidget {
   const AddBoardScreen({super.key});
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => AddBoardScreen());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,8 @@ class AddBoardScreen extends BasePa {
                   width: 145.0,
                   color: Colors.blue,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/boardDetails');
+                    // Navigator.pushNamed(context, '/boardDetails');
+                    Navigator.push(context, BoardDetailsScreen.route());
                   }),
             )
           ],

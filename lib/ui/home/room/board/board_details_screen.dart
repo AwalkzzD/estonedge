@@ -1,8 +1,14 @@
 import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class BoardDetailsScreen extends StatelessWidget {
-  // const BoardDetailsScreen({super.key});
+  BoardDetailsScreen({super.key});
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => BoardDetailsScreen());
+  }
 
   final List<String> boards = ['Board 1', 'Board 2', 'Board 3'];
 
@@ -98,7 +104,8 @@ class BoardCard extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/switchDetails');
+                // Navigator.pushNamed(context, '/switchDetails');
+                Navigator.push(context, SwitchDetailsScreen.route());
               },
               child: const Text(
                 'Configure board',

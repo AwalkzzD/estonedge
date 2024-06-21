@@ -1,8 +1,10 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
+import 'package:estonedge/base/constants/app_widgets.dart';
 import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/introduction/get_started_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +61,8 @@ class _GetStartedState extends BasePageState<GetStarted, GetStartedBloc> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/login');
+              // Navigator.pushReplacementNamed(context, '/login');
+              Navigator.pushReplacement(globalContext, LoginScreen.route());
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,

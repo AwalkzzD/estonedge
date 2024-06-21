@@ -4,6 +4,7 @@ import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/home/room/board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +60,8 @@ class _RoomDetailsScreenState
                 title: widget.roomName,
                 appBarImage: AppImages.appBarPlusIcon,
                 trailingIconAction: () {
-                  Navigator.pushNamed(context, '/addBoard');
+                  // Navigator.pushNamed(context, '/addBoard');
+                  Navigator.push(context, AddBoardScreen.route());
                 },
               ),
               const SizedBox(

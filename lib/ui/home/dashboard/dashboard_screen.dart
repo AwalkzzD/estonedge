@@ -3,6 +3,7 @@ import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../base/src_constants.dart';
@@ -14,7 +15,7 @@ class DashboardScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _DashboardScreenState();
 
-        static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const DashboardScreen());
   }
 }
@@ -76,7 +77,8 @@ class _DashboardScreenState
         )),
         child: MaterialButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/addRoom');
+            // Navigator.pushNamed(context, '/addRoom');
+            Navigator.push(context, AddRoomScreen.route());
           },
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15),

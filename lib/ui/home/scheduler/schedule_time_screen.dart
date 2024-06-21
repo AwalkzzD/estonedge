@@ -1,6 +1,9 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/constants/app_widgets.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
@@ -59,13 +62,20 @@ class _ScheduleTimeScreenState
     };
 
     await _bloc.addSchedule(schedule);
-    Navigator.pushNamed(context, '/scheduleHome');
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    // Navigator.pushReplacement(context, ScheduleHomeScreen.route());
   }
 
   @override
   Widget? getAppBar() {
     return AppBar(
-      title: const Text('Schedule'),
+      backgroundColor: Colors.white,
+      title: Center(
+          child: Text(
+        'Scheduler',
+        style: fs24BlackSemibold,
+      )),
     );
   }
 

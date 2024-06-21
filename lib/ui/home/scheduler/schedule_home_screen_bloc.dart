@@ -3,6 +3,8 @@ import 'package:estonedge/base/utils/sp_util.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ScheduleHomeScreenBloc extends BasePageBloc {
   static const String keySchedules = "schedules";
 
@@ -19,5 +21,13 @@ class ScheduleHomeScreenBloc extends BasePageBloc {
       return List<Map<String, dynamic>>.from(schedulesJson);
     }
     return [];
+  }
+
+  Future<void> deleteSchedule(int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    final schedulesString = prefs.getString('schedules') ?? '[]';
+    final schedules = List<Map<String, dynamic>>.from(json.decode(schedulesString));
+    schedules.removeAt(index);
+    await prefs.setString('schedules', json.encode(schedules));
   }
 }
