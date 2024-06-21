@@ -12,7 +12,7 @@ void apiCreateUserRecord(String createUserRequestParams,
   try {
     final response = createUserResponseFromJson(
         (await (await DioManager.getInstance())!.post(
-                '${getUsers}/${getUserId()}',
+                '${users}/${getUserId()}',
                 options: Options(responseType: ResponseType.plain),
                 data: createUserRequestParams))
             .data);
@@ -31,7 +31,7 @@ void apiGetUserData(
   try {
     final response = userResponseFromJson(
         (await (await DioManager.getInstance())!.get(
-                '${getUsers}/${getUserId()}',
+                '${users}/${getUserId()}',
                 options: Options(responseType: ResponseType.plain)))
             .data);
     if (response.userId.isNotEmpty) {

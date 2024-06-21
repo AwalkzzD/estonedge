@@ -17,6 +17,7 @@ class Assets {
   static const String iconsAppBarPlusIcon = 'assets/icons/app_bar_plus_icon.png';
   static const String iconsAppLogo = 'assets/icons/app_logo.png';
   static const String iconsDrawerHamIcon = 'assets/icons/drawer_ham_icon.png';
+  static const String iconsIcDropDown = 'assets/icons/ic_drop_down.png';
   static const String iconsIcRoomAddFailed = 'assets/icons/ic_room_add_failed.png';
   static const String iconsIcRoomAdded = 'assets/icons/ic_room_added.png';
   static const String iconsProfileIcon = 'assets/icons/profile_icon.png';

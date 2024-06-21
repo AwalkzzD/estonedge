@@ -98,7 +98,6 @@ class _RoomImageScreenState
           ),
           CustomButton(
             btnText: 'Continue',
-            width: double.infinity,
             color: Colors.blueAccent,
             onPressed: () async {
               if (_selectedImageIndex != null) {

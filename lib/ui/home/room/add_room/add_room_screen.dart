@@ -68,7 +68,6 @@ class _AddRoomScreenState
           const SizedBox(height: 50),
           CustomButton(
             btnText: 'Continue',
-            width: double.infinity,
             color: Colors.blueAccent,
             onPressed: () {
               setState(() {

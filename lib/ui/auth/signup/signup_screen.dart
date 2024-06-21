@@ -185,7 +185,6 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                   });
                 }
               },
-              width: double.infinity,
               color: Colors.blueAccent,
             ),
             const SizedBox(height: 20),
