@@ -1,7 +1,6 @@
-import "dart:convert";
+import 'dart:convert';
 
-UserResponse userResponseFromJson(String str) =>
-    UserResponse.fromJson(json.decode(str));
+UserResponse userResponseFromJson(String str) => UserResponse.fromJson(json.decode(str));
 
 String userResponseToJson(UserResponse data) => json.encode(data.toJson());
 
@@ -22,12 +21,12 @@ class UserResponse {
 
   factory UserResponse.fromJson(Map<String, dynamic> json) {
     return UserResponse(
-      userId: json["user_id"]["S"],
-      email: json["email"]["S"],
-      name: json["name"]["S"],
-      additionalInfo: AdditionalInfo.fromJson(json["additional_info"]["M"]),
-      rooms: (json["rooms"]["L"] as List)
-          .map((e) => Room.fromJson(e["M"]))
+      userId: json["user_id"]?["S"] ?? '',
+      email: json["email"]?["S"] ?? '',
+      name: json["name"]?["S"] ?? '',
+      additionalInfo: AdditionalInfo.fromJson(json["additional_info"]?["M"] ?? {}),
+      rooms: (json["rooms"]?["L"] as List? ?? [])
+          .map((e) => Room.fromJson(e["M"] ?? {}))
           .toList(),
     );
   }
@@ -58,10 +57,9 @@ class AdditionalInfo {
 
   factory AdditionalInfo.fromJson(Map<String, dynamic> json) {
     return AdditionalInfo(
-      gender: json.containsKey("gender") ? json["gender"]["S"] : null,
-      contactNo:
-          json.containsKey("contact_no") ? json["contact_no"]["S"] : null,
-      dob: json.containsKey("dob") ? json["dob"]["S"] : null,
+      gender: json["gender"]?["S"],
+      contactNo: json["contact_no"]?["S"],
+      dob: json["dob"]?["S"],
     );
   }
 
@@ -89,11 +87,11 @@ class Room {
 
   factory Room.fromJson(Map<String, dynamic> json) {
     return Room(
-      roomId: json["room_id"]["S"],
-      roomName: json["room_name"]["S"],
-      roomImage: json["room_image"]["S"],
-      boards: (json["boards"]["L"] as List)
-          .map((e) => Board.fromJson(e["M"]))
+      roomId: json["room_id"]?["S"] ?? '',
+      roomName: json["room_name"]?["S"] ?? '',
+      roomImage: json["room_image"]?["S"] ?? '',
+      boards: (json["boards"]?["L"] as List? ?? [])
+          .map((e) => Board.fromJson(e["M"] ?? {}))
           .toList(),
     );
   }
@@ -102,6 +100,7 @@ class Room {
     return {
       "room_id": {"S": roomId},
       "room_name": {"S": roomName},
+      "room_image": {"S": roomImage},
       "boards": {
         "L": boards.map((board) => {"M": board.toJson()}).toList()
       },
@@ -126,12 +125,12 @@ class Board {
 
   factory Board.fromJson(Map<String, dynamic> json) {
     return Board(
-      boardId: json["board_id"]["S"],
-      boardName: json["board_name"]["S"],
-      boardModel: json["board_model"]["S"],
-      macAddress: json["mac_address"]["S"],
-      switches: (json["switches"]["L"] as List)
-          .map((e) => Switch.fromJson(e["M"]))
+      boardId: json["board_id"]?["S"] ?? '',
+      boardName: json["board_name"]?["S"] ?? '',
+      boardModel: json["board_model"]?["S"] ?? '',
+      macAddress: json["mac_address"]?["S"] ?? '',
+      switches: (json["switches"]?["L"] as List? ?? [])
+          .map((e) => Switch.fromJson(e["M"] ?? {}))
           .toList(),
     );
   }
@@ -164,9 +163,9 @@ class Switch {
 
   factory Switch.fromJson(Map<String, dynamic> json) {
     return Switch(
-      switchId: json["switch_id"]["S"],
-      switchName: json["switch_name"]["S"],
-      switchType: json["switch_type"]["S"],
+      switchId: json["switch_id"]?["S"] ?? '',
+      switchName: json["switch_name"]?["S"] ?? '',
+      switchType: json["switch_type"]?["S"] ?? '',
       status: json["status"] == true,
     );
   }

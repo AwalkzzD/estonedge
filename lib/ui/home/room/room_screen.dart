@@ -47,9 +47,9 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
-            return RoomList(snapshot.data!);
+            return roomList(snapshot.data!);
           } else {
-            return NoRoomFound();
+            return noRoomFound();
           }
         } else {
           return const SizedBox();
@@ -61,7 +61,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
   @override
   RoomScreenBloc getBloc() => _bloc;
 
-  Widget NoRoomFound() {
+  Widget noRoomFound() {
     return const Column(
       children: [
         SizedBox(height: 100),
@@ -80,7 +80,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
     );
   }
 
-  Widget RoomList(List<RoomsResponse> roomsList) {
+  Widget roomList(List<RoomsResponse> roomsList) {
     return ListView.builder(
       itemCount: roomsList.length,
       itemBuilder: (context, index) {
@@ -89,11 +89,9 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RoomDetailsScreen(
-                  roomName: roomsList[index].roomName,
-                  roomImage: AppImages.room1,
-                ),
-              ),
+                  builder: (context) => RoomDetailsScreen(
+                        roomsList: roomsList[index],
+                      )),
             );
           },
           child: Card(

@@ -64,6 +64,8 @@ class _ScheduleTimeScreenState
     await _bloc.addSchedule(schedule);
     Navigator.of(context).pop();
     Navigator.of(context).pop();
+    // Navigator.pushAndRemoveUntil(
+    //     context, ScheduleHomeScreen.route(), (route) => false);
     // Navigator.pushReplacement(context, ScheduleHomeScreen.route());
   }
 

@@ -3,7 +3,9 @@ import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/room/board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -11,21 +13,19 @@ import 'package:flutter/material.dart';
 import '../../../../base/utils/widgets/custom_appbar.dart';
 
 class RoomDetailsScreen extends BasePage {
-  final String roomName;
-  final String roomImage;
+  final RoomsResponse? roomsList;
 
   const RoomDetailsScreen({
+    this.roomsList,
     super.key,
-    required this.roomName,
-    required this.roomImage,
   });
 
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _RoomDetailsScreenState();
 
-        static Route<dynamic> route() {
-    return CustomPageRoute(builder: (context) => const RoomDetailsScreen( roomName: '', roomImage: '',));
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const RoomDetailsScreen());
   }
 }
 
@@ -57,10 +57,9 @@ class _RoomDetailsScreenState
             children: <Widget>[
               CustomAppbar(
                 context,
-                title: widget.roomName,
+                title: widget.roomsList?.roomName ?? 'Room Details',
                 appBarImage: AppImages.appBarPlusIcon,
                 trailingIconAction: () {
-                  // Navigator.pushNamed(context, '/addBoard');
                   Navigator.push(context, AddBoardScreen.route());
                 },
               ),
@@ -76,48 +75,65 @@ class _RoomDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
+    final roomsList = widget.roomsList;
+
+    if (roomsList == null) {
+      return Center(
+        child: Text('No Room Details Available'),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
           imgStack(),
           const SizedBox(height: 20),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio:
-                    1.6, // Adjust this ratio to control card height
+          if (roomsList.boards.isEmpty)
+            buildNoBoards()
+          else
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.6,
+                ),
+                itemCount: roomsList.boards.length,
+                itemBuilder: (context, index) {
+                  final board = roomsList.boards[index];
+                  return boardCard(board.boardName, 1, 1);
+                },
               ),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return boardCard('boardName', 1, 1);
-              },
             ),
-          ),
+          Spacer(),
           CustomButton(
-              btnText: 'Delete Room',
-              width: double.infinity,
-              color: const Color.fromARGB(255, 237, 83, 83),
-              onPressed: () {})
+            btnText: 'Delete Room',
+            width: double.infinity,
+            color: const Color.fromARGB(255, 237, 83, 83),
+            onPressed: () {},
+          ),
         ],
       ),
     );
   }
 
   Widget imgStack() {
+    final roomsList = widget.roomsList;
+    print(roomsList);
+
+    if (roomsList == null) {
+      return SizedBox.shrink();
+    }
+
     return Stack(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: AspectRatio(
             aspectRatio: 16 / 9,
-            child: Image.asset(
-              widget.roomImage,
-              fit: BoxFit.cover,
-            ),
+            child: buildCustomRoomNetworkImage(imageUrl: roomsList.roomImage),
           ),
         ),
         Positioned(
@@ -127,16 +143,16 @@ class _RoomDetailsScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.roomName,
+                roomsList.roomName,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
-                '3/3 is on',
-                style: TextStyle(
+              Text(
+                '${roomsList.boards.length} boards found',
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),
@@ -152,7 +168,6 @@ class _RoomDetailsScreenState
     return Container(
       width: 150,
       height: 80,
-      // Set a fixed height
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -186,27 +201,15 @@ class _RoomDetailsScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Active',
-                      style: fs12BlackRegular,
-                    ),
-                    Text(
-                      activeCount.toString(),
-                      style: fs12BlackRegular,
-                    ),
+                    Text('Active', style: fs12BlackRegular),
+                    Text(activeCount.toString(), style: fs12BlackRegular),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Inactive',
-                      style: fs12BlackRegular,
-                    ),
-                    Text(
-                      inactiveCount.toString(),
-                      style: fs12BlackRegular,
-                    ),
+                    Text('Inactive', style: fs12BlackRegular),
+                    Text(inactiveCount.toString(), style: fs12BlackRegular),
                   ],
                 ),
               ],
@@ -214,6 +217,28 @@ class _RoomDetailsScreenState
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildNoBoards() {
+    print(widget.roomsList);
+    return const Column(
+      children: [
+        Image(image: AssetImage(AppImages.noRoomFoundImage)),
+        SizedBox(height: 30),
+        Text(
+          'No Boards',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: 'Lexend',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          'Add your board by clicking plus(+) icon',
+          style: TextStyle(fontSize: 15, fontFamily: 'Lexend'),
+        ),
+      ],
     );
   }
 }

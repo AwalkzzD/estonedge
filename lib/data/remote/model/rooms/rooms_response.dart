@@ -1,14 +1,14 @@
-import "dart:convert";
+import 'dart:convert';
 
-import "../user/user_response.dart";
+import '../user/user_response.dart';
 
-List<RoomsResponse> roomsResponseFromJson(String str) =>
-    List<RoomsResponse>.from(
-        json.decode(str)["L"].map((x) => RoomsResponse.fromJson(x["M"])));
+List<RoomsResponse> roomsResponseFromJson(String str) => List<RoomsResponse>.from(
+    (json.decode(str)["L"] as List).map((x) => RoomsResponse.fromJson(x["M"] ?? {}))
+);
 
 String roomsResponseToJson(List<RoomsResponse> data) => json.encode({
-      "L": List<dynamic>.from(data.map((x) => {"M": x.toJson()}))
-    });
+  "L": List<dynamic>.from(data.map((x) => {"M": x.toJson()}))
+});
 
 class RoomsResponse {
   final String roomId;
@@ -25,11 +25,11 @@ class RoomsResponse {
 
   factory RoomsResponse.fromJson(Map<String, dynamic> json) {
     return RoomsResponse(
-      roomId: json["room_id"]["S"],
-      roomName: json["room_name"]["S"],
-      roomImage: json["room_image"]["S"],
-      boards: (json["boards"]["L"] as List)
-          .map((e) => Board.fromJson(e["M"]))
+      roomId: json["room_id"]?["S"] ?? '',
+      roomName: json["room_name"]?["S"] ?? '',
+      roomImage: json["room_image"]?["S"] ?? '',
+      boards: (json["boards"]?["L"] as List? ?? [])
+          .map((e) => Board.fromJson(e["M"] ?? {}))
           .toList(),
     );
   }
