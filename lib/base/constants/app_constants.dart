@@ -8,7 +8,8 @@ const String baseUrl =
     'https://qc9wlso2vh.execute-api.eu-north-1.amazonaws.com/v1/';
 
 // API Endpoints
-const String getUsers = 'users';
+const String boardType = 'boardTypes';
+const String users = 'users';
 const String rooms = 'rooms';
 
 // validation constants

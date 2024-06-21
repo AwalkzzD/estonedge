@@ -57,7 +57,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.btnText,
-    required this.width,
+    this.width = double.infinity,
     required this.color,
     required this.onPressed,
   });
@@ -75,10 +75,7 @@ class CustomButton extends StatelessWidget {
         ),
         minimumSize: Size(width, 40), // More width
       ),
-      child: Text(
-        btnText,
-        style: fs14WhiteMedium
-      ),
+      child: Text(btnText, style: fs14WhiteMedium),
     );
   }
 }

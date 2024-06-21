@@ -1,7 +1,8 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
-import 'package:estonedge/base/widgets/drop_down_list.dart';
+import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/ui/profile/profile_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -75,14 +76,15 @@ class _ProfileDetailsScreenState
               icon: null,
             ),
             const SizedBox(height: 16),
-            GenericDropdown(
-              items: ['Male', 'Female', 'Non-Binary', 'Prefer not to answer'],
-              hint: 'Gender',
-              onChanged: (String? value) {
-                // Handle the selected value
-                print('Selected gender: $value');
-              },
-            ),
+            CustomDropdown(
+                hint: 'Gender',
+                items: const [
+                  'Male',
+                  'Female',
+                  'Non-Binary',
+                  'Prefer not to answer'
+                ],
+                onClick: (value) {}),
             const SizedBox(height: 16),
             CustomTextField(
               readOnly: true,
@@ -121,10 +123,7 @@ class _ProfileDetailsScreenState
             const SizedBox(height: 40),
             Center(
               child: CustomButton(
-                  btnText: 'Update',
-                  width: 145.0,
-                  color: Colors.blue,
-                  onPressed: () {}),
+                  btnText: 'Update', color: Colors.blue, onPressed: () {}),
             )
           ],
         ),
@@ -157,13 +156,13 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscuringCharacter: '*',
       readOnly: readOnly,
       controller: controller,
       obscureText: obscureText,
       style: fs14BlackRegular,
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
         hintText: hintText,
         hintStyle: fs14GrayRegular,
         border: OutlineInputBorder(

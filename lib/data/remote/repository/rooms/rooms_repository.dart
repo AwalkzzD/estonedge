@@ -13,7 +13,7 @@ void apiGetRoomsData(
   try {
     final response = roomsResponseFromJson(
         (await (await DioManager.getInstance())!.get(
-                '$getUsers/${getUserId()}/$rooms',
+                '$users/${getUserId()}/$rooms',
                 options: Options(responseType: ResponseType.plain)))
             .data);
 
@@ -28,7 +28,7 @@ void apiAddRoomData(String addRoomRequestParams,
   try {
     final response = addRoomResponseFromJson(
         (await (await DioManager.getInstance())!
-                .post('$getUsers/${getUserId()}/$rooms',
+                .post('$users/${getUserId()}/$rooms',
                     options: Options(
                       responseType: ResponseType.plain,
                       validateStatus: (status) => true,

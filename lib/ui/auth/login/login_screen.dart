@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../base/src_constants.dart';
-import '../../../base/widgets/custom_page_route.dart';
 
 class LoginScreen extends BasePage {
   const LoginScreen({super.key});
@@ -22,7 +21,7 @@ class LoginScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _LoginScreenState();
 
-        static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const LoginScreen());
   }
 }
@@ -47,7 +46,8 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
 
   void navigateToSignUpScreen() =>
       Navigator.of(context).pushReplacement(SignupScreen.route());
-      // Navigator.pushReplacementNamed(context, '/signup');
+
+  // Navigator.pushReplacementNamed(context, '/signup');
 
   void navigateToHomeScreen() {
     Navigator.of(context).pushReplacement(HomeScreen.route());
@@ -143,7 +143,6 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                     });
                   }
                 },
-                width: double.infinity,
                 color: Colors.blueAccent,
               ),
               const SizedBox(height: 20),

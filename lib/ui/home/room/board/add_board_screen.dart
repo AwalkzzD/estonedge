@@ -9,7 +9,7 @@ class AddBoardScreen extends StatelessWidget {
   const AddBoardScreen({super.key});
 
   static Route<dynamic> route() {
-    return CustomPageRoute(builder: (context) => AddBoardScreen());
+    return CustomPageRoute(builder: (context) => const AddBoardScreen());
   }
 
   @override
@@ -60,7 +60,6 @@ class AddBoardScreen extends StatelessWidget {
             Center(
               child: CustomButton(
                   btnText: 'Submit',
-                  width: 145.0,
                   color: Colors.blue,
                   onPressed: () {
                     // Navigator.pushNamed(context, '/boardDetails');
