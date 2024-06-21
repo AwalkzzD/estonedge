@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class DashboardScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _DashboardScreenState();
+
+        static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const DashboardScreen());
+  }
 }
 
 class _DashboardScreenState

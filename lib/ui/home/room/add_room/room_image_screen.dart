@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/src_utils.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
@@ -209,3 +210,4 @@ class _RoomImageScreenState
     );
   }
 }
+

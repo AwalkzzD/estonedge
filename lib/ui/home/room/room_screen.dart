@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen_bloc.dart';
@@ -15,6 +16,11 @@ class RoomScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _RoomScreenState();
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const RoomScreen());
+  }
+      
 }
 
 class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {

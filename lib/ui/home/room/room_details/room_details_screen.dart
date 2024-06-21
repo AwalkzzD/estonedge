@@ -3,6 +3,7 @@ import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,10 @@ class RoomDetailsScreen extends BasePage {
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _RoomDetailsScreenState();
+
+        static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const RoomDetailsScreen( roomName: '', roomImage: '',));
+  }
 }
 
 class _RoomDetailsScreenState
