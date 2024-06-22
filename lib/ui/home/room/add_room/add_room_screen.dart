@@ -6,9 +6,9 @@ import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/src_constants.dart';
+import '../../../../base/utils/widgets/custom_appbar.dart';
 import '../../../../base/utils/widgets/custom_button.dart';
 import '../../../../base/utils/widgets/custom_textfield.dart';
-import '../../../../base/widgets/custom_page_route.dart';
 import '../../../auth/validators.dart';
 
 class AddRoomScreen extends BasePage {
@@ -18,7 +18,7 @@ class AddRoomScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _AddRoomScreenState();
 
-        static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const AddRoomScreen());
   }
 }
@@ -103,10 +103,11 @@ class _AddRoomScreenState
           );
         },
       ),
-      title: const Text(
-        'Add Room',
-        style: TextStyle(
-            fontSize: 24, fontFamily: 'Lexend', fontWeight: FontWeight.bold),
+      title: CustomAppbar(
+        context,
+        title: 'Add Room',
+        centerTitle: true,
+        titleStyle: fs24BlackSemibold,
       ),
     );
   }

@@ -7,6 +7,8 @@ import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../base/utils/widgets/custom_appbar.dart';
+
 class ScheduleHomeScreen extends BasePage {
   const ScheduleHomeScreen({super.key});
 
@@ -47,32 +49,40 @@ class _ScheduleHomeScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
+      centerTitle: true,
       backgroundColor: Colors.white,
-      title: Center(
-          child: Text(
-        'Scheduler',
-        style: fs24BlackSemibold,
-      )),
-      actions: [
-        IconButton(
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
             onPressed: () {
-              Navigator.push(context, ScheduleDetailsScreen.route());
+              Navigator.of(context).pop();
             },
-            icon: Image.asset(AppImages.appBarPlusIcon))
-      ],
+          );
+        },
+      ),
+      title: CustomAppbar(
+        context,
+        title: 'Scheduler',
+        centerTitle: true,
+        titleStyle: fs24BlackSemibold,
+        appBarImage: AppImages.appBarPlusIcon,
+        trailingIconAction: () =>
+            Navigator.push(context, ScheduleDetailsScreen.route()),
+      ),
     );
   }
 
   @override
   Widget buildWidget(BuildContext context) {
     if (schedules.isEmpty) {
-      return NoScheduleFound();
+      return buildNoScheduleFound();
     } else {
-      return ScheduleList();
+      return buildScheduleList();
     }
   }
 
-  Widget NoScheduleFound() {
+  Widget buildNoScheduleFound() {
     return const Column(
       children: [
         SizedBox(height: 100),
@@ -91,7 +101,7 @@ class _ScheduleHomeScreenState
     );
   }
 
-  Widget ScheduleList() {
+  Widget buildScheduleList() {
     return ListView.builder(
       itemCount: schedules.length,
       itemBuilder: (context, index) {

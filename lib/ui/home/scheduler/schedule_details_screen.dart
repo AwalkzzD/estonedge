@@ -1,9 +1,10 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/base/widgets/drop_down_list.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
@@ -57,7 +58,7 @@ class _ScheduleDetailsScreenState
   Widget? getAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
-      title: Center(
+      title: const Center(
           child: Text(
         'Scheduler',
         style: fs24BlackSemibold,
@@ -67,115 +68,66 @@ class _ScheduleDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return SingleChildScrollView(
+    return Container(
       padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _ddl('Room', roomList, selectedRoom, (newValue) {
-            setState(() {
-              selectedRoom = newValue;
-            });
-          }),
-          const SizedBox(height: 20),
-          _ddl('Board', boardList, selectedBoard, (newValue) {
-            setState(() {
-              selectedBoard = newValue;
-            });
-          }),
-          const SizedBox(height: 20),
-          _ddl('Switch', switchList, selectedSwitch, (newValue) {
-            setState(() {
-              selectedSwitch = newValue;
-            });
-          }),
-          const SizedBox(height: 80),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomButton(
-                btnText: 'Select',
-                width: 145.0,
-                color: Colors.blue,
-                onPressed: () async {
-                  await Future.delayed(const Duration(seconds: 2), () {
-                    Navigator.push(context, ScheduleTimeScreen.route());
-                  });
-                },
-              ),
-              CustomButton(
-                btnText: 'Cancel',
-                width: 145.0,
-                color: Colors.grey,
-                onPressed: () {},
-              ),
-            ],
+        children: <Widget>[
+          Text('Your Room', style: fs16BlackSemibold),
+          CustomDropdown(
+            initialValue: selectedRoom,
+            hint: 'Room',
+            items: roomList,
+            onClick: (newValue) {
+              setState(() {
+                selectedRoom = newValue;
+              });
+            },
+          ),
+          SizedBox(height: 10.h),
+          Text('Your Board', style: fs16BlackSemibold),
+          CustomDropdown(
+            initialValue: selectedBoard,
+            hint: 'Room',
+            items: boardList,
+            onClick: (newValue) {
+              setState(() {
+                selectedBoard = newValue;
+              });
+            },
+          ),
+          SizedBox(height: 10.h),
+          Text('Your Switch', style: fs16BlackSemibold),
+          CustomDropdown(
+            initialValue: selectedSwitch,
+            hint: 'Room',
+            items: switchList,
+            onClick: (newValue) {
+              setState(() {
+                selectedSwitch = newValue;
+              });
+            },
+          ),
+          const Expanded(child: SizedBox()),
+          CustomButton(
+            btnText: 'Select',
+            color: Colors.blue,
+            onPressed: () async {
+              await Future.delayed(const Duration(seconds: 2), () {
+                Navigator.push(context, ScheduleTimeScreen.route());
+              });
+            },
+          ),
+          SizedBox(height: 8.h),
+          CustomButton(
+            btnText: 'Cancel',
+            color: Colors.grey,
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildRoomDropdown() {
-    if (roomList.isEmpty) {
-      return Center(child: CircularProgressIndicator());
-    } else {
-      return GenericDropdown(
-        items: roomList,
-        hint: 'Room',
-        onChanged: (String? value) {
-          // Handle the selected value
-          print('Selected gender: $value');
-          selectedRoom = value;
-        },
-      );
-    }
-  }
-
-  Widget _ddl(String ddlName, List<String> items, String? selectedValue,
-      ValueChanged<String?> onChanged) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          ddlName,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[700],
-          ),
-        ),
-        const SizedBox(height: 8.0),
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Colors.grey),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: DropdownButtonFormField<String>(
-            isExpanded: true,
-            value: selectedValue,
-            onChanged: onChanged,
-            items: items.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            decoration: InputDecoration.collapsed(hintText: ''),
-          ),
-        ),
-      ],
     );
   }
 }
