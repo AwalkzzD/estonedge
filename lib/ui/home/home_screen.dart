@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../base/src_constants.dart';
-import '../../base/widgets/custom_page_route.dart';
 import '../../base/widgets/keep_alive_widget.dart';
 
 class HomeScreen extends BasePage {
@@ -25,7 +24,7 @@ class HomeScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _HomeScreenState();
 
-      static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const HomeScreen());
   }
 }
@@ -39,50 +38,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   void _onItemTapped(int index) {
     getBloc().updateCurrentIndex(index);
-  }
-
-  @override
-  Widget? getBottomNavigationBar() {
-    return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: StreamBuilder<int>(
-          stream: getBloc().currentPageIndexStream,
-          builder: (context, snapshot) {
-            return BottomNavigationBar(
-              currentIndex: (snapshot.data != null &&
-                      (snapshot.data! >= 0 && snapshot.data! <= 2))
-                  ? snapshot.data!
-                  : 0,
-              showSelectedLabels: true,
-              backgroundColor: Colors.transparent,
-              selectedItemColor: Colors.white,
-              unselectedItemColor: Colors.white.withOpacity(0.5),
-              type: BottomNavigationBarType.fixed,
-              onTap: (index) {
-                _onItemTapped(index);
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.dashboard),
-                  label: 'Dashboard',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bed_outlined),
-                  label: 'Rooms',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
-                  label: 'Profile',
-                ),
-              ],
-            );
-          }),
-    );
   }
 
   @override
@@ -288,6 +243,15 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   @override
   Widget buildWidget(BuildContext context) {
+    return Stack(
+      children: [
+        buildBodyPages(),
+        buildBottomNavBar(),
+      ],
+    );
+  }
+
+  Widget buildBodyPages() {
     return StreamBuilder<int>(
       stream: getBloc().currentPageIndexStream,
       builder: (context, snapshot) {
@@ -301,6 +265,53 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
           return getBaseLoadingWidget();
         }
       },
+    );
+  }
+
+  Widget buildBottomNavBar() {
+    return Positioned(
+      left: 30,
+      right: 30,
+      bottom: 15,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: StreamBuilder<int>(
+            stream: getBloc().currentPageIndexStream,
+            builder: (context, snapshot) {
+              return BottomNavigationBar(
+                currentIndex: (snapshot.data != null &&
+                        (snapshot.data! >= 0 && snapshot.data! <= 2))
+                    ? snapshot.data!
+                    : 0,
+                showSelectedLabels: true,
+                backgroundColor: Colors.transparent,
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.white.withOpacity(0.5),
+                type: BottomNavigationBarType.fixed,
+                onTap: (index) {
+                  _onItemTapped(index);
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard),
+                    label: 'Dashboard',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.bed_outlined),
+                    label: 'Rooms',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outline),
+                    label: 'Profile',
+                  ),
+                ],
+              );
+            }),
+      ),
     );
   }
 
