@@ -75,7 +75,7 @@ class ImageView extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
 
   const ImageView(
-      {Key? key,
+      {super.key,
       required this.image,
       required this.imageType,
       this.imageShape = ImageShape.none,
@@ -89,8 +89,7 @@ class ImageView extends StatelessWidget {
       this.scale = 1.0,
       this.borderRadius,
       this.defaultLoaderColor,
-      this.defaultErrorBuilderColor})
-      : super(key: key);
+      this.defaultErrorBuilderColor});
 
   @override
   Widget build(BuildContext context) {
@@ -107,20 +106,20 @@ class ImageView extends StatelessWidget {
   }
 
   Widget get _rounded => Container(
-        child: _loadImage,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(borderRadius: borderRadius),
+        child: _loadImage,
       );
 
   Widget get _circle => Container(
-        child: _loadImage,
         clipBehavior: Clip.antiAlias,
         decoration: const BoxDecoration(shape: BoxShape.circle),
+        child: _loadImage,
       );
 
   Widget get _oval => ClipOval(
-        child: _loadImage,
         clipBehavior: Clip.antiAlias,
+        child: _loadImage,
       );
 
   Widget get _loadImage {
@@ -142,6 +141,7 @@ class ImageView extends StatelessWidget {
         image,
         height: height,
         width: width,
+        // ignore: deprecated_member_use
         color: color,
         fit: boxFit == null ? BoxFit.contain : boxFit!,
         alignment: alignment,
@@ -152,6 +152,7 @@ class ImageView extends StatelessWidget {
         image,
         height: height,
         width: width,
+        // ignore: deprecated_member_use
         color: color,
         fit: boxFit == null ? BoxFit.contain : boxFit!,
         alignment: alignment,

@@ -2,22 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomPageRoute<T> extends MaterialPageRoute<T> {
-  CustomPageRoute({required WidgetBuilder builder, RouteSettings? settings})
-      : super(builder: builder, settings: settings);
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    // TODO: implement buildTransitions
-    return super
-        .buildTransitions(context, animation, secondaryAnimation, child);
-  }
+  CustomPageRoute({required super.builder, super.settings});
 }
 
 class CustomCupertinoPageRoute<T> extends CupertinoPageRoute<T> {
-  CustomCupertinoPageRoute(
-      {required WidgetBuilder builder, RouteSettings? settings})
-      : super(builder: builder, settings: settings);
+  CustomCupertinoPageRoute({required super.builder, super.settings});
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,

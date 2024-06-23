@@ -23,7 +23,7 @@ class ButtonView extends StatelessWidget {
   final Color? borderColor;
 
   const ButtonView(this.text, this.onPressed,
-      {Key? key,
+      {super.key,
       this.color,
       this.textColor,
       this.disableColor,
@@ -38,8 +38,7 @@ class ButtonView extends StatelessWidget {
       this.alignment = Alignment.center,
       this.postfix,
       this.isForceClick,
-      this.padding = const EdgeInsets.all(16)})
-      : super(key: key);
+      this.padding = const EdgeInsets.all(16)});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,7 @@ class ButtonView extends StatelessWidget {
             side: BorderSide(
                 color: borderColor ?? Colors.transparent,
                 width: borderWidth ?? 0.0)),
-        onPressed: isForceClick ?? (disable ? () => null : onPressed),
+        onPressed: isForceClick ?? (disable ? () {} : onPressed),
         child: Container(
           padding: const EdgeInsets.only(left: 8, right: 8),
           child: Row(
@@ -67,14 +66,7 @@ class ButtonView extends StatelessWidget {
             children: [
               Align(
                   alignment: alignment,
-                  child: Text(text,
-                      maxLines: 1,
-                      style: textStyle ??
-                          TextStyle(
-                              color: textColor ?? white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                              fontFamily: fontFamilyLexend))),
+                  child: Text(text, maxLines: 1, style: fs17WhiteBold)),
               postfix == null
                   ? const SizedBox()
                   : Container(

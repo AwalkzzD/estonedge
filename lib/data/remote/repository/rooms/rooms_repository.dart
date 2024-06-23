@@ -35,10 +35,8 @@ void apiAddRoomData(String addRoomRequestParams,
                     ),
                     data: addRoomRequestParams))
             .data);
-    onSuccess(response);
-    print('${response.roomId}');
-  } on DioException catch (ex) {
-    print('${ex.message}');
+    onSuccess(response);    
+  } on DioException catch (ex) {    
     onError(ex.message ?? "Something went wrong");
   }
 }

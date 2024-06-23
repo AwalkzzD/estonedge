@@ -4,7 +4,7 @@ class ProgressView extends StatelessWidget {
   final Color? color;
   final double? size;
 
-  const ProgressView({Key? key, this.color, this.size}) : super(key: key);
+  const ProgressView({super.key, this.color, this.size});
 
   @override
   Widget build(BuildContext context) {

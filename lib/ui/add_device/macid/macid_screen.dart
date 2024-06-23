@@ -1,6 +1,7 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
@@ -21,7 +22,7 @@ class MacidScreen extends BasePage {
 }
 
 class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
-  MacidScreenBloc _bloc = MacidScreenBloc();
+  final MacidScreenBloc _bloc = MacidScreenBloc();
   final TextEditingController ssidController = TextEditingController();
 
   String? ssidError;
@@ -35,12 +36,10 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
   @override
   Widget? getAppBar() {
     return AppBar(
-      title: const Center(
-        child: Text(
-          'MacID Details',
-          style: TextStyle(
-              fontFamily: 'Lexend', fontSize: 24, fontWeight: FontWeight.w600),
-        ),
+      centerTitle: true,
+      title: const Text(
+        'MacID Details',
+        style: fs24BlackSemibold,
       ),
     );
   }
@@ -48,16 +47,12 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
   @override
   Widget buildWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(children: [
         const SizedBox(height: 20),
-        const Text(
+        Text(
           'Enter Wi-Fi credential of the device',
-          style: TextStyle(
-              fontFamily: 'Lexend',
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.blue),
+          style: fs18BlueSemiBold,
         ),
         const SizedBox(height: 40),
         CustomTextfieldWiFi(
@@ -84,10 +79,7 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
             onPressed: () {
               setState(() {
                 ssidError = validateSSID(ssidController.text);
-              });
-              if (ssidError == null) {
-                print('OK');
-              }
+              });              
             })
       ]),
     );
