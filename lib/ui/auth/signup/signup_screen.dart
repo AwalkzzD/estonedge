@@ -73,19 +73,12 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
               child: Text(
                 'SIGN UP',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.bold),
+                style: fs20BlackBold,
               ),
             ),
-            const Text(
+            Text(
               'Looks like you don’t have an account. Let’s create a new account for you.',
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Lexend',
-                //fontWeight: FontWeight.bold
-              ),
+              style: fs14BlackRegular,
             ),
             const SizedBox(height: 30),
             CustomTextField(
@@ -128,14 +121,10 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
             ),
             const SizedBox(height: 20),
             RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'By selecting Create Account below, I agree to ',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Lexend',
-                  color: Colors.black87, // Set the default text color
-                ),
-                children: <TextSpan>[
+                style: fs14BlackRegular,
+                children: const <TextSpan>[
                   TextSpan(
                     text: 'Terms of Service',
                     style: TextStyle(
@@ -193,10 +182,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                 recognizer: TapGestureRecognizer()
                   ..onTap = () => navigateToLoginScreen(),
                 text: 'Already a user?',
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Lexend',
-                    color: Colors.blueAccent),
+                style: fs14BlueRegular,
               ),
             ),
           ],
@@ -216,32 +202,22 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
         return AlertDialog(
           title: const Text(
             'Enter 6-digit OTP',
-            style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Lexend',
-                fontWeight: FontWeight.bold),
+            style:fs20BlackBold,
           ),
           content: TextField(
             controller: verificationCodeController,
             keyboardType: TextInputType.number,
             maxLength: 6,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintText: 'OTP',
-              hintStyle: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Rubik-W92V',
-              ),
+              hintStyle: fs14BlackRegular,
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text(
+              child: Text(
                 'Submit',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Rubik-W92V',
-                  //fontWeight: FontWeight.bold
-                ),
+                style: fs16BlackRegular,
               ),
               onPressed: () {
                 if (verificationCodeController.text.length == 6) {

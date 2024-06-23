@@ -1,6 +1,7 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
+import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
@@ -15,13 +16,12 @@ class WifiScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _WifiScreenState();
 
-      static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const WifiScreen());
   }
 }
 
 class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
-
   final WifiScreenBloc _bloc = WifiScreenBloc();
   final TextEditingController wifiController = TextEditingController();
 
@@ -36,12 +36,10 @@ class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
   @override
   Widget? getAppBar() {
     return AppBar(
-      title: const Center(
-        child: Text(
-          'WiFi Details',
-          style: TextStyle(
-              fontFamily: 'Lexend', fontSize: 24, fontWeight: FontWeight.w600),
-        ),
+      centerTitle: true,
+      title: const Text(
+        'WiFi Details',
+        style: fs24BlackSemibold,
       ),
     );
   }
@@ -52,13 +50,9 @@ class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
       padding: const EdgeInsets.all(15.0),
       child: Column(children: [
         const SizedBox(height: 20),
-        const Text(
+        Text(
           'Enter your personal Wi-Fi credential to connect with smart device',
-          style: TextStyle(
-              fontFamily: 'Lexend',
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.blue),
+          style: fs18BlueSemiBold,
         ),
         const SizedBox(height: 40),
         CustomTextfieldWiFi(
@@ -86,9 +80,6 @@ class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
               setState(() {
                 wifiError = validateSSID(wifiController.text);
               });
-              if (wifiError == null) {
-                print('OK');
-              }
             })
       ]),
     );

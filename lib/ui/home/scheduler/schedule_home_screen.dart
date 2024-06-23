@@ -26,7 +26,7 @@ class _ScheduleHomeScreenState
   List<Map<String, dynamic>> schedules = [];
   List<String> days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-  Set<int> selectedIndices = Set<int>();
+  Set<int> selectedIndices = <int>{};
 
   final ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
 
@@ -106,7 +106,6 @@ class _ScheduleHomeScreenState
       itemCount: schedules.length,
       itemBuilder: (context, index) {
         final schedule = schedules[index];
-        print('SCHEDULE : $schedule');
         return SafeArea(
           child: GestureDetector(
             onLongPressStart: (details) {
@@ -115,44 +114,32 @@ class _ScheduleHomeScreenState
             onLongPress: () => _showPopupMenu(context, index),
             child: Card(
               elevation: 4,
-              margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
+              margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
               child: Column(
                 children: [
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       const SizedBox(width: 5),
-                      Icon(Icons.lightbulb),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      const Icon(Icons.lightbulb),
+                      const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Schedule ${index + 1}',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
+                          Text('Schedule ${index + 1}', style: fs24BlackBold),
                         ],
                       ),
-                      const SizedBox(width: 100),
-                      Text(
-                        schedule['onTime'],
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      const SizedBox(width: 80),
+                      Text(schedule['onTime'], style: fs20BlackRegular),
                     ],
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 40,
-                      ),
+                      const SizedBox(width: 40),
                       Text(
                         'OFF: ${schedule['offTime']}',
-                        style: fs14BlackSemibold,
+                        style: fs14BlackRegular,
                       )
                     ],
                   ),
@@ -160,7 +147,7 @@ class _ScheduleHomeScreenState
                     height: 20,
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 35),
+                    margin: const EdgeInsets.symmetric(horizontal: 35),
                     height: 50,
                     width: double.infinity,
                     child: ListView.builder(
@@ -234,21 +221,21 @@ class _ScheduleHomeScreenState
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete Schedule'),
-          content: Text('Are you sure you want to delete this schedule?'),
+          title: const Text('Delete Schedule'),
+          content: const Text('Are you sure you want to delete this schedule?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 await _deleteSchedule(index);
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );

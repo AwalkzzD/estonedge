@@ -11,11 +11,12 @@ import 'src_components.dart';
 import 'theme/app_theme.dart';
 
 abstract class BasePageDialog<T extends BasePageBloc?> extends StatefulWidget {
-  const BasePageDialog({Key? key, this.bloc}) : super(key: key);
+  const BasePageDialog({super.key, this.bloc});
 
   final BasePageBloc? bloc;
 
   @override
+  // ignore: no_logic_in_create_state
   BasePageDialogState createState() => getDialogState();
 
   BasePageDialogState getDialogState();

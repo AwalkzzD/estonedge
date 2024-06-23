@@ -1,4 +1,5 @@
 import 'package:estonedge/base/constants/app_images.dart';
+import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -17,10 +18,7 @@ class CustomAppBar extends StatelessWidget {
               const SizedBox(width: 12),
               const Text(
                 'EstonEdge',
-                style: TextStyle(
-                    fontSize: 34,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.bold),
+                style: fs34BlackRegular,
               ),
             ],
           ),

@@ -6,6 +6,7 @@ abstract class BaseWidget extends ConsumerStatefulWidget {
   const BaseWidget({super.key});
 
   @override
+  // ignore: no_logic_in_create_state
   BaseWidgetState createState() => getState();
 
   BaseWidgetState getState();
@@ -40,7 +41,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends ConsumerState<T> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomProgressView(progressType: ProgressType.error),
-        Text("something went wrong")
+        Text("Something went wrong")
       ],
     );
   }

@@ -1,17 +1,19 @@
+// ignore_for_file: constant_identifier_names
+
 class TimeUtil {
   /// Outputs year as four digits
   ///
   /// Example:
   ///     formatDate(DateTime(1989), [yyyy]);
   ///     // => 1989
-  static final String _yyyy = 'yyyy';
+  static const String _yyyy = 'yyyy';
 
   /// Outputs year as two digits
   ///
   /// Example:
   ///     formatDate(DateTime(1989), [yy]);
   ///     // => 89
-  static final String _yy = 'yy';
+  static const String _yy = 'yy';
 
   /// Outputs month as two digits
   ///
@@ -21,7 +23,7 @@ class TimeUtil {
   ///     formatDate(DateTime(1989, 5), [mm]);
   ///     // => 05
   // ignore: non_constant_identifier_names
-  static final String _MM = 'MM';
+  static const String _MM = 'MM';
 
   /// Outputs month compactly
   ///
@@ -31,7 +33,7 @@ class TimeUtil {
   ///     formatDate(DateTime(1989, 5), [m]);
   ///     // => 5
   // ignore: non_constant_identifier_names
-  static final String _M = 'M';
+  static const String _M = 'M';
 
   /// Outputs day as two digits
   ///
@@ -40,7 +42,7 @@ class TimeUtil {
   ///     // => 21
   ///     formatDate(DateTime(1989, 2, 5), [dd]);
   ///     // => 05
-  static final String _dd = 'dd';
+  static const String _dd = 'dd';
 
   /// Outputs day compactly
   ///
@@ -49,28 +51,28 @@ class TimeUtil {
   ///     // => 21
   ///     formatDate(DateTime(1989, 2, 5), [d]);
   ///     // => 5
-  static final String _d = 'd';
+  static const String _d = 'd';
 
   /// Outputs week in month
   ///
   /// Example:
   ///     formatDate(DateTime(1989, 2, 21), [w]);
   /// // => Thursday
-  static final String _w = 'w';
+  static const String _w = 'w';
 
   /// Outputs hour (0 - 11) as two digits
   ///
   /// Example:
   ///     formatDate(DateTime(1989, 02, 1, 15), [hh]);
   ///     // => 03
-  static final String _hh = 'hh';
+  static const String _hh = 'hh';
 
   /// Outputs hour (0 - 11) compactly
   ///
   /// Example:
   ///     formatDate(DateTime(1989, 02, 1, 15), [h]);
   ///     // => 3
-  static final String _h = 'h';
+  static const String _h = 'h';
 
   /// Outputs hour (0 to 23) as two digits
   ///
@@ -78,7 +80,7 @@ class TimeUtil {
   ///     formatDate(DateTime(1989, 02, 1, 15), [HH]);
   ///     // => 15
   // ignore: non_constant_identifier_names
-  static final String _HH = 'HH';
+  static const String _HH = 'HH';
 
   /// Outputs hour (0 to 23) compactly
   ///
@@ -86,7 +88,7 @@ class TimeUtil {
   ///     formatDate(DateTime(1989, 02, 1, 5), [H]);
   ///     // => 5
   // ignore: non_constant_identifier_names
-  static final String _H = 'H';
+  static const String _H = 'H';
 
   /// Outputs minute as two digits
   ///
@@ -95,14 +97,14 @@ class TimeUtil {
   ///     // => 40
   ///     formatDate(DateTime(1989, 02, 1, 15, 4), [nn]);
   ///     // => 04
-  static final String _mm = 'mm';
+  static const String _mm = 'mm';
 
   /// Outputs minute compactly
   ///
   /// Example:
   ///     formatDate(DateTime(1989, 02, 1, 15, 4), [n]);
   ///     // => 4
-  static final String _m = 'm';
+  static const String _m = 'm';
 
   /// Outputs second as two digits
   ///
@@ -111,14 +113,14 @@ class TimeUtil {
   ///     // => 10
   ///     formatDate(DateTime(1989, 02, 1, 15, 40, 5), [ss]);
   ///     // => 05
-  static final String _ss = 'ss';
+  static const String _ss = 'ss';
 
   /// Outputs second compactly
   ///
   /// Example:
   ///     formatDate(DateTime(1989, 02, 1, 15, 40, 5), [s]);
   ///     // => 5
-  static final String _s = 's';
+  static const String _s = 's';
 
   /// Outputs millisecond as three digits
   ///
@@ -130,7 +132,7 @@ class TimeUtil {
   ///     formatDate(DateTime(1989, 02, 1, 15, 40, 10, 0), [SS]);
   ///     // => 009
   // ignore: non_constant_identifier_names
-  static final String _SSS = 'SSS';
+  static const String _SSS = 'SSS';
 
   static _getWeekday(int weekDay) {
     switch (weekDay) {
@@ -223,7 +225,7 @@ class TimeUtil {
   /// year is today.
   /// Is it today.
   static bool isToday(int milliseconds, {bool isUtc = false}) {
-    if (milliseconds == null || milliseconds == 0) return false;
+    if (milliseconds == 0) return false;
     DateTime old =
         DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
     DateTime now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
@@ -232,18 +234,18 @@ class TimeUtil {
 
   /// Is it yesterday
   static bool isYesterday(int milliseconds, {bool isUtc = false}) {
-    if (milliseconds == null || milliseconds == 0) return false;
+    if (milliseconds == 0) return false;
     DateTime old =
         DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
     DateTime now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
-    now = now.add(Duration(days: -1));
+    now = now.add(const Duration(days: -1));
     return old.year == now.year && old.month == now.month && old.day == now.day;
   }
 
   /// get DateMilliseconds By DateStr.
   static int? getDateMsByTimeStr(String dateStr) {
     DateTime? dateTime = DateTime.tryParse(dateStr);
-    return dateTime == null ? null : dateTime.millisecondsSinceEpoch;
+    return dateTime?.millisecondsSinceEpoch;
   }
 
   /// get DateTime By Milliseconds.

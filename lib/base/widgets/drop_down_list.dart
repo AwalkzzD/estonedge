@@ -13,6 +13,7 @@ class GenericDropdown<T> extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _GenericDropdownState<T> createState() => _GenericDropdownState<T>();
 }
 
@@ -23,22 +24,22 @@ class _GenericDropdownState<T> extends State<GenericDropdown<T>> {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: const BorderSide(color: Colors.grey),
           borderRadius: BorderRadius.circular(10.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+          borderSide: const BorderSide(color: Colors.blue),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
       value: selectedValue,
       hint: Text(widget.hint),
-      icon: Icon(Icons.arrow_drop_down),
+      icon: const Icon(Icons.arrow_drop_down),
       items: widget.items.map<DropdownMenuItem<T>>((T value) {
         return DropdownMenuItem<T>(
           value: value,

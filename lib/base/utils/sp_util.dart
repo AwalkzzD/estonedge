@@ -3,49 +3,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 
-/*await SpUtil.getInstance();
-runApp(MyApp());
-}
-
-class  MyAppState  extends  State < MyApp > {
-  @override
-  void  initState () {
-    super . initState ();
-    /// Use Sp synchronously.
-    SpUtil.remove("username");
-    String defName = SpUtil.getString("username", defValue: "sky");
-    SpUtil.putString("username", "sky24");
-    String name = SpUtil.getString("username");
-    print("MyApp defName: $defName, name: $name");
-
-     SpUtil.putString("username", "Sky24n");
-    String userName = SpUtil.getString("username");
-    print("MyHomePage userName: " + userName);
-
-    bool isFirst = SpUtil.getBool("userName", defValue: true);
-    SpUtil.putBool("isFirst", false);
-    print("MyHomePage isFirst: $isFirst");
-
-    /// save object example.
-    /// Store entity object example.
-    City city = new City();
-    city.name =  "Mumbai" ;
-      SpUtil . putObject ( "loc_city" , city);
-
-    City hisCity = SpUtil.getObj("loc_city", (v) => City.fromJson(v));
-    print("City: " + (hisCity == null ? "null" : hisCity.toString()));
-
-    /// save object list example.
-    /// Store entity object list example.
-    List<City> list = new List();
-    list. add ( new  City (name :  "Ahmedabad" ));
-    list.add(new City(name: "Baroda"));
-    SpUtil.putObjectList("loc_city_list", list);
-
-    List<City> _cityList = SpUtil.getObjList("loc_city_list", (v) => City.fromJson(v));
-    print("City list: " + (_cityList == null ? "null" : _cityList.toString()));
- */
-
 /// SharedPreferences Util.
 class SpUtil {
   static SpUtil? _singleton;
@@ -58,7 +15,7 @@ class SpUtil {
         if (_singleton == null) {
           // keep local instance till it is fully initialized.
           // Keep the local instance until it is fully initialized.
-          var singleton =  SpUtil ._ ();
+          var singleton = SpUtil._();
           await singleton._init();
           _singleton = singleton;
         }
@@ -67,7 +24,7 @@ class SpUtil {
     return _singleton;
   }
 
-  SpUtil ._ ();
+  SpUtil._();
 
   Future _init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -80,7 +37,7 @@ class SpUtil {
   }
 
   /// get obj.
-  static T? getObj<T>(String key, T f(Map v), {T? defValue}) {
+  static T? getObj<T>(String key, T Function(Map v) f, {T? defValue}) {
     Map? map = getObject(key);
     return map == null ? defValue : f(map);
   }
@@ -88,8 +45,8 @@ class SpUtil {
   /// get object.
   static Map? getObject(String key) {
     if (_prefs == null) return null;
-    String? _data = _prefs!.getString(key);
-    return (_data == null || _data.isEmpty) ? null : json.decode(_data);
+    String? data = _prefs!.getString(key);
+    return (data == null || data.isEmpty) ? null : json.decode(data);
   }
 
   /// put object list.
@@ -102,7 +59,7 @@ class SpUtil {
   }
 
   /// get obj list.
-  static List<T> getObjList<T>(String key, T f(Map? v),
+  static List<T> getObjList<T>(String key, T Function(Map? v) f,
       {List<T> defValue = const []}) {
     List<Map?>? dataList = getObjectList(key);
     List<T>? list = dataList?.map((value) {
@@ -116,8 +73,8 @@ class SpUtil {
     if (_prefs == null) return null;
     List<String>? dataLis = _prefs!.getStringList(key);
     return dataLis?.map((value) {
-      Map? _dataMap = json.decode(value);
-      return _dataMap;
+      Map? dataMap = json.decode(value);
+      return dataMap;
     }).toList();
   }
 

@@ -5,21 +5,21 @@ import 'package:estonedge/ui/add_device/qr_scanner/qr_screen.dart';
 import 'package:flutter/material.dart';
 
 class AddDeviceScreen extends StatelessWidget {
-   static Route<dynamic> route() {
-    return CustomPageRoute(builder: (context) => AddDeviceScreen());
+  const AddDeviceScreen({super.key});
+
+  static Route<dynamic> route() {
+    return CustomPageRoute(builder: (context) => const AddDeviceScreen());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text(
-          'Add your devices',
-          style: fs24BlackSemibold,
-        )),
+        centerTitle: true,
+        title: const Text('Add your devices', style: fs24BlackSemibold),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             DeviceOptionCard(
@@ -27,11 +27,10 @@ class AddDeviceScreen extends StatelessWidget {
               title: 'Scan QR Code',
               subtitle: 'Scan the QR code to add smart device',
               onTap: () {
-                // Navigator.pushNamed(context, '/qrScanner');
                 Navigator.push(context, QrScreen.route());
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             DeviceOptionCard(
               icon: Icons.input,
               title: 'Enter manually',
@@ -54,7 +53,8 @@ class DeviceOptionCard extends StatelessWidget {
   final String subtitle;
   final VoidCallback onTap;
 
-  DeviceOptionCard({
+  const DeviceOptionCard({
+    super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
@@ -66,7 +66,7 @@ class DeviceOptionCard extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: Colors.blue),
+        side: const BorderSide(color: Colors.blue),
       ),
       child: InkWell(
         onTap: onTap,
@@ -76,25 +76,13 @@ class DeviceOptionCard extends StatelessWidget {
           child: Row(
             children: [
               Icon(icon, size: 40, color: Colors.blue),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
+                  Text(title, style: fs18BlackBold),
+                  const SizedBox(height: 5),
+                  Text(subtitle, style: fs14GrayRegular),
                 ],
               ),
             ],

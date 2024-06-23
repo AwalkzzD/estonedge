@@ -15,8 +15,8 @@ class AppBarView extends StatelessWidget implements PreferredSize {
   final Widget? bottomLineWidget;
   final double? leadingWidth;
 
-  AppBarView(
-      {Key? key,
+  const AppBarView(
+      {super.key,
       this.color = white,
       this.title,
       this.centerTitle,
@@ -28,8 +28,7 @@ class AppBarView extends StatelessWidget implements PreferredSize {
       this.leading,
       this.automaticallyImplyLeading,
       this.bottomLineWidget})
-      : preferredSize = const Size.fromHeight(60),
-        super(key: key);
+      : preferredSize = const Size.fromHeight(60);
 
   @override
   final Size preferredSize;

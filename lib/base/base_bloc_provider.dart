@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'base_bloc.dart';
 
 /// Function used to customize the update policy
+// ignore: library_private_types_in_public_api
 typedef UpdateShouldNotify<T> = bool Function(T bloc, _BlocProvider oldWidget);
 
 /// The `BlocProvider` class depends on `InheritedWidget`.
@@ -42,12 +43,12 @@ class BlocProvider<T extends BasePageBloc> extends StatefulWidget {
   ///           ? updateShouldNotifyOverride(bloc, oldWidget)
   ///           : oldWidget.bloc != bloc;
   /// ```
-  BlocProvider({
-    Key? key,
+  const BlocProvider({
+    super.key,
     required this.child,
     required this.initBloc,
     this.updateShouldNotifyOverride,
-  }) : super(key: key);
+  });
 
   /// Whenever you want to get your `BloC`, you can decide wether to attach the context of your widget to the `InheritedWidget` or not.
   /// In order to control this behavior, the static method `of` has an optional boolean argument (which is true by default) which determines wether your context will be attached or not.
@@ -59,6 +60,7 @@ class BlocProvider<T extends BasePageBloc> extends StatefulWidget {
 
   /// Creates the state
   @override
+  // ignore: library_private_types_in_public_api
   _BlocProviderState<T> createState() => _BlocProviderState<T>();
 }
 
@@ -67,8 +69,8 @@ class _BlocProviderState<T extends BasePageBloc> extends State<BlocProvider<T>> 
   Widget build(BuildContext context) {
     return _BlocProvider(
       bloc: widget.initBloc,
-      child: widget.child,
       updateShouldNotifyOverride: widget.updateShouldNotifyOverride,
+      child: widget.child,
     );
   }
 
@@ -81,10 +83,11 @@ class _BlocProviderState<T extends BasePageBloc> extends State<BlocProvider<T>> 
 
 class _BlocProvider<T extends BasePageBloc> extends InheritedWidget {
   final T bloc;
+  @override
   final Widget child;
   final UpdateShouldNotify<T>? updateShouldNotifyOverride;
 
-  _BlocProvider({
+  const _BlocProvider({
     required this.bloc,
     required this.child,
     this.updateShouldNotifyOverride,

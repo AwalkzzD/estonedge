@@ -53,7 +53,8 @@ class CustomTextfieldWiFi extends StatelessWidget {
       required this.labelText,
       required this.hintText,
       this.controller,
-      this.onChanged, this.errorText});
+      this.onChanged,
+      this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -62,33 +63,32 @@ class CustomTextfieldWiFi extends StatelessWidget {
       style: const TextStyle(fontFamily: 'Lexend'),
       controller: controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide:
-              BorderSide(color: Colors.blue), // Set the border color to blue
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-              color: Colors
-                  .blue.shade300), // Set the border color to blue when focused
-        ),
-        labelText: labelText,
-        labelStyle: const TextStyle(
-            fontFamily:
-                'Lexend'), // Set label color to black when inside TextField
-        floatingLabelStyle: TextStyle(
-            color: Colors.blue.shade300,
-            fontFamily: 'Lexend'), // Set label color to blue when floating
-        floatingLabelBehavior:
-            FloatingLabelBehavior.auto, // Automatically float the label
-        hintText: hintText,
-        errorText: errorText
-      ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.blue),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+                color: Colors.blue), // Set the border color to blue
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: Colors.blue
+                    .shade300), // Set the border color to blue when focused
+          ),
+          labelText: labelText,
+          labelStyle: const TextStyle(
+              fontFamily:
+                  'Lexend'), // Set label color to black when inside TextField
+          floatingLabelStyle: TextStyle(
+              color: Colors.blue.shade300,
+              fontFamily: 'Lexend'), // Set label color to blue when floating
+          floatingLabelBehavior:
+              FloatingLabelBehavior.auto, // Automatically float the label
+          hintText: hintText,
+          errorText: errorText),
     );
   }
 }
