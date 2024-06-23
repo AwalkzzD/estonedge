@@ -50,7 +50,7 @@ class _ProfileDetailsScreenState
           );
         },
       ),
-      title: Text(
+      title: const Text(
         overflow: TextOverflow.ellipsis,
         'Personal Details',
         style: fs24BlackSemibold,
@@ -66,7 +66,7 @@ class _ProfileDetailsScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Profile details',
               style: fs20BlackSemibold,
             ),

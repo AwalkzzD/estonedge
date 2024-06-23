@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 
 import '../../base/src_constants.dart';
 import '../../base/widgets/keep_alive_widget.dart';
+import '../add_device/qr_scanner/qr_screen.dart';
 
 class HomeScreen extends BasePage {
   const HomeScreen({super.key});
@@ -126,7 +127,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                               CustomAppbar(
                                 context,
                                 title: 'Hi $userName',
-                                appBarImage: AppImages.homeProfileIcon,
+                                appBarTrailingImage: AppImages.homeProfileIcon,
                                 trailingIconAction: () {
                                   getBloc().updateCurrentIndex(2);
                                 },
@@ -156,7 +157,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                               CustomAppbar(
                                 context,
                                 title: 'My Rooms',
-                                appBarImage: AppImages.appBarPlusIcon,
+                                appBarTrailingImage: AppImages.appBarPlusIcon,
                                 trailingIconAction: () {
                                   closeDrawer();
                                   navigateToAddRoom();
@@ -204,7 +205,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                         CustomAppbar(
                           context,
                           title: 'Hi $userName',
-                          appBarImage: AppImages.homeProfileIcon,
+                          appBarTrailingImage: AppImages.homeProfileIcon,
                           trailingIconAction: () {
                             getBloc().updateCurrentIndex(2);
                           },
@@ -385,5 +386,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   }
 
   void navigateToScheduleRoom() =>
-      Navigator.of(context).push(ScheduleHomeScreen.route());
+      // Navigator.of(context).push(ScheduleHomeScreen.route());
+      Navigator.of(context).push(QrScreen.route());
 }

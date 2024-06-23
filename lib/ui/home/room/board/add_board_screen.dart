@@ -63,7 +63,10 @@ class AddBoardScreen extends StatelessWidget {
                   color: Colors.blue,
                   onPressed: () {
                     // Navigator.pushNamed(context, '/boardDetails');
-                    Navigator.push(context, BoardDetailsScreen.route());
+                    Navigator.push(
+                        context,
+                        BoardDetailsScreen.route(
+                            isFromRoomDetailsScreen: false));
                   }),
             )
           ],

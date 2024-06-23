@@ -6,6 +6,7 @@ const String fontFamilyLexend = "Lexend";
 const double fs12 = 12;
 const double fs14 = 14;
 const double fs16 = 16;
+const double fs18 = 18;
 const double fs20 = 20;
 const double fs24 = 24;
 const double fs32 = 32;
@@ -81,6 +82,16 @@ TextStyle fs16BlackSemibold = const TextStyle(
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
+
+/// Font size - 18
+
+TextStyle fs18WhiteSemibold = const TextStyle(
+  fontSize: fs16,
+  color: white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: semiBold,
+);
+
 
 /// Font size - 20
 

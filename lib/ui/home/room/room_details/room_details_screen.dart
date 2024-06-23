@@ -58,7 +58,7 @@ class _RoomDetailsScreenState
               CustomAppbar(
                 context,
                 title: widget.roomsList?.roomName ?? 'Room Details',
-                appBarImage: AppImages.appBarPlusIcon,
+                appBarTrailingImage: AppImages.appBarPlusIcon,
                 trailingIconAction: () {
                   Navigator.push(context, AddBoardScreen.route());
                 },

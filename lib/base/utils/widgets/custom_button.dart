@@ -1,6 +1,5 @@
+import 'package:estonedge/base/src_constants.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/app_styles.dart';
 
 // class CustomButton extends StatelessWidget {
 //   final String btnText;
@@ -52,12 +51,14 @@ class CustomButton extends StatelessWidget {
   final String btnText;
   final double width;
   final Color color;
+  final Color textColor;
   final Function() onPressed;
 
   const CustomButton({
     super.key,
     required this.btnText,
     this.width = double.infinity,
+    this.textColor = white,
     required this.color,
     required this.onPressed,
   });
@@ -75,7 +76,7 @@ class CustomButton extends StatelessWidget {
         ),
         minimumSize: Size(width, 40), // More width
       ),
-      child: Text(btnText, style: fs14WhiteMedium),
+      child: Text(btnText, style: fs14WhiteMedium.copyWith(color: textColor)),
     );
   }
 }

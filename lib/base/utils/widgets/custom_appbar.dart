@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String title;
-  final String? appBarImage;
+  final String appBarTrailingImage;
   final Function()? trailingIconAction;
   final bool centerTitle;
   final TextStyle titleStyle;
@@ -11,7 +11,7 @@ class CustomAppbar extends StatelessWidget {
   CustomAppbar(BuildContext context,
       {super.key,
       required this.title,
-      this.appBarImage,
+      this.appBarTrailingImage = AppImages.appBarPlusIcon,
       this.centerTitle = false,
       this.titleStyle = fs32BlackBold,
       this.trailingIconAction});
@@ -34,12 +34,9 @@ class CustomAppbar extends StatelessWidget {
               style: titleStyle,
             ),
           ),
-          (appBarImage != null)
-              ? InkWell(
-                  onTap: trailingIconAction,
-                  child: Image.asset(appBarImage!),
-                )
-              : const SizedBox(),
+          InkWell(
+              onTap: trailingIconAction,
+              child: Image.asset(appBarTrailingImage)),
         ],
       ),
     );

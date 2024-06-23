@@ -66,7 +66,7 @@ class _ScheduleHomeScreenState
         title: 'Scheduler',
         centerTitle: true,
         titleStyle: fs24BlackSemibold,
-        appBarImage: AppImages.appBarPlusIcon,
+        appBarTrailingImage: AppImages.appBarPlusIcon,
         trailingIconAction: () =>
             Navigator.push(context, ScheduleDetailsScreen.route()),
       ),

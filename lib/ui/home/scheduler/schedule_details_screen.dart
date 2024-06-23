@@ -1,6 +1,5 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
@@ -10,6 +9,8 @@ import 'package:estonedge/ui/home/scheduler/schedule_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
+
+import '../../../base/src_constants.dart';
 
 class ScheduleDetailsScreen extends BasePage {
   const ScheduleDetailsScreen({super.key});
@@ -57,12 +58,23 @@ class _ScheduleDetailsScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
+      centerTitle: true,
       backgroundColor: Colors.white,
-      title: const Center(
-          child: Text(
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      ),
+      title: const Text(
+        overflow: TextOverflow.ellipsis,
         'Scheduler',
         style: fs24BlackSemibold,
-      )),
+      ),
     );
   }
 
