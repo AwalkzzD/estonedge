@@ -2,6 +2,9 @@
 class Assets {
   Assets._();
 
+  static const String awsKeysDevicecert = 'assets/aws_keys/device_cert.crt';
+  static const String awsKeysPrivate = 'assets/aws_keys/private.key';
+  static const String awsKeysRootca1 = 'assets/aws_keys/ca1.pem';
   static const String fontsLexendBold = 'assets/fonts/Lexend-Bold.ttf';
   static const String fontsLexendLight = 'assets/fonts/Lexend-Light.ttf';
   static const String fontsLexendMedium = 'assets/fonts/Lexend-Medium.ttf';

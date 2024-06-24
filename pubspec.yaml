@@ -25,6 +25,8 @@ dependencies:
   another_flushbar: ^1.12.30
   dropdown_button2: ^2.3.9
   http: ^1.2.1
+  mqtt_client: ^10.2.1
+  aws_iot_api: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +40,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - assets/aws_keys/
 
   fonts:
     - family: Lexend
