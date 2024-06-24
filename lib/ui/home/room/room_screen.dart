@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
@@ -47,7 +48,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
-            return roomList(snapshot.data!);
+            return buildRoomList(snapshot.data!);
           } else {
             return noRoomFound();
           }
@@ -69,35 +70,30 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
         SizedBox(height: 30),
         Text(
           'No Rooms',
-          style: TextStyle(
-              fontSize: 22, fontFamily: 'Lexend', fontWeight: FontWeight.w500),
+          style: fs22BlackMedium,
         ),
         Text(
           'add your room by clicking plus(+) icon',
-          style: TextStyle(fontSize: 15, fontFamily: 'Lexend'),
+          style: fs14BlackRegular,
         )
       ],
     );
   }
 
-  Widget roomList(List<RoomsResponse> roomsList) {
-    return ListView.builder(
+  Widget buildRoomList(List<RoomsResponse> roomsList) {
+    return ListView.separated(
+      padding: EdgeInsets.only(bottom: 100.h),
       itemCount: roomsList.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => RoomDetailsScreen(
-                        roomsList: roomsList[index],
-                      )),
-            );
-          },
+          onTap: () => Navigator.push(
+              context, RoomDetailsScreen.route(roomsList[index])),
           child: Card(
+            shadowColor: Colors.black,
+            elevation: 10,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            margin: const EdgeInsets.all(30),
+            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
             child: Column(
               children: [
                 Stack(
@@ -111,8 +107,9 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20)),
                           child: AspectRatio(
-                            aspectRatio: 16 / 9,
+                            aspectRatio: 21 / 9,
                             child: buildCustomRoomNetworkImage(
+                                useColorFiltered: true,
                                 imageUrl: roomsList[index].roomImage),
                           ),
                         )),
@@ -128,12 +125,9 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold),
                           ),
-                          const Text(
-                            '3/3',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
+                          Text(
+                            '${roomsList[index].boards.length} boards',
+                            style: fs14WhiteMedium.copyWith(fontWeight: bold),
                           )
                         ],
                       ),
@@ -170,6 +164,8 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
           ),
         );
       },
+      separatorBuilder: (BuildContext context, int index) =>
+          SizedBox(height: 20.h),
     );
   }
 

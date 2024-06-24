@@ -16,7 +16,6 @@ import 'package:flutter/services.dart';
 
 import '../../base/src_constants.dart';
 import '../../base/widgets/keep_alive_widget.dart';
-import '../add_device/qr_scanner/qr_screen.dart';
 
 class HomeScreen extends BasePage {
   const HomeScreen({super.key});
@@ -132,9 +131,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                                   getBloc().updateCurrentIndex(2);
                                 },
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
                             ],
                           ),
                         );
@@ -163,9 +159,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                                   navigateToAddRoom();
                                 },
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
                             ],
                           ),
                         );
@@ -189,9 +182,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                                 context,
                                 title: 'Your Profile',
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
                             ],
                           ),
                         );
@@ -209,9 +199,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                           trailingIconAction: () {
                             getBloc().updateCurrentIndex(2);
                           },
-                        ),
-                        const SizedBox(
-                          height: 10,
                         ),
                       ],
                     ),
@@ -271,47 +258,54 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   Widget buildBottomNavBar() {
     return Positioned(
-      left: 30,
-      right: 30,
+      left: 10,
+      right: 10,
       bottom: 15,
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: StreamBuilder<int>(
-            stream: getBloc().currentPageIndexStream,
-            builder: (context, snapshot) {
-              return BottomNavigationBar(
-                currentIndex: (snapshot.data != null &&
-                        (snapshot.data! >= 0 && snapshot.data! <= 2))
-                    ? snapshot.data!
-                    : 0,
-                showSelectedLabels: true,
-                backgroundColor: Colors.transparent,
-                selectedItemColor: Colors.white,
-                unselectedItemColor: Colors.white.withOpacity(0.5),
-                type: BottomNavigationBarType.fixed,
-                onTap: (index) {
-                  _onItemTapped(index);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.dashboard),
-                    label: 'Dashboard',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.bed_outlined),
-                    label: 'Rooms',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person_outline),
-                    label: 'Profile',
-                  ),
-                ],
-              );
-            }),
+        padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: StreamBuilder<int>(
+              stream: getBloc().currentPageIndexStream,
+              builder: (context, snapshot) {
+                return BottomNavigationBar(
+                  currentIndex: (snapshot.data != null &&
+                          (snapshot.data! >= 0 && snapshot.data! <= 2))
+                      ? snapshot.data!
+                      : 0,
+                  showSelectedLabels: true,
+                  backgroundColor: Colors.transparent,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.white.withOpacity(0.5),
+                  type: BottomNavigationBarType.fixed,
+                  onTap: (index) {
+                    _onItemTapped(index);
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.dashboard),
+                      label: 'Dashboard',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.bed_outlined),
+                      label: 'Rooms',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.person_outline),
+                      label: 'Profile',
+                    ),
+                  ],
+                );
+              }),
+        ),
       ),
     );
   }
@@ -387,5 +381,5 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   void navigateToScheduleRoom() =>
       // Navigator.of(context).push(ScheduleHomeScreen.route());
-      Navigator.of(context).push(QrScreen.route());
+      Navigator.of(context).push(ScheduleHomeScreen.route());
 }

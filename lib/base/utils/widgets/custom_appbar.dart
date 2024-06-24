@@ -13,7 +13,7 @@ class CustomAppbar extends StatelessWidget {
       required this.title,
       this.appBarTrailingImage = AppImages.appBarPlusIcon,
       this.centerTitle = false,
-      this.titleStyle = fs32BlackBold,
+      this.titleStyle = fs24BlackBold,
       this.trailingIconAction});
 
   @override

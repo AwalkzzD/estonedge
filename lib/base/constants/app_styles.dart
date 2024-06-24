@@ -10,14 +10,15 @@ const double fs14 = 14;
 const double fs16 = 16;
 const double fs18 = 18;
 const double fs20 = 20;
+const double fs22 = 22;
 const double fs24 = 24;
 const double fs32 = 32;
 const double fs34 = 34;
 
-const FontWeight semiBold = FontWeight.w600;
-const FontWeight bold = FontWeight.w700;
 const FontWeight regular = FontWeight.w400;
 const FontWeight medium = FontWeight.w500;
+const FontWeight semiBold = FontWeight.w600;
+const FontWeight bold = FontWeight.w700;
 
 /// Font size - 12
 TextStyle fs12BlackRegular = const TextStyle(
@@ -50,7 +51,7 @@ TextStyle fs13White = const TextStyle(
 
 /// Font size - 14
 
-TextStyle fs14BlackRegular = const TextStyle(
+const TextStyle fs14BlackRegular = TextStyle(
   fontSize: fs14,
   color: black,
   fontFamily: fontFamilyLexend,
@@ -85,10 +86,8 @@ TextStyle fs14GrayRegular = const TextStyle(
   fontWeight: regular,
 );
 
-TextStyle fs14BlueRegular = TextStyle(
-    fontSize: 14,
-    fontFamily: fontFamilyLexend,
-    color: themeOf().textPrimaryColor);
+TextStyle fs14BlueRegular = const TextStyle(
+    fontSize: 14, fontFamily: fontFamilyLexend, color: Colors.blueAccent);
 
 /// Font size - 16
 
@@ -145,8 +144,6 @@ TextStyle fs18WhiteSemiBold = const TextStyle(
   fontWeight: semiBold,
 );
 
-
-
 /// Font size - 20
 
 const TextStyle fs20BlackSemibold = TextStyle(
@@ -170,7 +167,15 @@ const TextStyle fs20BlackRegular = TextStyle(
   fontWeight: regular,
 );
 
-//Font size -24
+/// Font size - 22
+const TextStyle fs22BlackMedium = TextStyle(
+  fontSize: fs22,
+  color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: medium,
+);
+
+/// Font size - 24
 const TextStyle fs24BlackSemibold = TextStyle(
   fontSize: fs24,
   color: black,

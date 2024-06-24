@@ -14,10 +14,10 @@ import 'package:flutter/material.dart';
 import '../../../../base/utils/widgets/custom_appbar.dart';
 
 class RoomDetailsScreen extends BasePage {
-  final RoomsResponse? roomsList;
+  final RoomsResponse? roomResponse;
 
   const RoomDetailsScreen({
-    this.roomsList,
+    this.roomResponse,
     super.key,
   });
 
@@ -25,8 +25,9 @@ class RoomDetailsScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _RoomDetailsScreenState();
 
-  static Route<dynamic> route() {
-    return CustomPageRoute(builder: (context) => const RoomDetailsScreen());
+  static Route<dynamic> route(RoomsResponse? roomResponse) {
+    return CustomPageRoute(
+        builder: (context) => RoomDetailsScreen(roomResponse: roomResponse));
   }
 }
 
@@ -40,7 +41,6 @@ class _RoomDetailsScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
-      centerTitle: true,
       backgroundColor: Colors.white,
       leading: Builder(
         builder: (context) {
@@ -57,15 +57,13 @@ class _RoomDetailsScreenState
           child: Column(
             children: <Widget>[
               CustomAppbar(
+                centerTitle: true,
                 context,
-                title: widget.roomsList?.roomName ?? 'Room Details',
+                title: widget.roomResponse?.roomName ?? 'Room Details',
                 appBarTrailingImage: AppImages.appBarPlusIcon,
                 trailingIconAction: () {
                   Navigator.push(context, AddBoardScreen.route());
                 },
-              ),
-              const SizedBox(
-                height: 10,
               ),
             ],
           ),
@@ -76,10 +74,10 @@ class _RoomDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    final roomsList = widget.roomsList;
+    final roomsList = widget.roomResponse;
 
     if (roomsList == null) {
-      return Center(
+      return const Center(
         child: Text('No Room Details Available'),
       );
     }
@@ -108,7 +106,7 @@ class _RoomDetailsScreenState
                 },
               ),
             ),
-          Spacer(),
+          const Spacer(),
           CustomButton(
             btnText: 'Delete Room',
             width: double.infinity,
@@ -121,11 +119,11 @@ class _RoomDetailsScreenState
   }
 
   Widget imgStack() {
-    final roomsList = widget.roomsList;
+    final roomsList = widget.roomResponse;
     print(roomsList);
 
     if (roomsList == null) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Stack(
@@ -133,7 +131,7 @@ class _RoomDetailsScreenState
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: AspectRatio(
-            aspectRatio: 16 / 9,
+            aspectRatio: 21 / 9,
             child: buildCustomRoomNetworkImage(imageUrl: roomsList.roomImage),
           ),
         ),
@@ -168,7 +166,8 @@ class _RoomDetailsScreenState
   Widget boardCard(String boardName, int activeCount, int inactiveCount) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, BoardDetailsScreen.route());
+        Navigator.push(
+            context, BoardDetailsScreen.route(isFromRoomDetailsScreen: false));
       },
       child: Container(
         width: 150,
@@ -227,22 +226,18 @@ class _RoomDetailsScreenState
   }
 
   Widget buildNoBoards() {
-    print(widget.roomsList);
+    print(widget.roomResponse);
     return const Column(
       children: [
         Image(image: AssetImage(AppImages.noRoomFoundImage)),
         SizedBox(height: 30),
         Text(
           'No Boards',
-          style: TextStyle(
-            fontSize: 22,
-            fontFamily: 'Lexend',
-            fontWeight: FontWeight.w500,
-          ),
+          style: fs22BlackMedium,
         ),
         Text(
           'Add your board by clicking plus(+) icon',
-          style: TextStyle(fontSize: 15, fontFamily: 'Lexend'),
+          style: fs14BlackRegular,
         ),
       ],
     );

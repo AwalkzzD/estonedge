@@ -1,9 +1,10 @@
-import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/base/widgets/drop_down_list.dart';
 import 'package:estonedge/ui/home/room/board/board_details_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../base/src_constants.dart';
 
 class AddBoardScreen extends StatelessWidget {
   const AddBoardScreen({super.key});
@@ -16,11 +17,20 @@ class AddBoardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Add Board',
-            style: fs24BlackSemibold,
-          ),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Image.asset(AppImages.appBarBackIcon),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            );
+          },
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Add Board',
+          style: fs24BlackSemibold,
         ),
       ),
       body: Padding(
