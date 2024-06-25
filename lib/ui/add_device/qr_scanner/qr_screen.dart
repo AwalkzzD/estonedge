@@ -225,11 +225,15 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
     // Set security context for TLS/SSL
     final context = SecurityContext.defaultContext;
 
-    ByteData trustedCertificateBytes = await rootBundle.load(Assets.awsKeysRootca1);
-    context.setTrustedCertificatesBytes(trustedCertificateBytes.buffer.asUint8List());
+    ByteData trustedCertificateBytes =
+        await rootBundle.load(Assets.awsKeysCa1);
+    context.setTrustedCertificatesBytes(
+        trustedCertificateBytes.buffer.asUint8List());
 
-    ByteData certificateChainBytes = await rootBundle.load(Assets.awsKeysDevicecert);
-    context.useCertificateChainBytes(certificateChainBytes.buffer.asUint8List());
+    ByteData certificateChainBytes =
+        await rootBundle.load(Assets.awsKeysDeviceCert);
+    context
+        .useCertificateChainBytes(certificateChainBytes.buffer.asUint8List());
 
     ByteData privateKeyBytes = await rootBundle.load(Assets.awsKeysPrivate);
     context.usePrivateKeyBytes(privateKeyBytes.buffer.asUint8List());
@@ -256,7 +260,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
       client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
         final recMess = c[0].payload as MqttPublishMessage;
         final pt =
-        MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+            MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
         print(
             'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
         print('');
@@ -294,7 +298,8 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   }
 
   void pong() {
-    print('---------------------------------------------------------------------------------------------------------------------------------');
+    print(
+        '---------------------------------------------------------------------------------------------------------------------------------');
     setState(() {
       statusText = 'Ping response received';
     });

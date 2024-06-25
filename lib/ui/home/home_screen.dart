@@ -7,6 +7,7 @@ import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/add_room/add_room_screen.dart';
+import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/profile/profile_screen.dart';
@@ -382,5 +383,4 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   void navigateToScheduleRoom() =>
       Navigator.of(context).push(ScheduleHomeScreen.route());
-  // Navigator.of(context).push(QrScreen.route());
 }

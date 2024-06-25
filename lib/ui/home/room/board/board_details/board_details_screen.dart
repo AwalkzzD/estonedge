@@ -1,12 +1,12 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/ui/home/room/board/add_board_screen.dart';
-import 'package:estonedge/ui/home/room/board/board_details_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
+import 'package:estonedge/ui/home/room/board/board_details/board_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../base/src_constants.dart';
-import '../../../../base/src_widgets.dart';
-import '../switch/switch_details_screen.dart';
+import '../../../../../base/src_constants.dart';
+import '../../../../../base/src_widgets.dart';
+import '../../switch/switch_details_screen.dart';
 
 class BoardDetailsScreen extends BasePage {
   const BoardDetailsScreen({super.key, required this.isFromRoomDetailsScreens});
@@ -32,11 +32,20 @@ class _BoardDetailsScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      ),
       centerTitle: true,
       title: const Text(
         'Board Details',
-        style: fs24BlackBold,
+        style: fs24BlackSemibold,
       ),
     );
   }
@@ -55,7 +64,7 @@ class _BoardDetailsScreenState
               TextButton(
                 onPressed: () {
                   if (widget.isFromRoomDetailsScreens) {
-                    Navigator.push(context, AddBoardScreen.route());
+
                   } else {
                     Navigator.pop(context);
                   }

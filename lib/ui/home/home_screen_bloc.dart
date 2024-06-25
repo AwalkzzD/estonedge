@@ -39,7 +39,7 @@ class HomeScreenBloc extends BasePageBloc {
       print(userResponse.toString());
     }, (error) {
       hideLoading();
-      print(error);
+      print('Home Screen Error ---> $error');
     });
   }
 

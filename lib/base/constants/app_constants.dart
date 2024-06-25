@@ -8,7 +8,7 @@ const String baseUrl =
     'https://qc9wlso2vh.execute-api.eu-north-1.amazonaws.com/v1/';
 
 // API Endpoints
-const String boardType = 'boardTypes';
+const String boardTypes = 'boardTypes';
 const String users = 'users';
 const String rooms = 'rooms';
 
@@ -18,10 +18,16 @@ const int passwordLength = 8;
 
 // room images
 const List<String> roomImages = [
-  'https://tinyurl.com/mr35ddz5',
+  'https://drive.google.com/uc?export=view&id=1Ow-9BYPgrQSV_K9fOxUXOAjUi-BSusXV',
+  'https://drive.google.com/uc?export=view&id=1TmvRjjBjbEHJoV_yaH3IpgAFbpxVDoEZ',
+  'https://drive.google.com/uc?export=view&id=1-z0v842TQlqXIg-aywB78_Cp8fcSVwlS',
+  'https://drive.google.com/uc?export=view&id=1TEbGU26a1DGrkSXqUWet6NKPSdkXI4B1',
+  'https://drive.google.com/uc?export=view&id=1PUhK7Uaop8HbxFGwnCpwx9OXnLfl2t0Z',
+  'https://drive.google.com/uc?export=view&id=1Nt7W4Y0JuD9Veguss8R9H_jFwGf4K5LL',
+  /*'https://tinyurl.com/mr35ddz5',
   'https://tinyurl.com/4azz5sua',
   'https://tinyurl.com/34yj29dx',
   'https://tinyurl.com/3etcjjwz',
   'https://tinyurl.com/buyfss3m',
-  'https://tinyurl.com/529678tr',
+  'https://tinyurl.com/529678tr',*/
 ];

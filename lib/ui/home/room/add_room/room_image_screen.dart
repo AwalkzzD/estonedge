@@ -96,7 +96,7 @@ class _RoomImageScreenState
               },
             ),
           ),
-          const SizedBox(height: 20), // Add space here
+          const SizedBox(height: 20),
           CustomButton(
             btnText: 'Continue',
             color: Colors.blueAccent,
@@ -107,6 +107,7 @@ class _RoomImageScreenState
                     (response) {
                   if (response.roomId != null) {
                     showDialog<String>(
+                      barrierDismissible: false,
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         content: Column(
@@ -136,6 +137,7 @@ class _RoomImageScreenState
                     );
                   } else {
                     showDialog<String>(
+                      barrierDismissible: false,
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         content: Column(

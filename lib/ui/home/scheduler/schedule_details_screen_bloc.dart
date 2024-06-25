@@ -1,5 +1,5 @@
 import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
+import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/data/remote/repository/rooms/rooms_repository.dart';
 import 'package:rxdart/rxdart.dart';
 

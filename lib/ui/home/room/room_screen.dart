@@ -3,7 +3,7 @@ import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
+import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen_bloc.dart';
 import 'package:flutter/material.dart';

@@ -6,7 +6,6 @@ import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/src_constants.dart';
-import '../../../../base/utils/widgets/custom_appbar.dart';
 import '../../../../base/utils/widgets/custom_button.dart';
 import '../../../../base/utils/widgets/custom_textfield.dart';
 import '../../../auth/validators.dart';
@@ -91,9 +90,18 @@ class _AddRoomScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
-      centerTitle: true,
-      title: const Text('Add Room', style: fs24BlackBold)
-    );
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Image.asset(AppImages.appBarBackIcon),
+              onPressed: () {
+                Navigator.of(globalContext).pop();
+              },
+            );
+          },
+        ),
+        title: const Text('Add Room', style: fs24BlackBold));
   }
 }

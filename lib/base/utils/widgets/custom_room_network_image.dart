@@ -24,6 +24,7 @@ Widget buildNetworkImage(String imageUrl) {
     imageUrl,
     fit: BoxFit.fill,
     errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+      print(error.toString());
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

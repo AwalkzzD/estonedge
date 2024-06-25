@@ -51,10 +51,9 @@ class _ProfileDetailsScreenState
         },
       ),
       title: const Text(
-        overflow: TextOverflow.ellipsis,
-        'Personal Details',
-        style: fs24BlackBold,
-      ),
+          overflow: TextOverflow.ellipsis,
+          'Personal Details',
+          style: fs24BlackBold),
     );
   }
 

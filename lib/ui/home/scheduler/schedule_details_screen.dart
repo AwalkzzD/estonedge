@@ -4,7 +4,7 @@ import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
+import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
 import 'package:estonedge/utils/shared_pref.dart';

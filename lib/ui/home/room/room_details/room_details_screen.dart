@@ -1,13 +1,13 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
-import 'package:estonedge/ui/home/room/board/add_board_screen.dart';
-import 'package:estonedge/ui/home/room/board/board_details_screen.dart';
+import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
+import 'package:estonedge/ui/home/home_screen.dart';
+import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
+import 'package:estonedge/ui/home/room/board/board_details/board_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -35,12 +35,20 @@ class _RoomDetailsScreenState
     extends BasePageState<RoomDetailsScreen, RoomDetailsScreenBloc> {
   final RoomDetailsScreenBloc _bloc = RoomDetailsScreenBloc();
 
+  RoomsResponse? roomsList;
+
+  @override
+  void initState() {
+    roomsList = widget.roomResponse;
+    super.initState();
+  }
+
   @override
   RoomDetailsScreenBloc getBloc() => _bloc;
 
   @override
   Widget? getAppBar() {
-    return AppBar(      
+    return AppBar(
       backgroundColor: Colors.white,
       leading: Builder(
         builder: (context) {
@@ -62,7 +70,8 @@ class _RoomDetailsScreenState
                 title: widget.roomResponse?.roomName ?? 'Room Details',
                 appBarTrailingImage: AppImages.appBarPlusIcon,
                 trailingIconAction: () {
-                  Navigator.push(context, AddBoardScreen.route());
+                  Navigator.push(
+                      context, AddBoardScreen.route(roomsList!.roomId));
                 },
               ),
             ],
@@ -74,8 +83,6 @@ class _RoomDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    final roomsList = widget.roomResponse;
-
     if (roomsList == null) {
       return const Center(
         child: Text('No Room Details Available'),
@@ -88,7 +95,7 @@ class _RoomDetailsScreenState
         children: [
           imgStack(),
           const SizedBox(height: 20),
-          if (roomsList.boards.isEmpty)
+          if (roomsList!.boards.isEmpty)
             buildNoBoards()
           else
             Expanded(
@@ -99,9 +106,9 @@ class _RoomDetailsScreenState
                   mainAxisSpacing: 10,
                   childAspectRatio: 1.6,
                 ),
-                itemCount: roomsList.boards.length,
+                itemCount: roomsList!.boards.length,
                 itemBuilder: (context, index) {
-                  final board = roomsList.boards[index];
+                  final board = roomsList!.boards[index];
                   return boardCard(board.boardName, 1, 1);
                 },
               ),
@@ -111,7 +118,14 @@ class _RoomDetailsScreenState
             btnText: 'Delete Room',
             width: double.infinity,
             color: const Color.fromARGB(255, 237, 83, 83),
-            onPressed: () {},
+            onPressed: () {
+              getBloc().deleteRoom(widget.roomResponse!.roomId, (response) {
+                Navigator.pushAndRemoveUntil(
+                    context, HomeScreen.route(), (route) => false);
+              }, (errorMsg) {
+                showMessageBar(errorMsg);
+              });
+            },
           ),
         ],
       ),

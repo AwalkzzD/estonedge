@@ -1,5 +1,5 @@
 import '../base/src_utils.dart';
-import '../data/remote/model/rooms/rooms_response.dart';
+import '../data/remote/model/rooms/get_rooms/rooms_response.dart';
 
 const String keyUserId = "userId";
 const String keyUserName = "userName";

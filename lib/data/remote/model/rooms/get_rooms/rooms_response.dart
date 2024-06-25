@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../user/user_response.dart';
+import '../../user/user_response.dart';
 
 List<RoomsResponse> roomsResponseFromJson(String str) => List<RoomsResponse>.from(
     (json.decode(str)["L"] as List).map((x) => RoomsResponse.fromJson(x["M"] ?? {}))

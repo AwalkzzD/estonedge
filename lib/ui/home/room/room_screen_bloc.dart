@@ -1,5 +1,5 @@
 import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/data/remote/model/rooms/rooms_response.dart';
+import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -22,7 +22,6 @@ class RoomScreenBloc extends BasePageBloc {
       saveRoomsList(response);
     }, (error) {
       hideLoading();
-      print('Error fetching data');
     });
   }
 }
