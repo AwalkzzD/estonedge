@@ -1,7 +1,5 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
-import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/add_device/add_your_device_screen.dart';
@@ -23,7 +21,7 @@ class SwitchDetailsScreen extends BasePage {
 
 class _SwitchDetailsScreenState
     extends BasePageState<SwitchDetailsScreen, SwitchDetailsScreenBloc> {
-  SwitchDetailsScreenBloc _bloc = SwitchDetailsScreenBloc();
+  final SwitchDetailsScreenBloc _bloc = SwitchDetailsScreenBloc();
 
   @override
   SwitchDetailsScreenBloc getBloc() => _bloc;
@@ -34,11 +32,11 @@ class _SwitchDetailsScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
-      title: Center(
-          child: Text(
+      centerTitle: true,
+      title: const Text(
         'Switch Details',
-        style: fs24BlackSemibold,
-      )),
+        style: fs24BlackBold,
+      ),
     );
   }
 
@@ -51,7 +49,7 @@ class _SwitchDetailsScreenState
 
   Widget frequentlyUsed(List<String> roomList) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -89,14 +87,4 @@ class _SwitchDetailsScreenState
       ),
     );
   }
-
-  // Widget customContainer({
-  //   required String deviceImage,
-  //   required String deviceName,
-  //   required int totalDevices,
-  //   required bool isSwitched,
-  //   required Function(bool) onToggle,
-  // }) {
-  //   return
-  // }
 }

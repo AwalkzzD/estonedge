@@ -26,7 +26,7 @@ class CommonAppbar {
                   children: [
                     Text(
                       title,
-                      style: fs32BlackBold,
+                      style: fs24BlackBold,
                     ),
                   ],
                 ),

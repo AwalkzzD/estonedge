@@ -65,7 +65,7 @@ class _ScheduleHomeScreenState
         context,
         title: 'Scheduler',
         centerTitle: true,
-        titleStyle: fs24BlackSemibold,
+        titleStyle: fs24BlackBold,
         appBarTrailingImage: AppImages.appBarPlusIcon,
         trailingIconAction: () =>
             Navigator.push(context, ScheduleDetailsScreen.route()),
@@ -106,85 +106,88 @@ class _ScheduleHomeScreenState
   }
 
   Widget buildScheduleList() {
-    return ListView.builder(
-      itemCount: schedules.length,
-      itemBuilder: (context, index) {
-        final schedule = schedules[index];
-        return SafeArea(
-          child: GestureDetector(
-            onLongPressStart: (details) {
-              _longPressPosition = details.globalPosition;
-            },
-            onLongPress: () => _showPopupMenu(context, index),
-            child: Card(
-              elevation: 4,
-              margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      const SizedBox(width: 5),
-                      const Icon(Icons.lightbulb),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Schedule ${index + 1}', style: fs24BlackBold),
-                        ],
-                      ),
-                      const SizedBox(width: 80),
-                      Text(schedule['onTime'], style: fs20BlackRegular),
-                    ],
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(width: 40),
-                      Text(
-                        'OFF: ${schedule['offTime']}',
-                        style: fs14BlackRegular,
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 35),
-                    height: 50,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: days.length,
-                      itemExtent: 40, // Adjust the size of each item
-                      itemBuilder: (context, index) {
-                        return IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (selectedIndices.contains(index)) {
-                                selectedIndices.remove(index);
-                              } else {
-                                selectedIndices.add(index);
-                              }
-                            });
-                          },
-                          icon: CircleAvatar(
-                            backgroundColor: days.contains(schedule['days'])
-                                ? Colors.blue
-                                : Colors.grey.shade400,
-                            child: Text(days[index]),
-                          ),
-                        );
-                      },
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: ListView.builder(
+        itemCount: schedules.length,
+        itemBuilder: (context, index) {
+          final schedule = schedules[index];
+          return SafeArea(
+            child: GestureDetector(
+              onLongPressStart: (details) {
+                _longPressPosition = details.globalPosition;
+              },
+              onLongPress: () => _showPopupMenu(context, index),
+              child: Card(
+                elevation: 4,
+                margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const SizedBox(width: 5),
+                        const Icon(Icons.lightbulb),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Schedule ${index + 1}', style: fs24BlackBold),
+                          ],
+                        ),
+                        const SizedBox(width: 80),
+                        Text(schedule['onTime'], style: fs20BlackRegular),
+                      ],
                     ),
-                  )
-                ],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(width: 40),
+                        Text(
+                          'OFF: ${schedule['offTime']}',
+                          style: fs14BlackRegular,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 35),
+                      height: 50,
+                      width: double.infinity,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: days.length,
+                        itemExtent: 40, // Adjust the size of each item
+                        itemBuilder: (context, index) {
+                          return IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (selectedIndices.contains(index)) {
+                                  selectedIndices.remove(index);
+                                } else {
+                                  selectedIndices.add(index);
+                                }
+                              });
+                            },
+                            icon: CircleAvatar(
+                              backgroundColor: days.contains(schedule['days'])
+                                  ? Colors.blue
+                                  : Colors.grey.shade400,
+                              child: Text(days[index]),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

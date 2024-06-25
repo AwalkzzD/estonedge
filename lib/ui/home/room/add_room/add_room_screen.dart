@@ -39,7 +39,7 @@ class _AddRoomScreenState
   @override
   Widget buildWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+      padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -107,7 +107,7 @@ class _AddRoomScreenState
         context,
         title: 'Add Room',
         centerTitle: true,
-        titleStyle: fs24BlackSemibold,
+        titleStyle: fs24BlackBold,
       ),
     );
   }

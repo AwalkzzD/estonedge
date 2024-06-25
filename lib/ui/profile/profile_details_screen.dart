@@ -53,7 +53,7 @@ class _ProfileDetailsScreenState
       title: const Text(
         overflow: TextOverflow.ellipsis,
         'Personal Details',
-        style: fs24BlackSemibold,
+        style: fs24BlackBold,
       ),
     );
   }
@@ -62,7 +62,7 @@ class _ProfileDetailsScreenState
   Widget buildWidget(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

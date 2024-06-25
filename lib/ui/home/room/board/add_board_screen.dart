@@ -1,4 +1,5 @@
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
+import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/base/widgets/drop_down_list.dart';
 import 'package:estonedge/ui/home/room/board/board_details_screen.dart';
@@ -30,11 +31,11 @@ class AddBoardScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Add Board',
-          style: fs24BlackSemibold,
+          style: fs24BlackBold,
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(18.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,28 +45,20 @@ class AddBoardScreen extends StatelessWidget {
               style: fs14BlackSemibold,
             ),
             const SizedBox(height: 10),
-            GenericDropdown(
-              items: ['2 M', '3 M', '4 M', '12 M'],
-              hint: 'Select Board Type',
-              onChanged: (String? value) {
-                // Handle the selected value
-                print('Selected gender: $value');
-              },
-            ),
+            CustomDropdown(
+                hint: 'Select Board Type',
+                items: const ['2 M', '3 M', '4 M', '12 M'],
+                onClick: (value) {}),
             const SizedBox(height: 30),
             Text(
               'Switch',
               style: fs14BlackSemibold,
             ),
             const SizedBox(height: 10),
-            GenericDropdown(
-              items: ['2 S', '3 S', '4 S', '12 S'],
-              hint: 'Select Switch Type',
-              onChanged: (String? value) {
-                // Handle the selected value
-                print('Selected gender: $value');
-              },
-            ),
+            CustomDropdown(
+                hint: 'Select Switch Type',
+                items: const ['2 S', '3 S', '4 S', '12 S'],
+                onClick: (value) {}),
             const SizedBox(height: 80),
             Center(
               child: CustomButton(

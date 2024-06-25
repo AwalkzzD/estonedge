@@ -103,7 +103,7 @@ class _DashboardScreenState
 
   Widget frequentlyUsed(List<String> roomList) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -64,7 +64,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   Widget buildWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
-      body: Center(child: Text(statusText, style: fs24BlackSemibold)),
+      //body: Center(child: Text(statusText, style: fs24BlackSemibold)),
       // body: Padding(
       //   padding: const EdgeInsets.all(25.0),
       //   child: Column(
@@ -93,7 +93,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
       //   ),
       // ),
       body: Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             const SizedBox(
@@ -115,7 +115,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
                 btnText: 'Link',
                 color: white,
                 // onPressed: () => scanQR(),
-                onPressed: () => connectWifi(),
+                onPressed: () {},//connectWifi(),
                 textColor: Colors.blueAccent),
           ],
         ),

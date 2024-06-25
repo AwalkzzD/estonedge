@@ -1,5 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen_bloc.dart';
@@ -69,14 +70,14 @@ class _ScheduleTimeScreenState
     return AppBar(
       backgroundColor: Colors.white,
       centerTitle: true,
-      title: const Text('Scheduler', style: fs24BlackSemibold),
+      title: const Text('Scheduler', style: fs24BlackBold),
     );
   }
 
   @override
   Widget buildWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -92,24 +93,26 @@ class _ScheduleTimeScreenState
             height: 50,
           ),
           Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomButton(
-                btnText: 'Create',
-                width: double.infinity,
-                color: Colors.blueAccent,
-                onPressed: _createSchedule,
-              ),
-              CustomButton(
-                btnText: 'Cancel',
-                width: double.infinity,
-                color: Colors.grey,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          Center(
+            child: Column(              
+              children: [
+                CustomButton(
+                  btnText: 'Create',
+                  width: 250.0,
+                  color: Colors.blueAccent,
+                  onPressed: _createSchedule,
+                ),
+                SizedBox(height: 8.h),
+                CustomButton(
+                  btnText: 'Cancel',
+                  width: 250.0,
+                  color: Colors.grey,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),

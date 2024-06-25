@@ -5,33 +5,29 @@ import 'package:estonedge/ui/home/room/switch/widget/switch_item_bloc.dart';
 import 'package:flutter/material.dart';
 
 class SwitchItemWidget extends BasePage {
-   final String deviceImage;
+  final String deviceImage;
   final String deviceName;
   final int totalDevices;
   final bool isSwitched;
   final Function(bool) onToggle;
-  
-  const SwitchItemWidget(this.deviceImage, this.deviceName, this.totalDevices, this.isSwitched, this.onToggle, {super.key});
+
+  const SwitchItemWidget(this.deviceImage, this.deviceName, this.totalDevices,
+      this.isSwitched, this.onToggle,
+      {super.key});
 
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _SwitchItemWidgetState();
-
-  // @override
-  // State<SwitchItemWidget> createState() => _SwitchItemWidgetState();
 }
 
 class _SwitchItemWidgetState
     extends BasePageState<SwitchItemWidget, SwitchItemBloc> {
- 
-
   final SwitchItemBloc _bloc = SwitchItemBloc();
 
   @override
   Widget buildWidget(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,

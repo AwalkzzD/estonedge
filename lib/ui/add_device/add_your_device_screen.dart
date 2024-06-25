@@ -1,3 +1,4 @@
+import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/add_device/macid/macid_screen.dart';
@@ -16,14 +17,14 @@ class AddDeviceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Add your devices', style: fs24BlackSemibold),
+        title: const Text('Add your devices', style: fs24BlackBold),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             DeviceOptionCard(
-              icon: Icons.qr_code_scanner,
+              icon: AppImages.addDeviceQR,
               title: 'Scan QR Code',
               subtitle: 'Scan the QR code to add smart device',
               onTap: () {
@@ -32,7 +33,7 @@ class AddDeviceScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             DeviceOptionCard(
-              icon: Icons.input,
+              icon: AppImages.addDeviceManually,
               title: 'Enter manually',
               subtitle: 'Enter Mac ID of smart device',
               onTap: () {
@@ -48,7 +49,7 @@ class AddDeviceScreen extends StatelessWidget {
 }
 
 class DeviceOptionCard extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -71,18 +72,20 @@ class DeviceOptionCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
+        child: Container(
+          padding: const EdgeInsets.all(15.0),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, size: 40, color: Colors.blue),
-              const SizedBox(width: 20),
+              Image.asset(icon),
+              const SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: fs18BlackBold),
                   const SizedBox(height: 5),
-                  Text(subtitle, style: fs14GrayRegular),
+                  Text(subtitle, style: fs14BlackRegular),
                 ],
               ),
             ],

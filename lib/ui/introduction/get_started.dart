@@ -32,7 +32,7 @@ class _GetStartedState extends BasePageState<GetStarted, GetStartedBloc> {
         children: <Widget>[
           Image.asset(AppImages.getStartedHomeIllutstration),
           const Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(15.0),
             child: Column(
               children: <Widget>[
                 Text(

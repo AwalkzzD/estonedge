@@ -16,7 +16,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.appBarTrailingImage = AppImages.appBarPlusIcon,
     this.centerTitle = false,
-    this.titleStyle = fs32BlackBold,
+    this.titleStyle = fs24BlackBold,
     this.trailingIconAction,
     this.trailingIconWidth = 30,
     this.trailingIconHeight = 30,
@@ -34,7 +34,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
               textAlign: (centerTitle) ? TextAlign.center : TextAlign.start,
               title,
               overflow: TextOverflow.ellipsis,
-              style: titleStyle,
+              style: fs24BlackBold,
             ),
           ),
           InkWell(

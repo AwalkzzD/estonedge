@@ -40,7 +40,7 @@ class _RoomImageScreenState
   @override
   Widget buildWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(18.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -96,6 +96,7 @@ class _RoomImageScreenState
               },
             ),
           ),
+          const SizedBox(height: 20), // Add space here
           CustomButton(
             btnText: 'Continue',
             color: Colors.blueAccent,
@@ -183,6 +184,7 @@ class _RoomImageScreenState
   Widget? getAppBar() {
     return AppBar(
       centerTitle: true,
+      backgroundColor: Colors.white,
       leading: Builder(
         builder: (context) {
           return IconButton(
@@ -195,7 +197,7 @@ class _RoomImageScreenState
       ),
       title: const Text(
         'Add Room',
-        style: fs24BlackSemibold,
+        style: fs24BlackBold,
       ),
     );
   }

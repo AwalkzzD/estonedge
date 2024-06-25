@@ -39,7 +39,7 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
       centerTitle: true,
       title: const Text(
         'MacID Details',
-        style: fs24BlackSemibold,
+        style: fs24BlackBold,
       ),
     );
   }
@@ -47,7 +47,7 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
   @override
   Widget buildWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(children: [
         const SizedBox(height: 20),
         Text(

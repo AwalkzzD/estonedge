@@ -39,7 +39,7 @@ class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
       centerTitle: true,
       title: const Text(
         'WiFi Details',
-        style: fs24BlackSemibold,
+        style: fs24BlackBold,
       ),
     );
   }

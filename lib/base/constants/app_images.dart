@@ -41,4 +41,11 @@ class AppImages {
 
   //qr code
   static const String qrCode = 'assets/images/qrCode.png';
+
+  //add device
+  static const String addDeviceManually = 'assets/icons/finger_icon.png';
+  static const String addDeviceQR = 'assets/icons/scan_qr_icon.png';
+
+  //board details
+  static const String boardConfigIcon = 'assets/icons/board_config_icon.png';
 }

@@ -73,7 +73,7 @@ class _ScheduleDetailsScreenState
       title: const Text(
         overflow: TextOverflow.ellipsis,
         'Scheduler',
-        style: fs24BlackSemibold,
+        style: fs24BlackBold,
       ),
     );
   }
@@ -121,22 +121,28 @@ class _ScheduleDetailsScreenState
             },
           ),
           const Expanded(child: SizedBox()),
-          CustomButton(
-            btnText: 'Select',
-            color: Colors.blue,
-            onPressed: () async {
-              await Future.delayed(const Duration(seconds: 2), () {
-                Navigator.push(context, ScheduleTimeScreen.route());
-              });
-            },
+          Center(
+            child: CustomButton(
+              btnText: 'Select',
+              color: Colors.blue,
+              width: 250.0,
+              onPressed: () async {
+                await Future.delayed(const Duration(seconds: 2), () {
+                  Navigator.push(context, ScheduleTimeScreen.route());
+                });
+              },
+            ),
           ),
           SizedBox(height: 8.h),
-          CustomButton(
-            btnText: 'Cancel',
-            color: Colors.grey,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          Center(
+            child: CustomButton(
+              btnText: 'Cancel',
+              color: Colors.grey,
+              width: 250.0,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         ],
       ),
