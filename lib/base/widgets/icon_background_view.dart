@@ -6,16 +6,16 @@ class IconBackgroundView extends StatelessWidget {
   final Function? onPressed;
   final Color? color;
 
-  IconBackgroundView({Key? key, this.icon, this.radius, this.onPressed, this.color}): super(key: key);
+  const IconBackgroundView({super.key, this.icon, this.radius, this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             shape: BoxShape.circle,
         ),
         child: ClipOval(
-          child: Container(
+          child: SizedBox(
             width: radius ?? 80.0,
             height: radius ?? 80.0,
             child: Material(

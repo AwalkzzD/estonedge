@@ -8,11 +8,12 @@ import 'components/loader_overlay/ots.dart';
 import 'utils/widgets/progress_view.dart';
 
 abstract class BasePage<T extends BasePageBloc?> extends StatefulWidget {
-  const BasePage({Key? key, this.bloc}) : super(key: key);
+  const BasePage({super.key, this.bloc});
 
   final BasePageBloc? bloc;
 
   @override
+  // ignore: no_logic_in_create_state
   BasePageState createState() => getState();
 
   BasePageState getState();

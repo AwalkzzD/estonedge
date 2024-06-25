@@ -1,8 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/constants/app_widgets.dart';
-import 'package:estonedge/base/screens/base_widget.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/introduction/get_started_bloc.dart';
@@ -21,7 +19,7 @@ class GetStarted extends BasePage {
 }
 
 class _GetStartedState extends BasePageState<GetStarted, GetStartedBloc> {
-  GetStartedBloc _bloc = GetStartedBloc();
+  final GetStartedBloc _bloc = GetStartedBloc();
 
   @override
   GetStartedBloc getBloc() => _bloc;
@@ -61,8 +59,7 @@ class _GetStartedState extends BasePageState<GetStarted, GetStartedBloc> {
           ),
           ElevatedButton(
             onPressed: () {
-              // Navigator.pushReplacementNamed(context, '/login');
-              Navigator.pushReplacement(globalContext, LoginScreen.route());
+              Navigator.pushReplacement(context, LoginScreen.route());
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,

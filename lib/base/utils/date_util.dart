@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
@@ -65,22 +67,21 @@ class SPDateUtils {
     return DateFormat(formatString).format(dt);
   }
 
-
-  static String? formatLocal(DateTime? dt, [String formatString = FORMAT_HHMM_AMPM]) {
+  static String? formatLocal(DateTime? dt,
+      [String formatString = FORMAT_HHMM_AMPM]) {
     if (dt == null) return null;
 
-    return format(DateFormat("yyyy-MM-dd HH:mm:ss").parse(dt.toString(),true).toLocal(),formatString);
+    return format(
+        DateFormat("yyyy-MM-dd HH:mm:ss").parse(dt.toString(), true).toLocal(),
+        formatString);
   }
-
 
   /// Get the formatted string through the string
   ///
   /// If the string is invalid, return null
   static String? formatFromString(String? formattedString,
       [String formatString = FORMAT_DD_MMM_YY]) {
-    print('for : $formattedString');
     final dt = DateTime.tryParse(formattedString!);
-    print('for : $dt');
     if (dt == null) return null;
 
     return DateFormat(formatString).format(dt);
@@ -198,9 +199,10 @@ class SPDateUtils {
     String formatted = "";
     try {
       DateTime tempDate =
-          new DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSS").parse('$value');
+          DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSS").parse('$value');
       final DateFormat formatter = DateFormat(outFormatStr);
       formatted = formatter.format(tempDate);
+      // ignore: empty_catches
     } catch (e) {}
 
     return formatted;
@@ -214,9 +216,10 @@ class SPDateUtils {
       String value, String inFormatStr, String outFormatStr) {
     String formatted = "";
     try {
-      DateTime tempDate = new DateFormat(inFormatStr).parse('$value');
+      DateTime tempDate = DateFormat(inFormatStr).parse(value);
       final DateFormat formatter = DateFormat(outFormatStr);
       formatted = formatter.format(tempDate);
+      // ignore: empty_catches
     } catch (e) {}
 
     return formatted;
@@ -241,13 +244,11 @@ class SPDateUtils {
   static String formatDateTimeToTimeOffset(DateTime dateTime) {
     // Get the local timezone offset
     String timeZoneOffset = dateTime.timeZoneOffset.isNegative ? '-' : '+';
-    timeZoneOffset += (dateTime.timeZoneOffset.inHours.abs() < 10 ? '0' : '') +
-        dateTime.timeZoneOffset.inHours.abs().toString() +
-        ':' +
-        (dateTime.timeZoneOffset.inMinutes.abs() % 60 < 10 ? '0' : '') +
-        (dateTime.timeZoneOffset.inMinutes.abs() % 60).toString();
+    timeZoneOffset +=
+        '${dateTime.timeZoneOffset.inHours.abs() < 10 ? '0' : ''}${dateTime.timeZoneOffset.inHours.abs()}:${dateTime.timeZoneOffset.inMinutes.abs() % 60 < 10 ? '0' : ''}${dateTime.timeZoneOffset.inMinutes.abs() % 60}';
 
-    String formattedDateTime = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSS").format(dateTime);
+    String formattedDateTime =
+        DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSS").format(dateTime);
     return formattedDateTime + timeZoneOffset;
   }
 }

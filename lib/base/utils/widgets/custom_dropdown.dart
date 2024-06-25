@@ -105,10 +105,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
       value: widget.initialValue,
       style: widget.textStyle,
       alignment: AlignmentDirectional.centerStart,
-      hint: Text(
-        widget.hint,
-        style: widget.hintStyle ?? fs14GrayRegular,
-      ),
+      hint: Text(widget.hint, style: widget.hintStyle ?? fs14GrayRegular),
       items: widget.items.map((item) {
         return DropdownMenuItem<T>(
           key: UniqueKey(),

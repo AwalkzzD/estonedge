@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/generated/assets.dart';
 import 'package:estonedge/ui/add_device/qr_scanner/qr_screen_bloc.dart';
@@ -37,6 +39,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   String topic = 'esp32/pub';
 
   String? _scanCode;
+  bool _isFlashOn = false;
   bool _isScanning = false;
 
   @override
@@ -49,11 +52,10 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   Widget? getAppBar() {
     return AppBar(
       backgroundColor: Colors.blue.shade300,
-      title: const Center(
-        child: Text(
-          'Scan QR Code',
-          style: TextStyle(color: Colors.white),
-        ),
+      centerTitle: true,
+      title: const Text(
+        'Scan QR Code',
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
@@ -90,6 +92,34 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
       //     ],
       //   ),
       // ),
+      body: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 100,
+            ),
+            Text(
+              'Scan QR Code of the smart device',
+              style: fs18WhiteSemiBold,
+              textAlign: TextAlign.center,
+            ),
+            Center(child: Image.asset(AppImages.qrCode)),
+            Text(
+              'The QR Code will be automatically detected when you position it between the guide lines',
+              style: fs14WhiteMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 50),
+            CustomButton(
+                btnText: 'Link',
+                color: white,
+                // onPressed: () => scanQR(),
+                onPressed: () => connectWifi(),
+                textColor: Colors.blueAccent),
+          ],
+        ),
+      ),
     );
   }
 
@@ -114,7 +144,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
 
     setState(() {
       _scanCode = barcodeScanRes != '-1' ? barcodeScanRes : null;
-      print("Scanned CODE : $_scanCode");
+      // print("Scanned CODE : $_scanCode");
       _isScanning = false;
     });
   }*/

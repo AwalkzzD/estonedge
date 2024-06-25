@@ -1,9 +1,7 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
-import 'package:estonedge/base/constants/app_widgets.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_home_screen.dart';
 import 'package:estonedge/ui/home/scheduler/schedule_time_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
@@ -25,8 +23,8 @@ class _ScheduleTimeScreenState
     extends BasePageState<ScheduleTimeScreen, ScheduleTimeScreenBloc> {
   TimeOfDay _onTime = const TimeOfDay(hour: 12, minute: 0);
   TimeOfDay _offTime = const TimeOfDay(hour: 12, minute: 0);
-  ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
-  ScheduleTimeScreenBloc _blocTime = ScheduleTimeScreenBloc();
+  final ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
+  final ScheduleTimeScreenBloc _blocTime = ScheduleTimeScreenBloc();
 
   List<String> days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   List<bool> selectedDays = List.generate(7, (index) => false);
@@ -64,20 +62,14 @@ class _ScheduleTimeScreenState
     await _bloc.addSchedule(schedule);
     Navigator.of(context).pop();
     Navigator.of(context).pop();
-    // Navigator.pushAndRemoveUntil(
-    //     context, ScheduleHomeScreen.route(), (route) => false);
-    // Navigator.pushReplacement(context, ScheduleHomeScreen.route());
   }
 
   @override
   Widget? getAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
-      title: Center(
-          child: Text(
-        'Scheduler',
-        style: fs24BlackSemibold,
-      )),
+      centerTitle: true,
+      title: const Text('Scheduler', style: fs24BlackSemibold),
     );
   }
 
@@ -99,18 +91,19 @@ class _ScheduleTimeScreenState
           const SizedBox(
             height: 50,
           ),
-          Row(
+          Spacer(),
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomButton(
                 btnText: 'Create',
-                width: 145.0,
+                width: double.infinity,
                 color: Colors.blueAccent,
                 onPressed: _createSchedule,
               ),
               CustomButton(
                 btnText: 'Cancel',
-                width: 145.0,
+                width: double.infinity,
                 color: Colors.grey,
                 onPressed: () {
                   Navigator.pop(context);
@@ -170,22 +163,28 @@ class _ScheduleTimeScreenState
           runSpacing: 8.0,
           alignment: WrapAlignment.center,
           children: List.generate(7, (index) {
-            return ChoiceChip(
-              label: Text(days[index]),
-              selected: selectedDays[index],
-              onSelected: (selected) {
+            return GestureDetector(
+              onTap: () {
                 setState(() {
-                  selectedDays[index] = selected;
+                  selectedDays[index] = !selectedDays[index];
                 });
               },
-              selectedColor: Colors.blueAccent,
-              backgroundColor: Colors.grey[300],
-              labelStyle: TextStyle(
-                color: selectedDays[index] ? Colors.white : Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                decoration: BoxDecoration(
+                  color: selectedDays[index]
+                      ? Colors.blueAccent
+                      : Colors.grey[300],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  days[index],
+                  style: TextStyle(
+                    color: selectedDays[index] ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             );
           }),

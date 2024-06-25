@@ -42,12 +42,12 @@ class LoginScreenBloc extends BasePageBloc {
 
       /// call create user record api by passing required request params
       apiCreateUserRecord(createUserRequestParams, (createUserResponse) {
-        print(createUserResponse.userId);
+        // print(createUserResponse.userId);
       }, (errorMsg) {
-        print(errorMsg);
+        // print(errorMsg);
       });
     }, (errorMsg) {
-      print(errorMsg);
+      // print(errorMsg);
     });
   }
 

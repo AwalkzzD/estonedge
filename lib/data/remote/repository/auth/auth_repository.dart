@@ -69,8 +69,7 @@ class AuthRepository {
       return LoginResponse(
           signInResult:
               await Amplify.Auth.signIn(username: email, password: password));
-    } catch (ex) {
-      print(ex.toString());
+    } catch (ex) {      
       return LoginResponse(loginException: LoginException.SERVER_ERROR);
     }
   }
@@ -81,8 +80,7 @@ class AuthRepository {
   Future<bool> isUserSessionActive() async {
     try {
       return (await Amplify.Auth.fetchAuthSession()).isSignedIn;
-    } catch (ex) {
-      print(ex.toString());
+    } catch (ex) {      
       return false;
     }
   }
@@ -101,8 +99,7 @@ class AuthRepository {
     try {
       await Amplify.Auth.signOut();
       return true;
-    } catch (ex) {
-      print(ex.toString());
+    } catch (ex) {      
       return false;
     }
   }

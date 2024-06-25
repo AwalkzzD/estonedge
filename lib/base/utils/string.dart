@@ -25,5 +25,6 @@ class Strings {
   static const String priceLowToHigh = "Price (Low to High)";
   static const String priceHighToLow = "Price (High to Low)";
 
+  // ignore: constant_identifier_names
   static const String something_went_wrong = "Something went wrong.";
 }

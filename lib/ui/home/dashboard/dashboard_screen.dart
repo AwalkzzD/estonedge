@@ -111,10 +111,7 @@ class _DashboardScreenState
             padding: EdgeInsets.all(10.0),
             child: Text(
               'Frequently Used',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'RubikMedium-DRPE',
-                  fontWeight: FontWeight.bold),
+              style: fs20BlackBold,
             ),
           ),
           Expanded(

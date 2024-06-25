@@ -1,7 +1,6 @@
 import 'package:estonedge/base/base_bloc.dart';
 import 'package:estonedge/base/base_page.dart';
 import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/base/constants/app_widgets.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/introduction/get_started.dart';
@@ -40,18 +39,18 @@ class _SplashScreenState extends BasePageState<SplashScreen, SplashScreenBloc>
     getBloc().checkUserSession((isActive) async {
       if (isActive) {
         await Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pushReplacement(globalContext, HomeScreen.route());
+          Navigator.pushReplacement(context, HomeScreen.route());
           // Navigator.pushReplacementNamed(context, '/home');
         });
       } else {
         await Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pushReplacement(globalContext, GetStarted.route());
+          Navigator.pushReplacement(context, LoginScreen.route());
           // Navigator.pushReplacementNamed(context, '/login');
         });
       }
     }, (errorMsg) async {
       await Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacement(globalContext, GetStarted.route());
+        Navigator.pushReplacement(context, GetStarted.route());
         // Navigator.pushReplacementNamed(context, '/login');
       });
     });

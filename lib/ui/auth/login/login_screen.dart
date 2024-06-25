@@ -73,10 +73,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                 child: Text(
                   'SIGN IN',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Lexend',
-                      fontWeight: FontWeight.bold),
+                  style: fs20BlackBold,
                 ),
               ),
               Text('Sign in to access your account.', style: fs14BlackRegular),
@@ -109,12 +106,9 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
               const SizedBox(height: 10),
               InkWell(
                 onTap: _forgotPassword,
-                child: const Text(
+                child: Text(
                   "Forgot Password?",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: 'Lexend',
-                      color: Colors.blueAccent),
+                  style: fs14BlueRegular,
                 ),
               ),
               const SizedBox(height: 20),

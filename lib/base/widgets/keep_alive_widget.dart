@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class KeepAlivePage extends StatefulWidget {
   const KeepAlivePage({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
   @override
+  // ignore: library_private_types_in_public_api
   _KeepAlivePageState createState() => _KeepAlivePageState();
 }
 
