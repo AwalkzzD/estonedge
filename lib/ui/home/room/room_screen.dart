@@ -65,9 +65,11 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
   Widget noRoomFound() {
     return const Column(
       children: [
-        SizedBox(height: 100),
-        Image(image: AssetImage(AppImages.noRoomFoundImage)),
-        SizedBox(height: 30),
+        Padding(
+          padding: EdgeInsets.only(
+              left: 100.0, right: 100.0, top: 200, bottom: 30.0),
+          child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
+        ),
         Text(
           'No Rooms',
           style: fs22BlackMedium,
@@ -107,6 +109,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20)),
                           child: AspectRatio(
+                            
                             aspectRatio: 21 / 9,
                             child: buildCustomRoomNetworkImage(
                                 useColorFiltered: true,
@@ -148,14 +151,24 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                       ),
                       CircleAvatar(
                           backgroundColor: Colors.white,
-                          child: Icon(Icons.air)),
-                      SizedBox(width: 10),
-                      CircleAvatar(
-                          backgroundColor: Colors.white, child: Icon(Icons.tv)),
+                          child: Icon(
+                            Icons.air,
+                            color: Color(0xff448AFF),
+                          )),
                       SizedBox(width: 10),
                       CircleAvatar(
                           backgroundColor: Colors.white,
-                          child: Icon(Icons.lightbulb_outline)),
+                          child: Icon(
+                            Icons.tv,
+                            color: Color(0xff448AFF),
+                          )),
+                      SizedBox(width: 10),
+                      CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.lightbulb_outline,
+                            color: Color(0xff448AFF),
+                          )),
                     ],
                   ),
                 ),

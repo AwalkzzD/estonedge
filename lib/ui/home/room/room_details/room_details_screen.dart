@@ -40,7 +40,7 @@ class _RoomDetailsScreenState
 
   @override
   Widget? getAppBar() {
-    return AppBar(
+    return AppBar(      
       backgroundColor: Colors.white,
       leading: Builder(
         builder: (context) {
@@ -167,7 +167,7 @@ class _RoomDetailsScreenState
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, BoardDetailsScreen.route(isFromRoomDetailsScreen: false));
+            context, BoardDetailsScreen.route(isFromRoomDetailsScreen: true));
       },
       child: Container(
         width: 150,
@@ -229,7 +229,11 @@ class _RoomDetailsScreenState
     print(widget.roomResponse);
     return const Column(
       children: [
-        Image(image: AssetImage(AppImages.noRoomFoundImage)),
+        Padding(
+          padding: EdgeInsets.only(
+              left: 100.0, right: 100.0, top: 100.0, bottom: 30.0),
+          child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
+        ),
         SizedBox(height: 30),
         Text(
           'No Boards',

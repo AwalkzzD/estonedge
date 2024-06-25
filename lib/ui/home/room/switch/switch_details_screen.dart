@@ -6,6 +6,7 @@ import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/add_device/add_your_device_screen.dart';
 import 'package:estonedge/ui/home/room/switch/switch_details_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class SwitchDetailsScreen extends BasePage {
@@ -54,9 +55,9 @@ class _SwitchDetailsScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text('Board Details', style: fs20BlackSemibold),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('Switch Details', style: fs20BlackSemibold),
           ),
           Expanded(
             child: GridView.builder(
@@ -69,7 +70,7 @@ class _SwitchDetailsScreenState
               ),
               itemBuilder: (context, index) {
                 // Replace these values with your actual device data
-                Icon deviceImage = const Icon(Icons.lightbulb);
+                String deviceImage = AppImages.switchIcon;
                 String deviceName = roomList[index];
                 int totalDevices = 5;
 
@@ -78,17 +79,8 @@ class _SwitchDetailsScreenState
                     // Navigator.pushNamed(context, '/addDevice');
                     Navigator.push(context, AddDeviceScreen.route());
                   },
-                  child: customContainer(
-                    deviceImage: deviceImage,
-                    deviceName: deviceName,
-                    totalDevices: totalDevices,
-                    isSwitched: switchStates[index],
-                    onToggle: (value) {
-                      // setState(() {
-                      //   switchStates[index] = value;
-                      // });
-                    },
-                  ),
+                  child: SwitchItemWidget(deviceImage, deviceName, totalDevices,
+                      switchStates[index], (value) {}),
                 );
               },
             ),
@@ -98,100 +90,13 @@ class _SwitchDetailsScreenState
     );
   }
 
-  Widget customContainer({
-    required Icon deviceImage,
-    required String deviceName,
-    required int totalDevices,
-    required bool isSwitched,
-    required Function(bool) onToggle,
-  }) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, // Adjust to fit content
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              deviceImage,
-              Switch(
-                activeThumbImage:
-                    const AssetImage(AppImages.switchActiveThumbImage),
-                inactiveThumbImage:
-                    const AssetImage(AppImages.switchInactiveThumbImage),
-                activeTrackColor: Colors.blueAccent,
-                inactiveTrackColor: Colors.black,
-                value: isSwitched,
-                onChanged: onToggle,
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                overflow: TextOverflow.fade,
-                deviceName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-              Spacer(),
-              PopupMenuButton<String>(
-                onSelected: (value) {
-                  // Handle menu item selection
-                  if (value == 'Edit') {
-                    // Handle edit action
-                  } else if (value == 'Favorite') {
-                    // Handle delete action
-                  } else if (value == 'Delete') {
-                    // Handle delete action
-                  }
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 'Edit',
-                    child: ListTile(
-                      leading: Icon(Icons.edit),
-                      title: Text('Edit'),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 'Favorite',
-                    child: ListTile(
-                      leading: Icon(Icons.favorite),
-                      title: Text('Favorite'),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 'Delete',
-                    child: ListTile(
-                      leading: Icon(Icons.delete),
-                      title: Text('Delete'),
-                    ),
-                  ),
-                ],
-                icon: const Icon(Icons.more_vert),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget customContainer({
+  //   required String deviceImage,
+  //   required String deviceName,
+  //   required int totalDevices,
+  //   required bool isSwitched,
+  //   required Function(bool) onToggle,
+  // }) {
+  //   return
+  // }
 }

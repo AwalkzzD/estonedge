@@ -380,6 +380,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   }
 
   void navigateToScheduleRoom() =>
-      // Navigator.of(context).push(ScheduleHomeScreen.route());
       Navigator.of(context).push(ScheduleHomeScreen.route());
+  // Navigator.of(context).push(QrScreen.route());
 }

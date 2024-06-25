@@ -85,9 +85,13 @@ class _ScheduleHomeScreenState
   Widget buildNoScheduleFound() {
     return const Column(
       children: [
-        SizedBox(height: 100),
-        Image(image: AssetImage(AppImages.noRoomFoundImage)),
-        SizedBox(height: 30),
+        //SizedBox(height: 100),
+        Padding(
+          padding: EdgeInsets.only(
+              left: 100.0, right: 100.0, top: 200, bottom: 30.0),
+          child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
+        ),
+        // SizedBox(height: 30),
         Text(
           'No Schedules available',
           style: TextStyle(

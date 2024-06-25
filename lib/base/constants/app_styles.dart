@@ -87,7 +87,11 @@ TextStyle fs14GrayRegular = const TextStyle(
 );
 
 TextStyle fs14BlueRegular = const TextStyle(
-    fontSize: 14, fontFamily: fontFamilyLexend, color: Colors.blueAccent);
+  fontSize: 14,
+  fontFamily: fontFamilyLexend,
+  color: Colors.blueAccent,
+  fontWeight: regular,
+);
 
 /// Font size - 16
 
