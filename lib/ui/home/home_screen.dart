@@ -180,6 +180,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
                             children: <Widget>[
                               CustomAppbar(
                                 context,
+                                appBarTrailingImage: AppImages.blankIcon,
                                 title: 'Your Profile',
                               ),
                             ],

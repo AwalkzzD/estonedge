@@ -93,22 +93,7 @@ class _AddRoomScreenState
     return AppBar(
       backgroundColor: Colors.white,
       centerTitle: true,
-      leading: Builder(
-        builder: (context) {
-          return IconButton(
-            icon: Image.asset(AppImages.appBarBackIcon),
-            onPressed: () {
-              Navigator.of(globalContext).pop();
-            },
-          );
-        },
-      ),
-      title: CustomAppbar(
-        context,
-        title: 'Add Room',
-        centerTitle: true,
-        titleStyle: fs24BlackBold,
-      ),
+      title: const Text('Add Room', style: fs24BlackBold)
     );
   }
 }

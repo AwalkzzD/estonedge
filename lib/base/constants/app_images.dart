@@ -38,6 +38,7 @@ class AppImages {
 
   // profile
   static const String icDropDown = 'assets/icons/ic_drop_down.png';
+  static const String blankIcon = 'assets/icons/blank_icon.png';
 
   //qr code
   static const String qrCode = 'assets/images/qrCode.png';
