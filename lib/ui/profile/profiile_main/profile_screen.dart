@@ -1,12 +1,13 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+
 import 'package:estonedge/base/src_constants.dart';
-import 'package:estonedge/ui/profile/profile_details_screen.dart';
-import 'package:estonedge/ui/profile/profile_screen_bloc.dart';
+import 'package:estonedge/ui/profile/profiile_main/profile_screen_bloc.dart';
+import 'package:estonedge/ui/profile/profile_details/profile_details_screen.dart';
+
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-import '../../base/src_widgets.dart';
+import '../../../base/src_bloc.dart';
+import '../../../base/src_widgets.dart';
 
 class ProfileScreen extends BasePage {
   const ProfileScreen({super.key});

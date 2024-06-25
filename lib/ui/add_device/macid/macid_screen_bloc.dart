@@ -1,4 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/src_bloc.dart';
 
 class MacidScreenBloc extends BasePageBloc{
   

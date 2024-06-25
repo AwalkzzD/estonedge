@@ -1,12 +1,11 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_time_screen_bloc.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_time/schedule_time_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_home_screen_bloc.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen_bloc.dart';
 
 class ScheduleTimeScreen extends BasePage {
   const ScheduleTimeScreen({super.key});

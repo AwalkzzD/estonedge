@@ -1,6 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../base/src_widgets.dart';
-import '../validators.dart';
+import '../../../utils/validators.dart';
 
 class SignupScreen extends BasePage {
   const SignupScreen({super.key});
@@ -56,7 +55,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
     return AppBar(
       backgroundColor: white,
       automaticallyImplyLeading: false,
-      title: const CustomAppBar(),
+      title: const CustomAuthAppBar(),
     );
   }
 

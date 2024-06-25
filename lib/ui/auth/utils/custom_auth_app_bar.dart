@@ -2,8 +2,8 @@ import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+class CustomAuthAppBar extends StatelessWidget {
+  const CustomAuthAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

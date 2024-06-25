@@ -1,14 +1,13 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/ui/home/room/add_room/add_room_screen_bloc.dart';
-import 'package:estonedge/ui/home/room/add_room/room_image_screen.dart';
+import 'package:estonedge/ui/home/room/add_room/room_name/add_room_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/add_room/room_image/room_image_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../base/src_constants.dart';
-import '../../../../base/utils/widgets/custom_button.dart';
-import '../../../../base/utils/widgets/custom_textfield.dart';
-import '../../../auth/validators.dart';
+import '../../../../../base/src_constants.dart';
+import '../../../../../base/utils/widgets/custom_button.dart';
+import '../../../../../base/utils/widgets/custom_textfield.dart';
+import '../../../../../utils/validators.dart';
 
 class AddRoomScreen extends BasePage {
   const AddRoomScreen({super.key});

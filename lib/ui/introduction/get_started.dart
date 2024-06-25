@@ -1,5 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import '../../../base/src_bloc.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';

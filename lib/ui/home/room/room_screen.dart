@@ -1,5 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';

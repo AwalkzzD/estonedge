@@ -1,5 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/utils/extension_functions.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
 import 'package:estonedge/utils/shared_pref.dart';

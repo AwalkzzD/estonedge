@@ -1,9 +1,9 @@
-import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_utils.dart';
 import 'package:estonedge/data/remote/model/rooms/add_room/add_room_response.dart';
 import 'package:estonedge/data/remote/requests/rooms/add_room_request.dart';
 
-import '../../../../data/remote/repository/rooms/rooms_repository.dart';
+import '../../../../../data/remote/repository/rooms/rooms_repository.dart';
 
 class RoomImageScreenBloc extends BasePageBloc {
   void addRoom(String roomName, String imageUrl,

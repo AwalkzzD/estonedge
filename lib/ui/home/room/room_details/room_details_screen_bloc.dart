@@ -1,4 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/data/remote/model/rooms/delete_room/delete_room_response.dart';
 import 'package:estonedge/data/remote/repository/rooms/rooms_repository.dart';
 

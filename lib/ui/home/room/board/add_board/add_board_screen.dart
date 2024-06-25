@@ -1,5 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';

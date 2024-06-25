@@ -1,4 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/data/remote/model/board_types/board_types_response.dart';
 import 'package:estonedge/data/remote/repository/boards/boards_repository.dart';
 import 'package:rxdart/rxdart.dart';

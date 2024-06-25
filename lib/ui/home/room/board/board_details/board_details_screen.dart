@@ -1,5 +1,4 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/board/board_details/board_details_screen_bloc.dart';
 import 'package:flutter/material.dart';

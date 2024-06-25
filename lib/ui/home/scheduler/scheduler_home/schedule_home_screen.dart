@@ -1,13 +1,13 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_widgets.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_details_screen.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_home_screen_bloc.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_detaiils/schedule_details_screen.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../base/utils/widgets/custom_appbar.dart';
+import '../../../../base/utils/widgets/custom_appbar.dart';
 
 class ScheduleHomeScreen extends BasePage {
   const ScheduleHomeScreen({super.key});

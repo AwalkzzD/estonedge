@@ -1,16 +1,15 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_details_screen_bloc.dart';
-import 'package:estonedge/ui/home/scheduler/schedule_time_screen.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_detaiils/schedule_details_screen_bloc.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_time/schedule_time_screen.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-import '../../../base/src_constants.dart';
+import '../../../../base/src_constants.dart';
 
 class ScheduleDetailsScreen extends BasePage {
   const ScheduleDetailsScreen({super.key});

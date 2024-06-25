@@ -1,7 +1,6 @@
-import 'package:estonedge/base/base_bloc.dart';
-import 'package:estonedge/base/base_page.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/constants/app_images.dart';
-import 'package:estonedge/ui/home/room/switch/widget/switch_item_bloc.dart';
+import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget_bloc.dart';
 import 'package:flutter/material.dart';
 
 class SwitchItemWidget extends BasePage {
@@ -71,7 +70,7 @@ class _SwitchItemWidgetState
                   fontSize: 16.0,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               PopupMenuButton<String>(
                 onSelected: (value) {
                   // Handle menu item selection
