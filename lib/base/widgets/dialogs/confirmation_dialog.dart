@@ -13,11 +13,11 @@ class ConfirmationDialog {
   }) {
     Widget cancelButton = TextButton(
       onPressed: onNegativeButtonClicked ?? () => Navigator.of(context).pop(),
-      child: Text(negativeButtonText, style: fs13White),
+      child: Text(negativeButtonText, style: fs13WhiteRegular),
     );
     Widget continueButton = TextButton(
       onPressed: onPositiveButtonClicked ?? () {},
-      child: Text(positiveButtonText, style: fs13White),
+      child: Text(positiveButtonText, style: fs13WhiteRegular),
     );
 
     AlertDialog alert = AlertDialog(

@@ -75,7 +75,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                 style: fs20BlackBold,
               ),
             ),
-            Text(
+            const Text(
               'Looks like you don’t have an account. Let’s create a new account for you.',
               style: fs14BlackRegular,
             ),
@@ -120,10 +120,10 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
             ),
             const SizedBox(height: 20),
             RichText(
-              text: TextSpan(
+              text: const TextSpan(
                 text: 'By selecting Create Account below, I agree to ',
                 style: fs14BlackRegular,
-                children: const <TextSpan>[
+                children:  <TextSpan>[
                   TextSpan(
                     text: 'Terms of Service',
                     style: TextStyle(
@@ -207,7 +207,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
             controller: verificationCodeController,
             keyboardType: TextInputType.number,
             maxLength: 6,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'OTP',
               hintStyle: fs14BlackRegular,
             ),

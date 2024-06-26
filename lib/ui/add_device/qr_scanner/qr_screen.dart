@@ -51,6 +51,16 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   Widget? getAppBar() {
     return AppBar(
       backgroundColor: Colors.blue.shade300,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      ),
       centerTitle: true,
       title: const Text(
         'Scan QR Code',
@@ -114,7 +124,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
                 btnText: 'Link',
                 color: white,
                 // onPressed: () => scanQR(),
-                onPressed: () {},//connectWifi(),
+                onPressed: () {}, //connectWifi(),
                 textColor: Colors.blueAccent),
           ],
         ),
@@ -224,8 +234,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
     // Set security context for TLS/SSL
     final context = SecurityContext.defaultContext;
 
-    ByteData trustedCertificateBytes =
-        await rootBundle.load(Assets.awsKeysCa1);
+    ByteData trustedCertificateBytes = await rootBundle.load(Assets.awsKeysCa1);
     context.setTrustedCertificatesBytes(
         trustedCertificateBytes.buffer.asUint8List());
 

@@ -54,6 +54,7 @@ class _AddBoardScreenState
         },
       ),
       centerTitle: true,
+      backgroundColor: Colors.white,
       title: const Text(
         'Add Board',
         style: fs24BlackSemibold,
@@ -70,11 +71,7 @@ class _AddBoardScreenState
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               if (snapshot.data!.isEmpty) {
-                return Container(
-                  height: 200,
-                  color: green,
-                  child: Text('No Internet connection UI'),
-                );
+                return buildNoInternetConnection();
               } else {
                 boardTypes =
                     snapshot.data!.map((board) => board.boardType).toList();
@@ -142,4 +139,29 @@ class _AddBoardScreenState
 
   @override
   AddBoardScreenBloc getBloc() => _bloc;
+
+  Widget buildNoInternetConnection() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(AppImages.noInternet),
+          const Text(
+            'Whoops!',
+            style: fs24BlackSemibold,
+          ),
+          Text(
+            ' Something went wrong. Check your ',
+            style: fs16BlackRegular,
+          ),
+          Text(
+            'connection or try again.',
+            style: fs16BlackRegular,
+          )
+        ],
+      ),
+    );
+  }
 }

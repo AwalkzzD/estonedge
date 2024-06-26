@@ -346,14 +346,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
             size: 50,
           ),
         ),
-        Text(
-          text,
-          style: const TextStyle(
-            fontFamily: 'Lexend',
-            fontSize: 13,
-            color: Colors.white,
-          ),
-        )
+        Text(text, style: fs13WhiteRegular)
       ],
     );
   }
@@ -371,7 +364,7 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
 
   void getInitData() {
     getBloc().getUserAttributes((value) {
-      print(value);
+      // print(value);
     });
   }
 

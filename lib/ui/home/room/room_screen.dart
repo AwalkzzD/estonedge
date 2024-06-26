@@ -64,9 +64,13 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
   Widget noRoomFound() {
     return const Column(
       children: [
-        SizedBox(height: 100),
-        Image(image: AssetImage(AppImages.noRoomFoundImage)),
-        SizedBox(height: 30),
+        // SizedBox(height: 100),
+        Padding(
+          padding: EdgeInsets.only(
+              left: 100.0, right: 100.0, top: 200.0, bottom: 50.0),
+          child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
+        ),
+        // SizedBox(height: 30),
         Text(
           'No Rooms',
           style: fs22BlackMedium,
@@ -80,91 +84,92 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
   }
 
   Widget buildRoomList(List<RoomsResponse> roomsList) {
-    return ListView.separated(
-      padding: EdgeInsets.only(bottom: 100.h),
-      itemCount: roomsList.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () => Navigator.push(
-              context, RoomDetailsScreen.route(roomsList[index])),
-          child: Card(
-            shadowColor: Colors.black,
-            elevation: 10,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          child: AspectRatio(
-                            aspectRatio: 21 / 9,
-                            child: buildCustomRoomNetworkImage(
-                                useColorFiltered: true,
-                                imageUrl: roomsList[index].roomImage),
-                          ),
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 10),
-                      child: Wrap(
-                        direction: Axis.vertical,
-                        children: [
-                          Text(
-                            roomsList[index].roomName,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '${roomsList[index].boards.length} boards',
-                            style: fs14WhiteMedium.copyWith(fontWeight: bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20))),
-                  child: const Row(
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0),
+      child: ListView.separated(
+        padding: EdgeInsets.only(bottom: 100.h),
+        itemCount: roomsList.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () => Navigator.push(
+                context, RoomDetailsScreen.route(roomsList[index])),
+            child: Card(
+              shadowColor: Colors.black,
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+              child: Column(
+                children: [
+                  Stack(
                     children: [
-                      SizedBox(
-                        width: 10,
-                        height: 60,
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                            child: AspectRatio(
+                              aspectRatio: 21 / 9,
+                              child: buildCustomRoomNetworkImage(
+                                  useColorFiltered: true,
+                                  imageUrl: roomsList[index].roomImage),
+                            ),
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 10),
+                        child: Wrap(
+                          direction: Axis.vertical,
+                          children: [
+                            Text(
+                              roomsList[index].roomName,
+                              style: fs14WhiteMedium,
+                            ),
+                            Text(
+                              '${roomsList[index].boards.length} board(s)',
+                              style: fs12WhiteRegular,
+                            )
+                          ],
+                        ),
                       ),
-                      CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.air)),
-                      SizedBox(width: 10),
-                      CircleAvatar(
-                          backgroundColor: Colors.white, child: Icon(Icons.tv)),
-                      SizedBox(width: 10),
-                      CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.lightbulb_outline)),
                     ],
                   ),
-                ),
-              ],
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
+                    child: const Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                          height: 60,
+                        ),
+                        CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.air)),
+                        SizedBox(width: 10),
+                        CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.tv)),
+                        SizedBox(width: 10),
+                        CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.lightbulb_outline)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) =>
-          SizedBox(height: 20.h),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) =>
+            SizedBox(height: 20.h),
+      ),
     );
   }
 

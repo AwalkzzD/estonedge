@@ -163,10 +163,7 @@ class _ScheduleTimeScreenState
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          ),
+          style: fs18BlackBold
         ),
         GestureDetector(
           onTap: () => _selectTime(context, isOnTime),
@@ -181,10 +178,7 @@ class _ScheduleTimeScreenState
               children: [
                 Text(
                   time.format(context),
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: fs18BlackBold
                 ),
                 const SizedBox(width: 8.0),
                 const Icon(Icons.arrow_drop_down),

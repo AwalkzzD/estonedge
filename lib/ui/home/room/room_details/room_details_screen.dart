@@ -154,21 +154,9 @@ class _RoomDetailsScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                roomsList.roomName,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                '${roomsList.boards.length} boards found',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
+              Text(roomsList.roomName, style: fs18WhiteBold),
+              Text('${roomsList.boards.length} boards found',
+                  style: fs16WhiteRegular),
             ],
           ),
         ),
@@ -244,10 +232,9 @@ class _RoomDetailsScreenState
       children: [
         Padding(
           padding: EdgeInsets.only(
-              left: 100.0, right: 100.0, top: 100.0, bottom: 30.0),
+              left: 100.0, right: 100.0, top: 100.0, bottom: 60.0),
           child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
         ),
-        SizedBox(height: 30),
         Text(
           'No Boards',
           style: fs22BlackMedium,

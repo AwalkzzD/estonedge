@@ -46,10 +46,7 @@ class _RoomImageScreenState
           const Text(
             'Select Room Image',
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'Lexend',
-                fontWeight: FontWeight.bold),
+            style: fs20BlackSemibold,
           ),
           const SizedBox(
             height: 20,

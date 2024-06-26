@@ -4,11 +4,8 @@ import 'package:rxdart/rxdart.dart';
 
 class ScheduleTimeScreenBloc extends BasePageBloc {
   late BehaviorSubject<Time?> onTime;
-
-  get onTimeStream => onTime.stream;
-
   late BehaviorSubject<Time?> offTime;
-
+  get onTimeStream => onTime.stream;
   get offTimeStream => offTime.stream;
 
   ScheduleTimeScreenBloc() {

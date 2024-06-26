@@ -1,3 +1,6 @@
+import 'package:day_night_time_picker/lib/state/time.dart';
+import 'package:rxdart/rxdart.dart';
+
 import '../base/src_utils.dart';
 import '../data/remote/model/rooms/get_rooms/rooms_response.dart';
 
@@ -27,6 +30,12 @@ const String keyStudentList = "studentList";
 const String keyStudent = "student";
 const String keyAuthenticationRequired = "authenticationRequired";
 const String keyCalendarViewType = "calendarViewType";
+
+const String onTime = "on_time";
+const String offTime = "off_time";
+
+// late BehaviorSubject<Time?> onTime;
+// late BehaviorSubject<Time?> offTime;
 
 Future<void> sharedPrefClear() async {
   await SpUtil.clear();
@@ -134,4 +143,13 @@ void saveLanguage(String? code) {
 
 String getLanguage() {
   return SpUtil.getString(keyLangCode);
+}
+
+//Time
+void setOnTime(Time time) {
+  SpUtil.putObject(onTime, time);
+}
+
+void setOffTime(Time time) {
+  SpUtil.putObject(offTime, time);
 }
