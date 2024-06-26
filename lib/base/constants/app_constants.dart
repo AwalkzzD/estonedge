@@ -11,6 +11,7 @@ const String baseUrl =
 const String boardTypes = 'boardTypes';
 const String users = 'users';
 const String rooms = 'rooms';
+const String boards = 'boards';
 
 // validation constants
 const int ssidLength = 12;

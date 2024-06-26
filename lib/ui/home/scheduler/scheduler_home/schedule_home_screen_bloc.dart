@@ -16,7 +16,7 @@ class ScheduleHomeScreenBloc extends BasePageBloc {
 
   Future<List<Map<String, dynamic>>> getSchedules() async {
     String? schedulesString = SpUtil.getString(keySchedules);
-    if (schedulesString != null && schedulesString.isNotEmpty) {
+    if (schedulesString.isNotEmpty) {
       List<dynamic> schedulesJson = jsonDecode(schedulesString);
       return List<Map<String, dynamic>>.from(schedulesJson);
     }

@@ -142,7 +142,7 @@ TextStyle fs18BlackBold = const TextStyle(
 
 TextStyle fs18BlueSemiBold = const TextStyle(
   fontSize: fs18,
-  color: Colors.blue,
+  color: Colors.blueAccent,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );

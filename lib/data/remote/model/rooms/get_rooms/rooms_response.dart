@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import '../../user/user_response.dart';
+import 'package:estonedge/data/remote/model/user/user_response.dart';
 
-List<RoomsResponse> roomsResponseFromJson(String str) => List<RoomsResponse>.from(
-    (json.decode(str)["L"] as List).map((x) => RoomsResponse.fromJson(x["M"] ?? {}))
-);
+List<RoomsResponse> roomsResponseFromJson(String str) =>
+    List<RoomsResponse>.from((json.decode(str)["L"] as List)
+        .map((x) => RoomsResponse.fromJson(x["M"] ?? {})));
 
 String roomsResponseToJson(List<RoomsResponse> data) => json.encode({
-  "L": List<dynamic>.from(data.map((x) => {"M": x.toJson()}))
-});
+      "L": List<dynamic>.from(data.map((x) => {"M": x.toJson()}))
+    });
 
 class RoomsResponse {
   final String roomId;

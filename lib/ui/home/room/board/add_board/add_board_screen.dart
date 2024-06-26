@@ -1,10 +1,11 @@
 import 'package:estonedge/base/src_bloc.dart';
+import 'package:estonedge/base/src_components.dart';
+import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
-import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/board_types/board_types_response.dart';
+import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen_bloc.dart';
-import 'package:estonedge/ui/home/room/board/board_details/board_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../base/src_constants.dart';
@@ -92,8 +93,8 @@ class _AddBoardScreenState
                         hint: 'Select Board Type',
                         items: boardTypes,
                         onClick: (value) {
-                          getBloc().selectedBoard.add(value);
-                          getBloc().getSwitchTypes(value!);
+                          getBloc().saveBoard(value!);
+                          getBloc().getSwitchTypes(value);
                         }),
                     const SizedBox(height: 30),
                     Text(
@@ -101,7 +102,7 @@ class _AddBoardScreenState
                       style: fs14BlackSemibold,
                     ),
                     const SizedBox(height: 10),
-                    StreamBuilder<List<String>>(
+                    StreamBuilder<List<SwitchType>>(
                         stream: getBloc().switchTypesStream,
                         builder: (context, snapshot) {
                           if (snapshot.hasData &&
@@ -109,9 +110,11 @@ class _AddBoardScreenState
                               snapshot.data!.isNotEmpty) {
                             return CustomDropdown(
                                 hint: 'Select Switch Type',
-                                items: snapshot.data!,
+                                items: snapshot.data!
+                                    .map((switchType) => switchType.type)
+                                    .toList(),
                                 onClick: (value) {
-                                  getBloc().selectedSwitch.add(value);
+                                  getBloc().saveSwitch(value!);
                                 });
                           } else {
                             return const Text('No switches for selected board',
@@ -123,11 +126,49 @@ class _AddBoardScreenState
                       child: CustomButton(
                           btnText: 'Submit',
                           color: Colors.blue,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                BoardDetailsScreen.route(
-                                    isFromRoomDetailsScreen: false));
+                          onPressed: () async {
+                            getBloc().addBoard((response) {
+                              showDialog<String>(
+                                barrierDismissible: false,
+                                context: globalContext,
+                                builder: (BuildContext context) => AlertDialog(
+                                  content: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const ImageView(
+                                          image: AppImages.icRoomAdded,
+                                          imageType: ImageType.asset),
+                                      SizedBox(height: 30.h),
+                                      Text('Board#${response.boardId} Added',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: fs16BlackSemibold),
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                          'Please feel free to customize your board name...',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: fs12BlackRegular)
+                                    ],
+                                  ),
+                                  actions: <Widget>[
+                                    CustomButton(
+                                        btnText: 'Continue',
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        color: Colors.blueAccent,
+                                        onPressed: () {
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              HomeScreen.route(),
+                                              (route) => false);
+                                        })
+                                  ],
+                                ),
+                              );
+                            }, (errorMsg) {
+                              showMessageBar(errorMsg);
+                            });
                           }),
                     )
                   ],

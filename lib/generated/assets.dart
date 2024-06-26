@@ -39,5 +39,6 @@ class Assets {
   static const String imagesRoom4 = 'assets/images/room4.jpg';
   static const String imagesRoom5 = 'assets/images/room5.jpg';
   static const String imagesRoom6 = 'assets/images/room6.jpg';
+  static const String imagesSchedulerIllustration = 'assets/images/scheduler_illustration.png';
 
 }

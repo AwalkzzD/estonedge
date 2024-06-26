@@ -49,4 +49,8 @@ class AppImages {
 
   //board details
   static const String boardConfigIcon = 'assets/icons/board_config_icon.png';
+
+  // scheduler screen
+  static const String schedulerIllustration =
+      'assets/images/scheduler_illustration.png';
 }

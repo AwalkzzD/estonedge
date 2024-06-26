@@ -1,10 +1,10 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
-import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
-import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/base/utils/widgets/divider_widget.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen_bloc.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_time/schedule_time_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -78,12 +78,17 @@ class _ScheduleTimeScreenState
   @override
   Widget buildWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 30, 15, 15),
+      padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('The device will be turned on at:',
-              style: fs18BlackMedium.copyWith(color: Colors.blueAccent)),
+          const ImageView(
+              image: AppImages.schedulerIllustration,
+              imageType: ImageType.asset),
+          SizedBox(height: 10.h),
+          DividerWidget(verticalMargin: 5.h),
+          SizedBox(height: 20.h),
+          Text('The device will be turned on at:', style: fs16BlackRegular),
           StreamBuilder<Time?>(
               stream: getBloc().onTimeStream,
               builder: (context, snapshot) {
@@ -91,9 +96,26 @@ class _ScheduleTimeScreenState
                   return InkWell(
                     onTap: () => showCustomTimePicker(
                         (Time time) => getBloc().setOnTime(time)),
-                    child: Text(
-                        '${snapshot.data!.hour}hrs ${snapshot.data!.minute}min',
-                        style: fs16BlackRegular),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              '${snapshot.data!.hour}hrs ${snapshot.data!.minute}min',
+                              style: fs14BlueRegular),
+                          const Icon(Icons.lightbulb_outline,
+                              color: Colors.blueAccent)
+                        ],
+                      ),
+                    ),
                   );
                 } else {
                   return CustomButton(
@@ -104,8 +126,7 @@ class _ScheduleTimeScreenState
                 }
               }),
           SizedBox(height: 20.h),
-          Text('The device will be turned off at:',
-              style: fs18BlackMedium.copyWith(color: Colors.blueAccent)),
+          Text('The device will be turned off at:', style: fs16BlackRegular),
           StreamBuilder<Time?>(
               stream: getBloc().offTimeStream,
               builder: (context, snapshot) {
@@ -113,9 +134,25 @@ class _ScheduleTimeScreenState
                   return InkWell(
                     onTap: () => showCustomTimePicker(
                         (Time time) => getBloc().setOnTime(time)),
-                    child: Text(
-                        '${snapshot.data!.hour}hrs ${snapshot.data!.minute}min',
-                        style: fs16BlackRegular),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              '${snapshot.data!.hour}hrs ${snapshot.data!.minute}min',
+                              style: fs14BlueRegular),
+                          const Icon(Icons.lightbulb, color: Colors.blueAccent)
+                        ],
+                      ),
+                    ),
                   );
                 } else {
                   return CustomButton(
@@ -127,7 +164,8 @@ class _ScheduleTimeScreenState
               }),
           SizedBox(height: 20.h),
           Text('The device will automatically run on:',
-              style: fs18BlackMedium.copyWith(color: Colors.blueAccent)),
+              style: fs16BlackRegular),
+          SizedBox(height: 5.h),
           /*buildTimePicker("ON TIME :", _onTime, true),
           const SizedBox(height: 16.0),
           buildTimePicker("OFF TIME :", _offTime, false),
@@ -210,17 +248,17 @@ class _ScheduleTimeScreenState
             },
             child: Container(
               padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
               decoration: BoxDecoration(
                 color:
-                    selectedDays[index] ? Colors.blueAccent : Colors.grey[300],
+                    selectedDays[index] ? Colors.blueAccent : Colors.grey[100],
+                border: Border.all(color: Colors.blueAccent, width: 1),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
                 days[index],
-                style: TextStyle(
+                style: fs14BlackRegular.copyWith(
                   color: selectedDays[index] ? Colors.white : Colors.black,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

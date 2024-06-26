@@ -1,9 +1,9 @@
-import '../../../base/src_bloc.dart';
 import 'package:estonedge/base/utils/extension_functions.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../base/src_bloc.dart';
 import '../../data/remote/repository/user/user_repository.dart';
 
 class HomeScreenBloc extends BasePageBloc {
@@ -36,7 +36,8 @@ class HomeScreenBloc extends BasePageBloc {
     showLoading();
     apiGetUserData((userResponse) {
       hideLoading();
-      print(userResponse.toString());
+      saveUserName(userResponse.name);
+      saveUserEmail(userResponse.email);
     }, (error) {
       hideLoading();
       print('Home Screen Error ---> $error');
