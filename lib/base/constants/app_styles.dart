@@ -1,5 +1,4 @@
 import 'package:estonedge/base/constants/app_colors.dart';
-import 'package:estonedge/base/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 const String fontFamilyLexend = "Lexend";
@@ -109,10 +108,10 @@ TextStyle fs16BlackRegular = const TextStyle(
   fontWeight: regular,
 );
 
-TextStyle fs16BlueSemiBold = TextStyle(
+const TextStyle fs16BlueSemiBold = TextStyle(
   fontSize: fs16,
   fontFamily: fontFamilyLexend,
-  color: themeOf().textPrimaryColor,
+  color: Colors.blueAccent,
   fontWeight: semiBold,
 );
 
@@ -126,6 +125,13 @@ TextStyle fs17WhiteBold = const TextStyle(
 );
 
 /// Font size - 18
+
+const TextStyle fs18BlackMedium = TextStyle(
+  fontSize: fs18,
+  color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: medium,
+);
 
 TextStyle fs18BlackBold = const TextStyle(
   fontSize: fs18,

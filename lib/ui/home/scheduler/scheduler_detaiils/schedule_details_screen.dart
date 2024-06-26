@@ -125,10 +125,8 @@ class _ScheduleDetailsScreenState
               btnText: 'Select',
               color: Colors.blue,
               width: 250.0,
-              onPressed: () async {
-                await Future.delayed(const Duration(seconds: 2), () {
-                  Navigator.push(context, ScheduleTimeScreen.route());
-                });
+              onPressed: () {
+                Navigator.push(context, ScheduleTimeScreen.route());
               },
             ),
           ),
