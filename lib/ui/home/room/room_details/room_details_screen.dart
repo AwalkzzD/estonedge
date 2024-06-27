@@ -4,10 +4,13 @@ import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
+import 'package:estonedge/data/remote/model/user/user_response.dart'
+    as userModel;
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/board/board_details/board_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
+import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/utils/widgets/custom_appbar.dart';
@@ -35,6 +38,8 @@ class _RoomDetailsScreenState
   final RoomDetailsScreenBloc _bloc = RoomDetailsScreenBloc();
 
   RoomsResponse? roomsList;
+
+  bool boardStatus = true;
 
   @override
   void initState() {
@@ -98,21 +103,13 @@ class _RoomDetailsScreenState
             buildNoBoards()
           else
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.6,
-                ),
-                itemCount: roomsList!.boards.length,
+              child: ListView.builder(
+                itemCount: roomsList?.boards.length,
                 itemBuilder: (context, index) {
-                  final board = roomsList!.boards[index];
-                  return boardCard(board.boardName, 1, 1);
+                  return buildBoardItem(roomsList?.boards[index]);
                 },
               ),
             ),
-          const Spacer(),
           CustomButton(
             btnText: 'Delete Room',
             width: double.infinity,
@@ -164,54 +161,6 @@ class _RoomDetailsScreenState
     );
   }
 
-  Widget boardCard(String boardName, int activeCount, int inactiveCount) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, BoardDetailsScreen.route(isFromRoomDetailsScreen: true));
-      },
-      child: Container(
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-              ),
-              padding: const EdgeInsets.all(8.0),
-              child: Text(boardName, style: fs12WhiteSemibold),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Active', style: fs12BlackRegular),
-                      Text(activeCount.toString(), style: fs12BlackRegular),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Inactive', style: fs12BlackRegular),
-                      Text(inactiveCount.toString(), style: fs12BlackRegular),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget buildNoBoards() {
     print(widget.roomResponse);
     return const Column(
@@ -230,6 +179,83 @@ class _RoomDetailsScreenState
           style: fs14BlackRegular,
         ),
       ],
+    );
+  }
+
+  Widget buildBoardItem(userModel.Board? board) {
+    if (board != null && board.switches.isNotEmpty) {
+      boardStatus = board.switches.any((switch1) => switch1.status);
+    }
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        title: Text(board?.boardName ?? ''),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                // Handle menu item selection
+                if (value == 'Edit') {
+                  // Handle edit action
+                } else if (value == 'Delete') {
+                  // Handle delete action
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'Edit',
+                  child: ListTile(
+                    leading: Icon(Icons.edit),
+                    title: Text('Edit'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'Delete',
+                  child: ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('Delete'),
+                  ),
+                ),
+              ],
+              icon: const Icon(Icons.more_vert),
+            ),
+            if (board != null && board.macAddress.isNotEmpty)
+              IconButton(
+                onPressed: () {
+                  // Handle the button press action
+                  Navigator.push(
+                    context,
+                    SwitchDetailsScreen.route(),
+                  );
+                },
+                icon: Image.asset(AppImages.boardConfigIcon),
+              )
+            else
+              Switch(
+                activeThumbImage:
+                    const AssetImage(AppImages.switchActiveThumbImage),
+                inactiveThumbImage:
+                    const AssetImage(AppImages.switchInactiveThumbImage),
+                activeTrackColor: Colors.blueAccent,
+                inactiveTrackColor: Colors.black,
+                value: boardStatus,
+                onChanged: (value) {
+                  setState(() {
+                    boardStatus = value;
+                    if (board != null && board.switches.isNotEmpty) {
+                      // Update the status of the first switch (or handle as needed)
+                      // board.switches[0].status = value;
+                    }
+                  });
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
