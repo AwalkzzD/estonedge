@@ -31,23 +31,20 @@ class LoginScreenBloc extends BasePageBloc {
   }
 
   void createUserRecord() {
-    /// fetch user attributes
+    showLoading();
     apiGetUserAttributes((attrList) {
-      /// update shared prefs
+      hideLoading();
       updateSharedPrefs(attrList);
-
       String createUserRequestParams = CreateUserRequestParameters(
               name: attrList.getUsername(), email: attrList.getUserEmail())
           .toRequestParams();
-
-      /// call create user record api by passing required request params
       apiCreateUserRecord(createUserRequestParams, (createUserResponse) {
-        // print(createUserResponse.userId);
+        hideLoading();
       }, (errorMsg) {
-        // print(errorMsg);
+        hideLoading();
       });
     }, (errorMsg) {
-      // print(errorMsg);
+      hideLoading();
     });
   }
 
