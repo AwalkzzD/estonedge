@@ -1,3 +1,5 @@
+import 'package:estonedge/base/src_widgets.dart';
+
 import '../../../base/src_bloc.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
 import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
@@ -97,11 +99,15 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   Widget? getAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
+      // leadingWidth: 45,
       leading: Builder(
         builder: (context) {
-          return IconButton(
-            icon: Image.asset(AppImages.drawerIcon),
-            onPressed: () {
+          return InkWell(
+            child: const ImageView(
+              image: AppImages.drawerIcon,
+              imageType: ImageType.svg,
+            ),
+            onTap: () {
               openDrawer();
             },
           );
