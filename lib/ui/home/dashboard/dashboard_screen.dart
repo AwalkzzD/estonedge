@@ -191,22 +191,11 @@ class _DashboardScreenState
               ),
             ],
           ),
+          Text(overflow: TextOverflow.fade, deviceName, style: fs16BlackBold),
           Text(
-            overflow: TextOverflow.fade,
-            deviceName,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-            ),
-          ),
-          Text(
-            overflow: TextOverflow.ellipsis,
-            'Total devices: $totalDevices',
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.grey,
-            ),
-          ),
+              overflow: TextOverflow.ellipsis,
+              'Total devices: $totalDevices',
+              style: fs14GrayRegular),
         ],
       ),
     );

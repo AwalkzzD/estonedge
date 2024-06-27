@@ -1,3 +1,4 @@
+import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_constants.dart';
@@ -89,16 +90,14 @@ class _ScheduleHomeScreenState
           padding: EdgeInsets.only(
               left: 100.0, right: 100.0, top: 200, bottom: 30.0),
           child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
-        ),
-        // SizedBox(height: 30),
+        ),        
         Text(
           'No Schedules available',
-          style: TextStyle(
-              fontSize: 22, fontFamily: 'Lexend', fontWeight: FontWeight.w500),
+          style: fs22BlackMedium,
         ),
         Text(
           'add your schedule by clicking plus(+) icon',
-          style: TextStyle(fontSize: 15, fontFamily: 'Lexend'),
+          style: fs16BlackRegular,
         )
       ],
     );

@@ -16,18 +16,29 @@ class AddDeviceScreen extends BasePage {
   }
 
   @override
-  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() => _AddDeviceScreenState();
+  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
+      _AddDeviceScreenState();
 }
 
-class _AddDeviceScreenState extends BasePageState<AddDeviceScreen, AddYourDeviceScreenBloc> {
-
+class _AddDeviceScreenState
+    extends BasePageState<AddDeviceScreen, AddYourDeviceScreenBloc> {
   final AddYourDeviceScreenBloc _bloc = AddYourDeviceScreenBloc();
 
   @override
   Widget? getAppBar() {
     return AppBar(
       centerTitle: true,
-      automaticallyImplyLeading: false,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      ),
+      backgroundColor: Colors.white,
       title: const Text('Add your devices', style: fs24BlackBold),
     );
   }

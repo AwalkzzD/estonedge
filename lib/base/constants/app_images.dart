@@ -49,6 +49,7 @@ class AppImages {
 
   //board details
   static const String boardConfigIcon = 'assets/icons/board_config_icon.png';
+  static const String noInternet = 'assets/images/noInternet.png';
 
   // scheduler screen
   static const String schedulerIllustration =

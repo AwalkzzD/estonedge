@@ -41,13 +41,7 @@ class _AddRoomScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Room Name',
-            style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'Lexend',
-                fontWeight: FontWeight.w600),
-          ),
+          const Text('Room Name', style: fs24BlackSemibold),
           const SizedBox(
             height: 20,
           ),

@@ -20,32 +20,41 @@ const FontWeight semiBold = FontWeight.w600;
 const FontWeight bold = FontWeight.w700;
 
 /// Font size - 12
-TextStyle fs12BlackRegular = const TextStyle(
+const TextStyle fs12BlackRegular = TextStyle(
   fontSize: fs12,
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: regular,
 );
 
-TextStyle fs12BlackSemibold = const TextStyle(
+const TextStyle fs12BlackSemibold = TextStyle(
   fontSize: fs12,
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
-TextStyle fs12WhiteSemibold = const TextStyle(
+
+const TextStyle fs12WhiteSemibold = TextStyle(
   fontSize: fs12,
   color: white,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
 
+const TextStyle fs12WhiteRegular = TextStyle(
+  fontSize: fs12,
+  color: white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: regular,
+);
+
 /// Font size - 13
 
-TextStyle fs13White = const TextStyle(
+const TextStyle fs13WhiteRegular = TextStyle(
   fontSize: 13,
   fontFamily: fontFamilyLexend,
   color: Colors.white,
+  fontWeight: regular,
 );
 
 /// Font size - 14
@@ -57,35 +66,42 @@ const TextStyle fs14BlackRegular = TextStyle(
   fontWeight: regular,
 );
 
-TextStyle fs14WhiteRegular = const TextStyle(
+const TextStyle fs14WhiteRegular = TextStyle(
   fontSize: fs14,
   color: white,
   fontFamily: fontFamilyLexend,
   fontWeight: regular,
 );
 
-TextStyle fs14BlackSemibold = const TextStyle(
+const TextStyle fs14BlackSemibold = TextStyle(
   fontSize: fs14,
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
 
-TextStyle fs14WhiteMedium = const TextStyle(
+const TextStyle fs14WhiteMedium = TextStyle(
   fontSize: fs14,
   color: white,
   fontFamily: fontFamilyLexend,
   fontWeight: medium,
 );
 
-TextStyle fs14GrayRegular = const TextStyle(
+const TextStyle fs14WhiteBold = TextStyle(
+  fontSize: fs14,
+  color: white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: bold,
+);
+
+const TextStyle fs14GrayRegular = TextStyle(
   fontSize: fs14,
   color: textGrayColor,
   fontFamily: fontFamilyLexend,
   fontWeight: regular,
 );
 
-TextStyle fs14BlueRegular = const TextStyle(
+const TextStyle fs14BlueRegular = TextStyle(
   fontSize: 14,
   fontFamily: fontFamilyLexend,
   color: Colors.blueAccent,
@@ -94,16 +110,30 @@ TextStyle fs14BlueRegular = const TextStyle(
 
 /// Font size - 16
 
-TextStyle fs16BlackSemibold = const TextStyle(
+const TextStyle fs16BlackBold = TextStyle(
+  fontSize: fs16,
+  color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: bold,
+);
+
+const TextStyle fs16BlackSemibold = TextStyle(
   fontSize: fs16,
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
 
-TextStyle fs16BlackRegular = const TextStyle(
+const TextStyle fs16BlackRegular = TextStyle(
   fontSize: fs16,
   color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: regular,
+);
+
+const TextStyle fs16BlueRegular = TextStyle(
+  fontSize: fs16,
+  color: Colors.blueAccent,
   fontFamily: fontFamilyLexend,
   fontWeight: regular,
 );
@@ -115,9 +145,16 @@ const TextStyle fs16BlueSemiBold = TextStyle(
   fontWeight: semiBold,
 );
 
+const TextStyle fs16WhiteRegular = TextStyle(
+  fontSize: fs16,
+  color: Colors.white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: regular,
+);
+
 /// Font size - 17
 
-TextStyle fs17WhiteBold = const TextStyle(
+const TextStyle fs17WhiteBold = TextStyle(
   fontSize: 17,
   color: white,
   fontFamily: fontFamilyLexend,
@@ -133,25 +170,32 @@ const TextStyle fs18BlackMedium = TextStyle(
   fontWeight: medium,
 );
 
-TextStyle fs18BlackBold = const TextStyle(
+const TextStyle fs18BlackBold = TextStyle(
   fontSize: fs18,
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: bold,
 );
 
-TextStyle fs18BlueSemiBold = const TextStyle(
+const TextStyle fs18BlueSemiBold = TextStyle(
   fontSize: fs18,
   color: Colors.blueAccent,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
 );
 
-TextStyle fs18WhiteSemiBold = const TextStyle(
+const TextStyle fs18WhiteSemiBold =  TextStyle(
   fontSize: fs18,
   color: white,
   fontFamily: fontFamilyLexend,
   fontWeight: semiBold,
+);
+
+const TextStyle fs18WhiteBold =  TextStyle(
+  fontSize: fs18,
+  color: white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: bold,
 );
 
 /// Font size - 20
@@ -183,6 +227,13 @@ const TextStyle fs22BlackMedium = TextStyle(
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: medium,
+);
+
+const TextStyle fs22BlackRegular = TextStyle(
+  fontSize: fs22,
+  color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: regular,
 );
 
 /// Font size - 24

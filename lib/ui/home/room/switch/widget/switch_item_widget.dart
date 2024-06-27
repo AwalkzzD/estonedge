@@ -1,3 +1,4 @@
+import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget_bloc.dart';
@@ -63,13 +64,9 @@ class _SwitchItemWidgetState
           Row(
             children: [
               Text(
-                overflow: TextOverflow.fade,
-                widget.deviceName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
+                  overflow: TextOverflow.fade,
+                  widget.deviceName,
+                  style: fs16BlackBold),
               const Spacer(),
               PopupMenuButton<String>(
                 onSelected: (value) {

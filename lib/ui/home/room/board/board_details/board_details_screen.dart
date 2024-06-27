@@ -42,6 +42,7 @@ class _BoardDetailsScreenState
         },
       ),
       centerTitle: true,
+      backgroundColor: Colors.white,
       title: const Text(
         'Board Details',
         style: fs24BlackSemibold,
@@ -63,7 +64,6 @@ class _BoardDetailsScreenState
               TextButton(
                 onPressed: () {
                   if (widget.isFromRoomDetailsScreens) {
-
                   } else {
                     Navigator.pop(context);
                   }
@@ -71,8 +71,7 @@ class _BoardDetailsScreenState
                 },
                 child: TextButton(
                     onPressed: () {},
-                    child: const Text('+ Add Board',
-                        style: TextStyle(fontSize: 16, color: Colors.blue))),
+                    child: Text('+ Add Board', style: fs16BlueRegular)),
               ),
             ],
           ),
