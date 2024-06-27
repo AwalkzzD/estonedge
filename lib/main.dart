@@ -5,6 +5,7 @@ import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'app_bloc.dart';
 import 'base/bloc/base_bloc_provider.dart';
@@ -17,6 +18,8 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await SpUtil.getInstance();
     await _configureAmplify();
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
     runApp(
       BlocProvider<AppBloc>(
           initBloc: AppBloc(),

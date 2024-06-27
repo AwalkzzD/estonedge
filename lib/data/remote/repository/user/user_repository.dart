@@ -10,15 +10,21 @@ import '../../utils/dio_manager.dart';
 void apiCreateUserRecord(String createUserRequestParams,
     Function(CreateUserResponse) onSuccess, Function(String) onError) async {
   try {
+    print('User ID --> ${getUserId()}');
     final response = createUserResponseFromJson(
-        (await (await DioManager.getInstance())!.post(
-                '$users/${getUserId()}',
-                options: Options(responseType: ResponseType.plain),
-                data: createUserRequestParams))
+        (await (await DioManager.getInstance())!.post('$users/${getUserId()}',
+            options: Options(
+              responseType: ResponseType.plain,
+              validateStatus: (status) => true,
+            ),
+            data: createUserRequestParams))
             .data);
 
     if (response.userId != null) {
+      print('User Id not null --> ${response.userId}');
       onSuccess(response);
+    } else {
+      print('User Id null --> ${response.userId}');
     }
   } on DioException catch (ex) {
     onError(ex.message ?? "Something went wrong");
@@ -30,9 +36,10 @@ void apiGetUserData(
     Function(UserResponse) onSuccess, Function(String) onError) async {
   try {
     final response = userResponseFromJson(
-        (await (await DioManager.getInstance())!.get(
-                '$users/${getUserId()}',
-                options: Options(responseType: ResponseType.plain)))
+        (await (await DioManager.getInstance())!.get('$users/${getUserId()}',
+            options: Options(
+                responseType: ResponseType.plain,
+                validateStatus: (status) => true)))
             .data);
     if (response.userId.isNotEmpty) {
       onSuccess(response);

@@ -36,9 +36,13 @@ class LoginScreenBloc extends BasePageBloc {
       /// update shared prefs
       updateSharedPrefs(attrList);
 
+      print('UserName ---> ${attrList.getUsername()}');
+
       String createUserRequestParams = CreateUserRequestParameters(
-              name: attrList.getUsername(), email: attrList.getUserEmail())
+          name: attrList.getUsername(), email: attrList.getUserEmail())
           .toRequestParams();
+
+      print('Create User Request Params --> $createUserRequestParams');
 
       /// call create user record api by passing required request params
       apiCreateUserRecord(createUserRequestParams, (createUserResponse) {

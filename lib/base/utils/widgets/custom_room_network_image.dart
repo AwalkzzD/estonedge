@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -19,34 +20,28 @@ Widget buildCustomRoomNetworkImage({
 }
 
 Widget buildNetworkImage(String imageUrl) {
-  return Image.network(
+  return CachedNetworkImage(
     filterQuality: FilterQuality.high,
-    imageUrl,
     fit: BoxFit.fill,
-    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-      print(error.toString());
-      return Column(
+    errorWidget: (context, err, stackTrace) {
+      return const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error, color: Colors.red),
+          Icon(Icons.error, color: Colors.red),
           Text("Can't load image",
               overflow: TextOverflow.ellipsis, style: fs12BlackRegular)
         ],
       );
     },
-    loadingBuilder:
-        (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-      if (loadingProgress == null) return child;
+    progressIndicatorBuilder: (context, url, progress) {
       return Center(
         child: CircularProgressIndicator(
           backgroundColor: Colors.transparent,
           color: Colors.blueAccent,
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes!
-              : null,
+          value: progress.progress,
         ),
       );
     },
+    imageUrl: imageUrl,
   );
 }
