@@ -32,6 +32,16 @@ class _SwitchDetailsScreenState
   Widget? getAppBar() {
     return AppBar(
       centerTitle: true,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: Image.asset(AppImages.appBarBackIcon),
+            onPressed: () {
+              Navigator.of(globalContext).pop();
+            },
+          );
+        },
+      ),
       title: const Text(
         'Switch Details',
         style: fs24BlackBold,

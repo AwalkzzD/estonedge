@@ -80,7 +80,8 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                 style: fs20BlackBold,
               ),
             ),
-            Text('Sign in to access your account.', style: fs14BlackRegular),
+            Text('Welcome back! Sign in to control your smart home.',
+                style: fs14BlackRegular),
             const SizedBox(height: 30),
             CustomTextField(
               hintText: 'Email',

@@ -108,6 +108,15 @@ const TextStyle fs14BlueRegular = TextStyle(
   fontWeight: regular,
 );
 
+/// Font size - 15
+
+const TextStyle fs15BlackRegular = TextStyle(
+  fontSize: 15,
+  fontFamily: fontFamilyLexend,
+  color: black,
+  fontWeight: regular,
+);
+
 /// Font size - 16
 
 const TextStyle fs16BlackBold = TextStyle(
@@ -258,6 +267,13 @@ const TextStyle fs32BlackBold = TextStyle(
   color: black,
   fontFamily: fontFamilyLexend,
   fontWeight: bold,
+);
+
+const TextStyle fs32BlackSemiBold = TextStyle(
+  fontSize: fs32,
+  color: black,
+  fontFamily: fontFamilyLexend,
+  fontWeight: semiBold,
 );
 
 /// Font size - 34

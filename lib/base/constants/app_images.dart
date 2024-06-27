@@ -6,7 +6,7 @@ class AppImages {
 
   // get started page assets
   static const String getStartedHomeIllutstration =
-      'assets/images/introduction_home_illustration.png';
+      'assets/images/get_started.svg';
 
   static const String roomDummyImage = 'assets/images/dummy_room.png';
 
