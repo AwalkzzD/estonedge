@@ -36,8 +36,6 @@ class HomeScreenBloc extends BasePageBloc {
     showLoading();
     apiGetUserData((userResponse) {
       hideLoading();
-      saveUserName(userResponse.name);
-      saveUserEmail(userResponse.email);
     }, (error) {
       hideLoading();
       print('Home Screen Error ---> $error');
