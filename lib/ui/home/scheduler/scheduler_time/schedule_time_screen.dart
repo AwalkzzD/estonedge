@@ -199,10 +199,7 @@ class _ScheduleTimeScreenState
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: fs18BlackBold
-        ),
+        Text(label, style: fs18BlackBold),
         GestureDetector(
           onTap: () => _selectTime(context, isOnTime),
           child: Container(
@@ -214,10 +211,7 @@ class _ScheduleTimeScreenState
             ),
             child: Row(
               children: [
-                Text(
-                  time.format(context),
-                  style: fs18BlackBold
-                ),
+                Text(time.format(context), style: fs18BlackBold),
                 const SizedBox(width: 8.0),
                 const Icon(Icons.arrow_drop_down),
               ],
