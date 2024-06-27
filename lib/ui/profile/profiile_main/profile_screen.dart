@@ -1,5 +1,5 @@
-
 import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/profile/profiile_main/profile_screen_bloc.dart';
 import 'package:estonedge/ui/profile/profile_details/profile_details_screen.dart';
 
@@ -50,10 +50,20 @@ class _ProfileScreenState
           const SizedBox(height: 20),
           profileButtons(const Icon(Icons.support), 'Privacy Policy', () {}),
           const SizedBox(height: 20),
-          profileButtons(const Icon(Icons.logout), 'Logout', () {}),
+          profileButtons(const Icon(Icons.logout), 'Logout', () {
+            navigateToLogin();
+          }),
         ],
       ),
     );
+  }
+
+  void navigateToLogin() {
+    getBloc().logout();
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacement(LoginScreen.route());
+    });
   }
 
   @override

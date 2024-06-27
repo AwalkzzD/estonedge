@@ -82,7 +82,9 @@ class _ProfileDetailsScreenState
                   'Non-Binary',
                   'Prefer not to answer'
                 ],
-                onClick: (value) {}),
+                onClick: (value) {
+                  getBloc().saveGender(value!);
+                }),
             const SizedBox(height: 16),
             CustomTextField(
               readOnly: true,
