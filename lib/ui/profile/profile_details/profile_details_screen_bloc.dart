@@ -1,5 +1,7 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/data/remote/model/user/user_additional_info_response.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
+import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
 import 'package:estonedge/data/remote/repository/user/user_repository.dart';
 import 'package:estonedge/data/remote/requests/user/add_additional_info_request.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,6 +27,8 @@ class ProfileDetailsScreenBloc extends BasePageBloc {
     apiGetUserData((response) {
       hideLoading();
       profileDetails.add(response.additionalInfo);
+      saveGender(response.additionalInfo.gender ?? '');
+      saveDob(response.additionalInfo.dob ?? '');
     }, (errorMsg) {
       hideLoading();
       print(errorMsg);
@@ -42,6 +46,18 @@ class ProfileDetailsScreenBloc extends BasePageBloc {
       hideLoading();
       onSuccess(response);
       profileDetails.add(response.additionalInfo);
+    }, (errorMsg) {
+      hideLoading();
+      onError(errorMsg);
+    });
+  }
+
+  void updateUserPassword(String oldPassword, String newPassword,
+      Function(UpdatePasswordResult) onSuccess, Function(String) onError) {
+    showLoading();
+    apiUpdatePassword(oldPassword, newPassword, (response) {
+      hideLoading();
+      onSuccess(response);
     }, (errorMsg) {
       hideLoading();
       onError(errorMsg);

@@ -1,10 +1,11 @@
 import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
+import 'package:estonedge/base/constants/app_constants.dart';
+import 'package:estonedge/base/utils/date_util.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
 import 'package:estonedge/ui/profile/profile_details/profile_details_screen_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../base/src_bloc.dart';
 import '../../../base/src_constants.dart';
@@ -28,13 +29,21 @@ class _ProfileDetailsScreenState
   final ProfileDetailsScreenBloc _bloc = ProfileDetailsScreenBloc();
 
   final TextEditingController contactNoController = TextEditingController();
-  String? genderController;
   final TextEditingController dobController = TextEditingController();
+  final TextEditingController oldPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  String? genderController;
 
   @override
   void dispose() {
     dobController.dispose();
     super.dispose();
+  }
+
+  @override
+  void onReady() {
+    getBloc().loadData();
+    super.onReady();
   }
 
   @override
@@ -68,7 +77,6 @@ class _ProfileDetailsScreenState
             stream: getBloc().profileDetailsStream,
             builder: (context, snapshot) {
               contactNoController.text = snapshot.data?.contactNo ?? '';
-              dobController.text = snapshot.data?.dob ?? '';
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -87,15 +95,11 @@ class _ProfileDetailsScreenState
                   StreamBuilder<String?>(
                       stream: getBloc().gender.stream,
                       builder: (context, snapshot) {
+                        genderController = snapshot.data;
                         return CustomDropdown(
-                            initialValue: snapshot.data,
+                            initialValue: genderController,
                             hint: 'Gender',
-                            items: const [
-                              'Male',
-                              'Female',
-                              'Non-Binary',
-                              'Prefer not to answer'
-                            ],
+                            items: gendersList,
                             onClick: (value) {
                               getBloc().saveGender(value!);
                             });
@@ -120,25 +124,24 @@ class _ProfileDetailsScreenState
                                   .subtract(const Duration(days: 4383)),
                             );
                             if (selectedDate != null) {
-                              String formattedDate = DateFormat('dd MMMM, yyyy')
-                                  .format(selectedDate);
-                              getBloc().saveDob(formattedDate);
-                              /*setState(() {
-                              dobController.text = formattedDate;
-                            });*/
+                              getBloc().saveDob(SPDateUtils.format(selectedDate,
+                                      SPDateUtils.FORMAT_DD_MMMM_YYYY) ??
+                                  '');
                             }
                           },
                         );
                       }),
                   const SizedBox(height: 16),
-                  const CustomTextField(
-                    hintText: 'New Password',
+                  CustomTextField(
+                    controller: oldPasswordController,
+                    hintText: 'Old Password',
                     icon: Icons.lock,
                     obscureText: true,
                   ),
                   const SizedBox(height: 16),
-                  const CustomTextField(
-                    hintText: 'Confirm Password',
+                  CustomTextField(
+                    controller: newPasswordController,
+                    hintText: 'New Password',
                     icon: Icons.lock,
                     obscureText: true,
                   ),
@@ -148,6 +151,21 @@ class _ProfileDetailsScreenState
                         btnText: 'Update',
                         color: Colors.blue,
                         onPressed: () {
+                          if (oldPasswordController.text.isNotEmpty) {
+                            if (newPasswordController.text.isNotEmpty) {
+                              getBloc().updateUserPassword(
+                                  oldPasswordController.text,
+                                  newPasswordController.text, (response) {
+                                showMessageBar(
+                                    'Password changed successfully!');
+                              }, (errorMsg) async {
+                                await Future.delayed(const Duration(seconds: 1),
+                                    () {
+                                  showMessageBar(errorMsg);
+                                });
+                              });
+                            }
+                          }
                           if (contactNoController.text.length == 10) {
                             getBloc().addAdditionalInfo(
                                 contactNoController.text, (response) {
