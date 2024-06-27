@@ -4,7 +4,6 @@ import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/data/remote/model/board_types/board_types_response.dart';
-import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -155,10 +154,12 @@ class _AddBoardScreenState
                                             MediaQuery.of(context).size.width,
                                         color: Colors.blueAccent,
                                         onPressed: () {
-                                          Navigator.pushAndRemoveUntil(
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                          /*Navigator.pushAndRemoveUntil(
                                               context,
-                                              HomeScreen.route(),
-                                              (route) => false);
+                                              RoomDetailsScreen.route(null),
+                                              (route) => false);*/
                                         })
                                   ],
                                 ),
