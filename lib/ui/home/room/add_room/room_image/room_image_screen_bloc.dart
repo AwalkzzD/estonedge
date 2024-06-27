@@ -9,10 +9,10 @@ class RoomImageScreenBloc extends BasePageBloc {
   void addRoom(String roomName, String imageUrl,
       Function(AddRoomResponse) onSuccess, Function(String) onError) {
     String addRoomRequestParameters = AddRoomRequestParameters(
-      roomId: generateUniqueKey(),
-      roomName: roomName,
-      roomImage: imageUrl,
-    ).toRequestParams();
+            roomId: generateUniqueKey(),
+            roomName: roomName,
+            roomImage: imageUrl)
+        .toRequestParams();
 
     print(addRoomRequestParameters);
 
