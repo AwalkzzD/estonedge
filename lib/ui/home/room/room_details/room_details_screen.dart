@@ -171,25 +171,11 @@ class _RoomDetailsScreenState
             context, BoardDetailsScreen.route(isFromRoomDetailsScreen: true));
       },
       child: Container(
-        width: 150,
-        height: 80,
-        margin: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.blue,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),

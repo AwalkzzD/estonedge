@@ -48,7 +48,7 @@ class _SwitchItemWidgetState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(widget.deviceImage),
+              SizedBox(height: 38, child: Image.asset(widget.deviceImage)),
               Switch(
                 activeThumbImage:
                     const AssetImage(AppImages.switchActiveThumbImage),
