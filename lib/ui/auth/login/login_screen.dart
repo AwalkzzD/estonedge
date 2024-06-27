@@ -124,7 +124,6 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                   passwordError =
                       validatePassword(passwordInputController.text);
                 });
-
                 if (emailError == null && passwordError == null) {
                   getBloc().attemptLogin(
                       emailInputController.text, passwordInputController.text,
