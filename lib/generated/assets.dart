@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String assetsIconsProfileIcon = 'assets/icons/profile_icon.svg';
   static const String assetsImagesNoRoom = 'assets/images/no_room.png';
   static const String awsKeysCa1 = 'assets/aws_keys/ca1.pem';
   static const String awsKeysDeviceCert = 'assets/aws_keys/device_cert.crt';
@@ -13,7 +14,9 @@ class Assets {
   static const String iconsAddIcon4x = 'assets/icons/add_icon_4x.png';
   static const String iconsAddRoomPlusIcon = 'assets/icons/add_room_plus_icon.png';
   static const String iconsAppBarBackIcon = 'assets/icons/app_bar_back_icon.png';
+  static const String iconsAppBarMenuIcon = 'assets/icons/app_bar_menu_icon.png';
   static const String iconsAppBarPlusIcon = 'assets/icons/app_bar_plus_icon.png';
+  static const String iconsAppIcon = 'assets/icons/app_icon.png';
   static const String iconsAppLogo = 'assets/icons/app_logo.png';
   static const String iconsBlankIcon = 'assets/icons/blank_icon.png';
   static const String iconsBoardConfigIcon = 'assets/icons/board_config_icon.png';
@@ -27,8 +30,10 @@ class Assets {
   static const String iconsScanQrIcon = 'assets/icons/scan_qr_icon.png';
   static const String iconsSwitchActiveThumbImage = 'assets/icons/switch_active_thumb_image.png';
   static const String iconsSwitchInactiveThumbImage = 'assets/icons/switch_inactive_thumb_image.png';
+  static const String iconsTextAlignLeft = 'assets/icons/text_align_left.svg';
   static const String imagesDummyRoom = 'assets/images/dummy_room.png';
   static const String imagesIntroductionHomeIllustration = 'assets/images/introduction_home_illustration.png';
+  static const String imagesNoInternet = 'assets/images/noInternet.png';
   static const String imagesNoRoom = 'assets/images/noRoom.png';
   static const String imagesOrganizationLogo = 'assets/images/organization_logo.png';
   static const String imagesQrCode = 'assets/images/qrCode.png';
