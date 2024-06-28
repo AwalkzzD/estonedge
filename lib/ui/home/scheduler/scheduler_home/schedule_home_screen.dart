@@ -1,6 +1,4 @@
-import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_bloc.dart';
-import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_detaiils/schedule_details_screen.dart';
@@ -36,6 +34,22 @@ class _ScheduleHomeScreenState
   ScheduleHomeScreenBloc getBloc() => _bloc;
 
   @override
+  void onReady() {
+    _loadSchedules();
+    super.onReady();
+  }
+
+  @override
+  bool isRefreshEnable() {
+    return true;
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    return _loadSchedules();
+  }
+
+  @override
   void initState() {
     super.initState();
     _loadSchedules();
@@ -67,8 +81,15 @@ class _ScheduleHomeScreenState
         centerTitle: true,
         titleStyle: fs24BlackBold,
         appBarTrailingImage: AppImages.appBarPlusIcon,
-        trailingIconAction: () =>
-            Navigator.push(context, ScheduleDetailsScreen.route()),
+        trailingIconAction: () async {
+          final scheduleAddedResult =
+              await Navigator.push(context, ScheduleDetailsScreen.route());
+
+          if (scheduleAddedResult != null) {
+            showRefreshIndicator();
+            onRefresh();
+          }
+        },
       ),
     );
   }
@@ -90,7 +111,7 @@ class _ScheduleHomeScreenState
           padding: EdgeInsets.only(
               left: 100.0, right: 100.0, top: 200, bottom: 30.0),
           child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
-        ),        
+        ),
         Text(
           'No Schedules available',
           style: fs22BlackMedium,

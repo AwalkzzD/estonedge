@@ -63,7 +63,7 @@ class _ScheduleTimeScreenState
 
     await _bloc.addSchedule(schedule);
     Navigator.of(context).pop();
-    Navigator.of(context).pop();
+    Navigator.of(context).pop("scheduleAdded");
   }
 
   @override

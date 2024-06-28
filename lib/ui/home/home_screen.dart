@@ -95,14 +95,16 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
   @override
   Widget? getAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
-      // leadingWidth: 45,
+      backgroundColor: white,
       leading: Builder(
         builder: (context) {
           return InkWell(
-            child: const ImageView(
-              image: AppImages.drawerIcon,
-              imageType: ImageType.svg,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ImageView(
+                image: AppImages.drawerIcon,
+                imageType: ImageType.svg,
+              ),
             ),
             onTap: () {
               openDrawer();
