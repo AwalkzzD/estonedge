@@ -100,9 +100,12 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
       leading: Builder(
         builder: (context) {
           return InkWell(
-            child: const ImageView(
-              image: AppImages.drawerIcon,
-              imageType: ImageType.svg,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ImageView(
+                image: AppImages.drawerIcon,
+                imageType: ImageType.svg,
+              ),
             ),
             onTap: () {
               openDrawer();
