@@ -47,12 +47,16 @@ class _DashboardScreenState
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
             /// change to return frequentlyUsed()
+            print('NOTOK');
+            print(snapshot.data?.length);
             return const Center(
               child: SizedBox(
                 child: Text('Show Frequently Used'),
               ),
             );
           } else {
+            print('OK');
+            print(snapshot.data?.length);
             return addRoomButton();
           }
         } else {
