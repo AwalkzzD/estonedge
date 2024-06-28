@@ -1,4 +1,5 @@
 import 'package:estonedge/base/src_bloc.dart';
+import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
@@ -8,9 +9,9 @@ import 'package:estonedge/data/remote/model/user/user_response.dart'
     as userModel;
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
-import 'package:estonedge/ui/home/room/board/board_details/board_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
+import 'package:estonedge/ui/profile/profile_details/profile_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/utils/widgets/custom_appbar.dart';
@@ -40,6 +41,28 @@ class _RoomDetailsScreenState
   RoomsResponse? roomsList;
 
   bool boardStatus = true;
+
+  final TextEditingController boardNameController = TextEditingController();
+
+  @override
+  bool isRefreshEnable() {
+    return true;
+  }
+
+  @override
+  void onReady() {
+    getBloc().getRoomData(widget.roomResponse?.roomId ?? '', (errorMsg) {
+      showMessageBar(errorMsg);
+    });
+    super.onReady();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    return getBloc().getRoomData(widget.roomResponse?.roomId ?? '', (errorMsg) {
+      showMessageBar(errorMsg);
+    });
+  }
 
   @override
   void initState() {
@@ -87,52 +110,55 @@ class _RoomDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    if (roomsList == null) {
-      return const Center(
-        child: Text('No Room Details Available'),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-        children: [
-          imgStack(),
-          const SizedBox(height: 20),
-          if (roomsList!.boards.isEmpty)
-            buildNoBoards()
-          else
-            Expanded(
-              child: ListView.builder(
-                itemCount: roomsList?.boards.length,
-                itemBuilder: (context, index) {
-                  return buildBoardItem(roomsList?.boards[index]);
-                },
-              ),
+    return StreamBuilder<RoomsResponse?>(
+      stream: getBloc().roomDetailsStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                buildImageStack(snapshot.data),
+                const SizedBox(height: 20),
+                if (snapshot.data!.boards.isEmpty)
+                  Expanded(child: buildNoBoards())
+                else
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: snapshot.data!.boards.length,
+                      itemBuilder: (context, index) {
+                        return buildBoardItem(snapshot.data?.boards[index]);
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(height: 10.h),
+                    ),
+                  ),
+                CustomButton(
+                  btnText: 'Delete Room',
+                  width: double.infinity,
+                  color: const Color.fromARGB(255, 237, 83, 83),
+                  onPressed: () {
+                    getBloc().deleteRoom(widget.roomResponse!.roomId,
+                        (response) {
+                      Navigator.pushAndRemoveUntil(
+                          context, HomeScreen.route(), (route) => false);
+                    }, (errorMsg) {
+                      showMessageBar(errorMsg);
+                    });
+                  },
+                ),
+              ],
             ),
-          CustomButton(
-            btnText: 'Delete Room',
-            width: double.infinity,
-            color: const Color.fromARGB(255, 237, 83, 83),
-            onPressed: () {
-              getBloc().deleteRoom(widget.roomResponse!.roomId, (response) {
-                Navigator.pushAndRemoveUntil(
-                    context, HomeScreen.route(), (route) => false);
-              }, (errorMsg) {
-                showMessageBar(errorMsg);
-              });
-            },
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 
-  Widget imgStack() {
-    final roomsList = widget.roomResponse;
-    print(roomsList);
-
-    if (roomsList == null) {
+  Widget buildImageStack(RoomsResponse? roomResponse) {
+    if (roomResponse == null) {
       return const SizedBox.shrink();
     }
 
@@ -142,7 +168,8 @@ class _RoomDetailsScreenState
           borderRadius: BorderRadius.circular(20),
           child: AspectRatio(
             aspectRatio: 21 / 9,
-            child: buildCustomRoomNetworkImage(imageUrl: roomsList.roomImage),
+            child: buildCustomRoomNetworkImage(
+                imageUrl: roomResponse.roomImage, useColorFiltered: true),
           ),
         ),
         Positioned(
@@ -151,8 +178,8 @@ class _RoomDetailsScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(roomsList.roomName, style: fs18WhiteBold),
-              Text('${roomsList.boards.length} boards found',
+              Text(roomResponse.roomName, style: fs18WhiteBold),
+              Text('${roomResponse.boards.length} boards found',
                   style: fs16WhiteRegular),
             ],
           ),
@@ -170,14 +197,9 @@ class _RoomDetailsScreenState
               left: 100.0, right: 100.0, top: 100.0, bottom: 60.0),
           child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
         ),
-        Text(
-          'No Boards',
-          style: fs22BlackMedium,
-        ),
-        Text(
-          'Add your board by clicking plus(+) icon',
-          style: fs14BlackRegular,
-        ),
+        Text('No Boards', style: fs22BlackMedium),
+        Text('Add your board by clicking plus(+) icon',
+            style: fs14BlackRegular),
       ],
     );
   }
@@ -187,73 +209,118 @@ class _RoomDetailsScreenState
       boardStatus = board.switches.any((switch1) => switch1.status);
     }
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        title: Text(board?.boardName ?? ''),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PopupMenuButton<String>(
-              onSelected: (value) {
-                // Handle menu item selection
-                if (value == 'Edit') {
-                  // Handle edit action
-                } else if (value == 'Delete') {
-                  // Handle delete action
-                }
-              },
-              itemBuilder: (context) => [
-                const PopupMenuItem(
-                  value: 'Edit',
-                  child: ListTile(
-                    leading: Icon(Icons.edit),
-                    title: Text('Edit'),
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'Delete',
-                  child: ListTile(
-                    leading: Icon(Icons.delete),
-                    title: Text('Delete'),
-                  ),
-                ),
-              ],
-              icon: const Icon(Icons.more_vert),
-            ),
-            if (board != null && board.macAddress.isNotEmpty)
-              IconButton(
-                onPressed: () {
-                  // Handle the button press action
-                  Navigator.push(
-                    context,
-                    SwitchDetailsScreen.route(),
-                  );
+      child: Container(
+        decoration: BoxDecoration(
+            color: white,
+            border: Border.all(color: Colors.blueAccent, width: 2),
+            borderRadius: BorderRadius.circular(15)),
+        child: ListTile(
+          title: Text(
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            board?.boardName ?? '',
+            style: fs16BlackSemibold.copyWith(fontWeight: medium),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PopupMenuButton<String>(
+                onSelected: (value) {
+                  // Handle menu item selection
+                  if (value == 'Edit') {
+                    boardNameController.text = board?.boardName ?? 'Board X';
+                    showDialog<String>(
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomTextField(
+                              hintText: 'Board Name',
+                              controller: boardNameController,
+                            ),
+                          ],
+                        ),
+                        actions: <Widget>[
+                          CustomButton(
+                              width: MediaQuery.of(context).size.width,
+                              btnText: 'Update',
+                              color: Colors.blueAccent,
+                              onPressed: () {
+                                getBloc().updateBoard(
+                                    widget.roomResponse!.roomId,
+                                    board!.boardId,
+                                    boardNameController.text, (response) {
+                                  showMessageBar(
+                                      response.message ?? "Board Name Updated");
+                                }, (errorMsg) {
+                                  showMessageBar(errorMsg);
+                                });
+                                Navigator.pop(context);
+                              }),
+                        ],
+                      ),
+                    );
+                  } else if (value == 'Delete') {
+                    // Handle delete action
+                  }
                 },
-                icon: Image.asset(AppImages.boardConfigIcon),
-              )
-            else
-              Switch(
-                activeThumbImage:
-                    const AssetImage(AppImages.switchActiveThumbImage),
-                inactiveThumbImage:
-                    const AssetImage(AppImages.switchInactiveThumbImage),
-                activeTrackColor: Colors.blueAccent,
-                inactiveTrackColor: Colors.black,
-                value: boardStatus,
-                onChanged: (value) {
-                  setState(() {
-                    boardStatus = value;
-                    if (board != null && board.switches.isNotEmpty) {
-                      // Update the status of the first switch (or handle as needed)
-                      // board.switches[0].status = value;
-                    }
-                  });
-                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'Edit',
+                    child: ListTile(
+                      leading: Icon(Icons.edit),
+                      title: Text('Edit'),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'Delete',
+                    child: ListTile(
+                      leading: Icon(Icons.delete),
+                      title: Text('Delete'),
+                    ),
+                  ),
+                ],
+                icon: const Icon(Icons.more_vert),
               ),
-          ],
+              if (board != null && board.macAddress.isNotEmpty)
+                IconButton(
+                  onPressed: () {
+                    // Handle the button press action
+                    Navigator.push(
+                      context,
+                      SwitchDetailsScreen.route(),
+                    );
+                  },
+                  icon: Image.asset(AppImages.boardConfigIcon),
+                )
+              else
+                Switch(
+                  trackOutlineColor:
+                      WidgetStateProperty.all(Colors.transparent),
+                  trackOutlineWidth: WidgetStateProperty.all(0),
+                  thumbColor: WidgetStateProperty.all(Colors.white),
+                  activeThumbImage:
+                      const AssetImage(AppImages.switchActiveThumbImage),
+                  inactiveThumbImage:
+                      const AssetImage(AppImages.switchInactiveThumbImage),
+                  activeTrackColor: Colors.blueAccent,
+                  inactiveTrackColor: Colors.black,
+                  value: boardStatus,
+                  onChanged: (value) {
+                    setState(() {
+                      boardStatus = value;
+                      if (board != null && board.switches.isNotEmpty) {
+                        // Update the status of the first switch (or handle as needed)
+                        // board.switches[0].status = value;
+                      }
+                    });
+                  },
+                ),
+            ],
+          ),
         ),
       ),
     );

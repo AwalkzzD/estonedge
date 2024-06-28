@@ -18,6 +18,7 @@ void apiUserLogin(String email, String password,
   try {
     final response =
         await Amplify.Auth.signIn(username: email, password: password);
+
     onSuccess(response);
   } on UserNotFoundException catch (ex) {
     onError(ex.message);
@@ -72,6 +73,19 @@ void apiUserSignUpVerification(
     onError(ex.message);
   } catch (ex) {
     onError(ex.toString());
+  }
+}
+
+void apiUpdatePassword(String oldPassword, String newPassword,
+    Function(UpdatePasswordResult) onSuccess, Function(String) onError) async {
+  try {
+    final response = await Amplify.Auth.updatePassword(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    );
+    onSuccess(response);
+  } on AuthException catch (ex) {
+    onError(ex.message);
   }
 }
 

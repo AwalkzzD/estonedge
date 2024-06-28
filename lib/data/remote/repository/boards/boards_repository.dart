@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/data/remote/model/board_types/board_types_response.dart';
 import 'package:estonedge/data/remote/model/boards/add_board_response.dart';
+import 'package:estonedge/data/remote/model/boards/update_board_response.dart';
 import 'package:estonedge/data/remote/utils/dio_manager.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 
@@ -36,6 +37,30 @@ void apiAddBoardData({
                       validateStatus: (status) => true,
                     ),
                     data: addBoardRequestParams))
+            .data);
+    onSuccess(response);
+  } on DioException catch (ex) {
+    onError(ex.message ?? "Something went wrong");
+  }
+}
+
+/// PUT - BOARD DATA [BOARD NAME & MAC ID]
+void apiUpdateBoardDetails({
+  required String roomId,
+  required String boardId,
+  required String updateBoardRequestParams,
+  required Function(UpdateBoardResponse) onSuccess,
+  required Function(String) onError,
+}) async {
+  try {
+    final response = updateBoardResponseFromJson(
+        (await (await DioManager.getInstance())!
+                .put('$users/${getUserId()}/$rooms/$roomId/$boards/$boardId',
+                    options: Options(
+                      responseType: ResponseType.plain,
+                      validateStatus: (status) => true,
+                    ),
+                    data: updateBoardRequestParams))
             .data);
     onSuccess(response);
   } on DioException catch (ex) {

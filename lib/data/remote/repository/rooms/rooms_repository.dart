@@ -25,6 +25,22 @@ void apiGetRoomsData(
   }
 }
 
+/// GET - ALL SINGLE ROOM OF USER
+void apiGetRoomData(String roomId, Function(RoomsResponse) onSuccess,
+    Function(String) onError) async {
+  try {
+    final response = roomResponseFromJson(
+        (await (await DioManager.getInstance())!.get(
+                '$users/${getUserId()}/$rooms/$roomId',
+                options: Options(responseType: ResponseType.plain)))
+            .data);
+
+    onSuccess(response);
+  } on DioException catch (ex) {
+    onError(ex.message ?? "Something went wrong");
+  }
+}
+
 /// POST - ROOM DATA
 void apiAddRoomData(String addRoomRequestParams,
     Function(AddRoomResponse) onSuccess, Function(String) onError) async {

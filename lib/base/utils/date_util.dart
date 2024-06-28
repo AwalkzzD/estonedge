@@ -11,7 +11,8 @@ class SPDateUtils {
   static const String FORMAT_DD_MMM_YY = "dd MMM /yy";
   static const String FORMAT_DD_MM_YYYY = 'dd/MM/yyyy';
   static const String FORMAT_DD_MMM_YY_HH_A = "dd MMM yy : HHa";
-  static const String FORMAT_DD_MMMM_YY = "dd MMM yyyy";
+  static const String FORMAT_DD_MMM_YYYY = "dd MMM yyyy";
+  static const String FORMAT_DD_MMMM_YYYY = "dd MMMM, yyyy";
   static const String FORMAT_DD_MMM_YY_HH_MM = "dd MMM /yy HH:mm";
   static const String FORMAT_DD_MM = "dMMM";
   static const String FORMAT_HH_MM_A = "hh:mm a";
@@ -50,7 +51,7 @@ class SPDateUtils {
   }
 
   static DateTime stringFormat(String? dt,
-      [String formatString = FORMAT_DD_MMMM_YY]) {
+      [String formatString = FORMAT_DD_MMM_YY]) {
     if (dt == null) return DateTime.now();
     final format = DateFormat(formatString);
 
@@ -61,7 +62,7 @@ class SPDateUtils {
   ///
   /// The default format is yyyy-MM-dd HH:mm:ss
   static String? format(DateTime? dt,
-      [String formatString = FORMAT_DD_MMMM_YY]) {
+      [String formatString = FORMAT_DD_MMM_YY]) {
     if (dt == null) return null;
 
     return DateFormat(formatString).format(dt);

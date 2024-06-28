@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:estonedge/base/constants/app_constants.dart';
+import 'package:estonedge/data/remote/model/user/user_additional_info_response.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 
@@ -13,11 +14,11 @@ void apiCreateUserRecord(String createUserRequestParams,
     print('User ID --> ${getUserId()}');
     final response = createUserResponseFromJson(
         (await (await DioManager.getInstance())!.post('$users/${getUserId()}',
-            options: Options(
-              responseType: ResponseType.plain,
-              validateStatus: (status) => true,
-            ),
-            data: createUserRequestParams))
+                options: Options(
+                  responseType: ResponseType.plain,
+                  validateStatus: (status) => true,
+                ),
+                data: createUserRequestParams))
             .data);
 
     if (response.userId != null) {
@@ -37,13 +38,32 @@ void apiGetUserData(
   try {
     final response = userResponseFromJson(
         (await (await DioManager.getInstance())!.get('$users/${getUserId()}',
-            options: Options(
-                responseType: ResponseType.plain,
-                validateStatus: (status) => true)))
+                options: Options(
+                    responseType: ResponseType.plain,
+                    validateStatus: (status) => true)))
             .data);
     if (response.userId.isNotEmpty) {
       onSuccess(response);
     }
+  } on DioException catch (ex) {
+    onError(ex.message ?? "Something went wrong");
+  }
+}
+
+/// api to put user additional info
+void apiPutAdditionalInfo(
+    String addAdditionalInfoRequestParameters,
+    Function(AdditionalInfoResponse) onSuccess,
+    Function(String) onError) async {
+  try {
+    final response = additionalInfoResponseFromJson(
+        (await (await DioManager.getInstance())!.put('$users/${getUserId()}',
+                options: Options(
+                    responseType: ResponseType.plain,
+                    validateStatus: (status) => true),
+                data: addAdditionalInfoRequestParameters))
+            .data);
+    onSuccess(response);
   } on DioException catch (ex) {
     onError(ex.message ?? "Something went wrong");
   }

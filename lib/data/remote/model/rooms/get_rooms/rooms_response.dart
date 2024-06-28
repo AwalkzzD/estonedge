@@ -10,6 +10,11 @@ String roomsResponseToJson(List<RoomsResponse> data) => json.encode({
       "L": List<dynamic>.from(data.map((x) => {"M": x.toJson()}))
     });
 
+RoomsResponse roomResponseFromJson(String str) =>
+    RoomsResponse.fromJson(json.decode(str));
+
+String roomResponseToJson(RoomsResponse data) => json.encode(data.toJson());
+
 class RoomsResponse {
   final String roomId;
   final String roomName;

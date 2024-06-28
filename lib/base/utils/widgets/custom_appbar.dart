@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final String appBarTrailingImage;
+  final String? appBarTrailingImage;
   final Function()? trailingIconAction;
   final bool centerTitle;
   final TextStyle titleStyle;
@@ -14,7 +14,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     BuildContext context, {
     super.key,
     required this.title,
-    this.appBarTrailingImage = AppImages.appBarPlusIcon,
+    this.appBarTrailingImage,
     this.centerTitle = false,
     this.titleStyle = fs24BlackBold,
     this.trailingIconAction,
@@ -39,11 +39,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
           ),
           InkWell(
             onTap: trailingIconAction,
-            child: Image.asset(
-              appBarTrailingImage,
-              width: trailingIconWidth,
-              height: trailingIconHeight,
-            ),
+            child: (appBarTrailingImage != null)
+                ? Image.asset(
+                    appBarTrailingImage!,
+                    width: trailingIconWidth,
+                    height: trailingIconHeight,
+                  )
+                : const SizedBox(),
           ),
         ],
       ),
@@ -51,5 +53,5 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
