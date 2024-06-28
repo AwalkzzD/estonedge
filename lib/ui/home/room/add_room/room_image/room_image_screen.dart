@@ -1,5 +1,5 @@
-import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/constants/app_constants.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/add_room/room_image/room_image_screen_bloc.dart';
@@ -114,9 +114,9 @@ class _RoomImageScreenState
                                 image: AppImages.icRoomAdded,
                                 imageType: ImageType.asset),
                             const SizedBox(height: 30),
-                            Text('${widget.roomName} Added',
+                            Text('${widget.roomName} added successfully.',
                                 overflow: TextOverflow.ellipsis,
-                                style: fs16BlackSemibold)
+                                style: fs16BlackRegular)
                           ],
                         ),
                         actions: <Widget>[
@@ -125,8 +125,12 @@ class _RoomImageScreenState
                               width: MediaQuery.of(context).size.width,
                               color: Colors.blueAccent,
                               onPressed: () {
-                                Navigator.pushAndRemoveUntil(context,
-                                    HomeScreen.route(), (route) => false);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.pop<String>(
+                                    context, "${widget.roomName}");
+                                /*Navigator.pushAndRemoveUntil(context,
+                                    HomeScreen.route(), (route) => false);*/
                               })
                         ],
                       ),
@@ -144,9 +148,12 @@ class _RoomImageScreenState
                                 image: AppImages.icRoomAddFailed,
                                 imageType: ImageType.asset),
                             const SizedBox(height: 30),
-                            Text('${widget.roomName} Not Added',
+                            const Text('Unexpected Error',
                                 overflow: TextOverflow.ellipsis,
-                                style: fs16BlackSemibold)
+                                style: fs16BlackRegular),
+                            Text('${widget.roomName} was not added.',
+                                overflow: TextOverflow.ellipsis,
+                                style: fs14BlackRegular)
                           ],
                         ),
                         actions: <Widget>[

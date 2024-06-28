@@ -22,6 +22,8 @@ void apiUserLogin(String email, String password,
     onSuccess(response);
   } on UserNotFoundException catch (ex) {
     onError(ex.message);
+  } on NotAuthorizedServiceException catch (ex) {
+    onError(ex.message);
   } on DioException catch (ex) {
     onError(ex.message ?? "Something went wrong");
   } catch (ex) {

@@ -1,14 +1,10 @@
 import 'package:estonedge/base/src_widgets.dart';
-
-import '../../../base/src_bloc.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
 import 'package:estonedge/base/widgets/bottom_bar/lazy_load_indexed_stack.dart';
-import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/ui/auth/login/login_screen.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen.dart';
 import 'package:estonedge/ui/home/home_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/add_room/room_name/add_room_screen.dart';
-import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen.dart';
 import 'package:estonedge/ui/profile/profiile_main/profile_screen.dart';
@@ -16,6 +12,7 @@ import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../base/src_bloc.dart';
 import '../../base/src_constants.dart';
 import '../../base/widgets/keep_alive_widget.dart';
 
@@ -373,9 +370,13 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
     });
   }
 
-  void navigateToAddRoom() {
-    Navigator.of(globalContext, rootNavigator: true)
-        .push(AddRoomScreen.route());
+  Future<void> navigateToAddRoom() async {
+    final roomAddedResult =
+        await Navigator.of(context).push(AddRoomScreen.route());
+    if (roomAddedResult != null) {
+      showMessageBarFloating(
+          '$roomAddedResult added successfully.\nPull to refresh screen!!!');
+    }
   }
 
   void navigateToScheduleRoom() =>

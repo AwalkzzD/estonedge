@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/data/remote/model/board_types/board_types_response.dart';
 import 'package:estonedge/data/remote/model/boards/add_board_response.dart';
+import 'package:estonedge/data/remote/model/boards/delete_board_response.dart';
 import 'package:estonedge/data/remote/model/boards/update_board_response.dart';
 import 'package:estonedge/data/remote/utils/dio_manager.dart';
 import 'package:estonedge/utils/shared_pref.dart';
@@ -61,6 +62,28 @@ void apiUpdateBoardDetails({
                       validateStatus: (status) => true,
                     ),
                     data: updateBoardRequestParams))
+            .data);
+    onSuccess(response);
+  } on DioException catch (ex) {
+    onError(ex.message ?? "Something went wrong");
+  }
+}
+
+/// DELETE - DELETE BOARD DATA
+void apiDeleteBoardDetails({
+  required String roomId,
+  required String boardId,
+  required Function(DeleteBoardResponse) onSuccess,
+  required Function(String) onError,
+}) async {
+  try {
+    final response = deleteBoardResponseFromJson(
+        (await (await DioManager.getInstance())!
+                .delete('$users/${getUserId()}/$rooms/$roomId/$boards/$boardId',
+                    options: Options(
+                      responseType: ResponseType.plain,
+                      validateStatus: (status) => true,
+                    )))
             .data);
     onSuccess(response);
   } on DioException catch (ex) {

@@ -66,19 +66,12 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
       children: [
         // SizedBox(height: 100),
         Padding(
-          padding: EdgeInsets.only(
-              left: 100.0, right: 100.0, top: 200.0, bottom: 50.0),
-          child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
-        ),
-        // SizedBox(height: 30),
-        Text(
-          'No Rooms',
-          style: fs22BlackMedium,
-        ),
-        Text(
-          'add your room by clicking plus(+) icon',
-          style: fs14BlackRegular,
-        )
+            padding: EdgeInsets.only(
+                left: 100.0, right: 100.0, top: 200.0, bottom: 50.0),
+            child: Image(image: AssetImage(AppImages.noRoomFoundImage))),
+        SizedBox(height: 30),
+        Text('No Rooms', style: fs22BlackMedium),
+        Text('add your room by clicking plus(+) icon', style: fs14BlackRegular)
       ],
     );
   }
@@ -91,8 +84,14 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
         itemCount: roomsList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () => Navigator.push(
-                context, RoomDetailsScreen.route(roomsList[index])),
+            onTap: () async {
+              final isRoomDeleted = await Navigator.push(
+                  context, RoomDetailsScreen.route(roomsList[index]));
+              if (isRoomDeleted != null) {
+                showRefreshIndicator();
+                onRefresh();
+              }
+            },
             child: Card(
               shadowColor: Colors.black,
               elevation: 10,

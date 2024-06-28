@@ -54,7 +54,7 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
           style: fs18BlueSemiBold,
         ),
         const SizedBox(height: 40),
-        CustomTextfieldWiFi(
+        CustomTextFieldWiFi(
           labelText: 'MacID/SSID',
           hintText: 'Enter MacID/SSID',
           controller: ssidController,
@@ -66,7 +66,7 @@ class _MacidScreenState extends BasePageState<MacidScreen, MacidScreenBloc> {
           },
         ),
         const SizedBox(height: 40),
-        const CustomTextfieldWiFi(
+        const CustomTextFieldWiFi(
           labelText: 'Password',
           hintText: 'Enter your password',
         ),

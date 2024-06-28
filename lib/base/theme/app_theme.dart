@@ -79,7 +79,9 @@ class AppTheme extends BasePageBloc {
   SystemUiOverlayStyle get uiOverlayStyle =>
       lightMode() ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
 
-  Color get primaryColor => const Color(0xFFBC212C);
+  Color get primaryColor => const Color.fromARGB(255, 68, 138, 255);
+
+  Color get redAccent => const Color.fromARGB(255, 237, 83, 83);
 
   Color get accentColor => const Color(0xFF7F1417);
 

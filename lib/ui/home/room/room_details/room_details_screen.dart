@@ -1,13 +1,13 @@
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_constants.dart';
+import 'package:estonedge/base/src_widgets.dart';
+import 'package:estonedge/base/theme/app_theme.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
-import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart'
     as userModel;
-import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
@@ -38,7 +38,7 @@ class _RoomDetailsScreenState
     extends BasePageState<RoomDetailsScreen, RoomDetailsScreenBloc> {
   final RoomDetailsScreenBloc _bloc = RoomDetailsScreenBloc();
 
-  RoomsResponse? roomsList;
+  RoomsResponse? roomData;
 
   bool boardStatus = true;
 
@@ -66,7 +66,7 @@ class _RoomDetailsScreenState
 
   @override
   void initState() {
-    roomsList = widget.roomResponse;
+    roomData = widget.roomResponse;
     super.initState();
   }
 
@@ -96,9 +96,13 @@ class _RoomDetailsScreenState
                 context,
                 title: widget.roomResponse?.roomName ?? 'Room Details',
                 appBarTrailingImage: AppImages.appBarPlusIcon,
-                trailingIconAction: () {
-                  Navigator.push(
-                      context, AddBoardScreen.route(roomsList!.roomId));
+                trailingIconAction: () async {
+                  final boardAddedResult = await Navigator.push(
+                      context, AddBoardScreen.route(roomData!.roomId));
+                  if (boardAddedResult != null) {
+                    showRefreshIndicator();
+                    onRefresh();
+                  }
                 },
               ),
             ],
@@ -136,15 +140,50 @@ class _RoomDetailsScreenState
                 CustomButton(
                   btnText: 'Delete Room',
                   width: double.infinity,
-                  color: const Color.fromARGB(255, 237, 83, 83),
+                  color: themeOf().redAccent,
                   onPressed: () {
-                    getBloc().deleteRoom(widget.roomResponse!.roomId,
-                        (response) {
-                      Navigator.pushAndRemoveUntil(
-                          context, HomeScreen.route(), (route) => false);
-                    }, (errorMsg) {
-                      showMessageBar(errorMsg);
-                    });
+                    showDialog<String>(
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ImageView(
+                                color: themeOf().redAccent,
+                                width: 80,
+                                height: 80,
+                                image: AppImages.icDelete,
+                                imageType: ImageType.asset),
+                            const SizedBox(height: 30),
+                            Text(
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                'Are you sure you want to delete ${roomData?.roomName} ?',
+                                overflow: TextOverflow.ellipsis,
+                                style: fs14BlackRegular)
+                          ],
+                        ),
+                        actions: <Widget>[
+                          CustomButton(
+                              btnText: 'Delete',
+                              width: MediaQuery.of(context).size.width,
+                              color: themeOf().redAccent,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                getBloc().deleteRoom(
+                                    widget.roomResponse!.roomId, (response) {
+                                  navigateToRoomScreen();
+                                  showMessageBar(response.message ??
+                                      'Room Deleted Successfully');
+                                }, (errorMsg) {
+                                  showMessageBar(errorMsg);
+                                });
+                              })
+                        ],
+                      ),
+                    );
                   },
                 ),
               ],
@@ -212,7 +251,7 @@ class _RoomDetailsScreenState
       child: Container(
         decoration: BoxDecoration(
             color: white,
-            border: Border.all(color: Colors.blueAccent, width: 2),
+            border: Border.all(color: themeOf().primaryColor, width: 2),
             borderRadius: BorderRadius.circular(15)),
         child: ListTile(
           title: Text(
@@ -227,18 +266,24 @@ class _RoomDetailsScreenState
               PopupMenuButton<String>(
                 onSelected: (value) {
                   // Handle menu item selection
+                  boardNameController.text = board?.boardName ?? 'Board X';
                   if (value == 'Edit') {
-                    boardNameController.text = board?.boardName ?? 'Board X';
                     showDialog<String>(
                       barrierDismissible: true,
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            SizedBox(height: 10.h),
+                            const Text(
+                              'Board Name',
+                              style: fs14BlackRegular,
+                            ),
+                            SizedBox(height: 8.h),
                             CustomTextField(
-                              hintText: 'Board Name',
+                              hintText: 'Enter Board Name...',
                               controller: boardNameController,
                             ),
                           ],
@@ -247,7 +292,7 @@ class _RoomDetailsScreenState
                           CustomButton(
                               width: MediaQuery.of(context).size.width,
                               btnText: 'Update',
-                              color: Colors.blueAccent,
+                              color: themeOf().primaryColor,
                               onPressed: () {
                                 getBloc().updateBoard(
                                     widget.roomResponse!.roomId,
@@ -255,6 +300,8 @@ class _RoomDetailsScreenState
                                     boardNameController.text, (response) {
                                   showMessageBar(
                                       response.message ?? "Board Name Updated");
+                                  showRefreshIndicator();
+                                  onRefresh();
                                 }, (errorMsg) {
                                   showMessageBar(errorMsg);
                                 });
@@ -264,7 +311,50 @@ class _RoomDetailsScreenState
                       ),
                     );
                   } else if (value == 'Delete') {
-                    // Handle delete action
+                    showDialog<String>(
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ImageView(
+                                color: themeOf().redAccent,
+                                width: 80,
+                                height: 80,
+                                image: AppImages.icDelete,
+                                imageType: ImageType.asset),
+                            const SizedBox(height: 30),
+                            Text(
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                'Are you sure you want to delete ${boardNameController.text} ?',
+                                overflow: TextOverflow.ellipsis,
+                                style: fs14BlackRegular)
+                          ],
+                        ),
+                        actions: <Widget>[
+                          CustomButton(
+                              btnText: 'Delete',
+                              width: MediaQuery.of(context).size.width,
+                              color: themeOf().redAccent,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                getBloc().deleteBoard(
+                                    widget.roomResponse!.roomId,
+                                    board?.boardId ?? '', (response) {
+                                  showMessageBar(response.message ??
+                                      'Board deleted successfully!');
+                                  showRefreshIndicator();
+                                  onRefresh();
+                                }, (errorMsg) {
+                                  showMessageBar(errorMsg);
+                                });
+                              })
+                        ],
+                      ),
+                    );
                   }
                 },
                 itemBuilder: (context) => [
@@ -297,32 +387,39 @@ class _RoomDetailsScreenState
                   icon: Image.asset(AppImages.boardConfigIcon),
                 )
               else
-                Switch(
-                  trackOutlineColor:
-                      WidgetStateProperty.all(Colors.transparent),
-                  trackOutlineWidth: WidgetStateProperty.all(0),
-                  thumbColor: WidgetStateProperty.all(Colors.white),
-                  activeThumbImage:
-                      const AssetImage(AppImages.switchActiveThumbImage),
-                  inactiveThumbImage:
-                      const AssetImage(AppImages.switchInactiveThumbImage),
-                  activeTrackColor: Colors.blueAccent,
-                  inactiveTrackColor: Colors.black,
-                  value: boardStatus,
-                  onChanged: (value) {
-                    setState(() {
-                      boardStatus = value;
-                      if (board != null && board.switches.isNotEmpty) {
-                        // Update the status of the first switch (or handle as needed)
-                        // board.switches[0].status = value;
-                      }
-                    });
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Switch(
+                    trackOutlineColor:
+                        WidgetStateProperty.all(Colors.transparent),
+                    trackOutlineWidth: WidgetStateProperty.all(0),
+                    thumbColor: WidgetStateProperty.all(Colors.white),
+                    activeThumbImage:
+                        const AssetImage(AppImages.switchActiveThumbImage),
+                    inactiveThumbImage:
+                        const AssetImage(AppImages.switchInactiveThumbImage),
+                    activeTrackColor: Colors.blueAccent,
+                    inactiveTrackColor: Colors.black,
+                    value: boardStatus,
+                    onChanged: (value) {
+                      setState(() {
+                        boardStatus = value;
+                        if (board != null && board.switches.isNotEmpty) {
+                          // Update the status of the first switch (or handle as needed)
+                          // board.switches[0].status = value;
+                        }
+                      });
+                    },
+                  ),
                 ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void navigateToRoomScreen() {
+    Navigator.pop(context, "roomDeleted");
   }
 }

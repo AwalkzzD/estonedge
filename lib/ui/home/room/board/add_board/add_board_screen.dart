@@ -155,7 +155,8 @@ class _AddBoardScreenState
                                         color: Colors.blueAccent,
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
+                                          Navigator.pop<String>(
+                                              context, "boardAdded");
                                           /*Navigator.pushAndRemoveUntil(
                                               context,
                                               RoomDetailsScreen.route(null),

@@ -11,8 +11,9 @@ class AppImages {
   static const String roomDummyImage = 'assets/images/dummy_room.png';
 
   // common icons
-  static const String appLogo = 'assets/icons/app_logo.png';
+  static const String appLogo = 'assets/icons/app_icon.png';
   static const String homeProfileIcon = 'assets/icons/profile_icon.png';
+
   // static const String homeProfileIcon = 'assets/icons/profile_icon.svg';
   // static const String drawerIcon = 'assets/icons/app_bar_menu_icon.png';
   static const String drawerIcon = 'assets/icons/text_align_left.svg';
@@ -20,6 +21,7 @@ class AppImages {
   static const String addRoomPlusIcon = 'assets/icons/add_room_plus_icon.png';
   static const String appBarBackIcon = 'assets/icons/app_bar_back_icon.png';
   static const String switchIcon = 'assets/icons/cpu_charge.png';
+  static const String icDelete = 'assets/icons/ic_delete.png';
 
   static const String switchActiveThumbImage =
       'assets/icons/switch_active_thumb_image.png';

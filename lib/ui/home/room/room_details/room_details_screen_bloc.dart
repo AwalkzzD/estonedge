@@ -1,4 +1,5 @@
 import 'package:estonedge/base/src_bloc.dart';
+import 'package:estonedge/data/remote/model/boards/delete_board_response.dart';
 import 'package:estonedge/data/remote/model/boards/update_board_response.dart';
 import 'package:estonedge/data/remote/model/rooms/delete_room/delete_room_response.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
@@ -50,6 +51,23 @@ class RoomDetailsScreenBloc extends BasePageBloc {
         roomId: roomId,
         boardId: boardId,
         updateBoardRequestParams: updateBoardRequestParams,
+        onSuccess: (response) {
+          hideLoading();
+          onSuccess(response);
+        },
+        onError: (errorMsg) {
+          hideLoading();
+          onError(errorMsg);
+        });
+  }
+
+  void deleteBoard(String roomId, String boardId,
+      Function(DeleteBoardResponse) onSuccess, Function(String) onError) {
+    showLoading();
+
+    apiDeleteBoardDetails(
+        roomId: roomId,
+        boardId: boardId,
         onSuccess: (response) {
           hideLoading();
           onSuccess(response);

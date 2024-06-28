@@ -41,14 +41,14 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
-class CustomTextfieldWiFi extends StatelessWidget {
+class CustomTextFieldWiFi extends StatelessWidget {
   final String labelText;
   final String hintText;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final String? errorText;
 
-  const CustomTextfieldWiFi(
+  const CustomTextFieldWiFi(
       {super.key,
       required this.labelText,
       required this.hintText,

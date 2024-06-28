@@ -1,5 +1,5 @@
-import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
@@ -54,7 +54,7 @@ class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
           style: fs18BlueSemiBold,
         ),
         const SizedBox(height: 40),
-        CustomTextfieldWiFi(
+        CustomTextFieldWiFi(
           labelText: 'Wi-Fi',
           hintText: 'Enter your WiFi name',
           controller: wifiController,
@@ -66,7 +66,7 @@ class _WifiScreenState extends BasePageState<WifiScreen, WifiScreenBloc> {
           },
         ),
         const SizedBox(height: 40),
-        const CustomTextfieldWiFi(
+        const CustomTextFieldWiFi(
           labelText: 'Password',
           hintText: 'Enter your password',
         ),
