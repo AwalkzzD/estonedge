@@ -79,7 +79,7 @@ class _AddBoardScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-                    Text(
+                    const Text(
                       'Board',
                       style: fs14BlackSemibold,
                     ),
@@ -93,7 +93,7 @@ class _AddBoardScreenState
                           getBloc().getSwitchTypes(value);
                         }),
                     const SizedBox(height: 30),
-                    Text(
+                    const Text(
                       'Switch',
                       style: fs14BlackSemibold,
                     ),
@@ -141,7 +141,7 @@ class _AddBoardScreenState
                                           overflow: TextOverflow.ellipsis,
                                           style: fs16BlackSemibold),
                                       SizedBox(height: 5.h),
-                                      Text(
+                                      const Text(
                                           'Please feel free to customize your board name...',
                                           overflow: TextOverflow.ellipsis,
                                           style: fs12BlackRegular)
@@ -195,11 +195,11 @@ class _AddBoardScreenState
             'Whoops!',
             style: fs24BlackSemibold,
           ),
-          Text(
+          const Text(
             ' Something went wrong. Check your ',
             style: fs16BlackRegular,
           ),
-          Text(
+          const Text(
             'connection or try again.',
             style: fs16BlackRegular,
           )
