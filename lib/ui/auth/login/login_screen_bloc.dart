@@ -30,6 +30,18 @@ class LoginScreenBloc extends BasePageBloc {
     });
   }
 
+  void attemptUserSignUpVerification(String email, String verificationCode,
+      Function(SignUpResult) onSuccess, Function(String) onError) {
+    showLoading();
+    apiUserSignUpVerification(email, verificationCode, (response) {
+      hideLoading();
+      onSuccess(response);
+    }, (errorMsg) {
+      hideLoading();
+      onError(errorMsg);
+    });
+  }
+
   void createUserRecord() {
     showLoading();
     apiGetUserAttributes((attrList) {

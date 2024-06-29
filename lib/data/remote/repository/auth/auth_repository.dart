@@ -21,12 +21,44 @@ void apiUserLogin(String email, String password,
 
     onSuccess(response);
   } on UserNotFoundException catch (ex) {
+    print(ex.message);
     onError(ex.message);
   } on NotAuthorizedServiceException catch (ex) {
+    print(ex.message);
+    onError(ex.message);
+  } on InvalidParameterException catch (ex) {
+    print(ex.message);
     onError(ex.message);
   } on DioException catch (ex) {
+    print(ex.message);
     onError(ex.message ?? "Something went wrong");
   } catch (ex) {
+    print(ex.toString());
+    onError(ex.toString());
+  }
+}
+
+void apiUserVerification(String email, String password,
+    Function(SignInResult) onSuccess, Function(String) onError) async {
+  try {
+    final response =
+    await Amplify.Auth.signIn(username: email, password: password);
+
+    onSuccess(response);
+  } on UserNotFoundException catch (ex) {
+    print(ex.message);
+    onError(ex.message);
+  } on NotAuthorizedServiceException catch (ex) {
+    print(ex.message);
+    onError(ex.message);
+  } on InvalidParameterException catch (ex) {
+    print(ex.message);
+    onError(ex.message);
+  } on DioException catch (ex) {
+    print(ex.message);
+    onError(ex.message ?? "Something went wrong");
+  } catch (ex) {
+    print(ex.toString());
     onError(ex.toString());
   }
 }
@@ -47,10 +79,16 @@ void apiUserSignUp(
         }));
     onSuccess(response);
   } on UsernameExistsException catch (ex) {
+    print(ex.message);
     onError(ex.message);
   } on AuthValidationException catch (ex) {
+    print(ex.message);
+    onError(ex.message);
+  } on InvalidParameterException catch (ex) {
+    print(ex.message);
     onError(ex.message);
   } catch (ex) {
+    print(ex.toString());
     onError(ex.toString());
   }
 }
@@ -70,10 +108,13 @@ void apiUserSignUpVerification(
     );
     onSuccess(response);
   } on CodeMismatchException catch (ex) {
+    print(ex.toString());
     onError(ex.message);
   } on CodeDeliveryFailureException catch (ex) {
+    print(ex.toString());
     onError(ex.message);
   } catch (ex) {
+    print(ex.toString());
     onError(ex.toString());
   }
 }

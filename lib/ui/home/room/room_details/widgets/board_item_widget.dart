@@ -1,30 +1,34 @@
-import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/theme/app_theme.dart';
-import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart'
     as user_model;
-import 'package:estonedge/ui/home/room/room_details/widgets/board_item_widget_bloc.dart';
 import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
 import 'package:estonedge/ui/profile/profile_details/profile_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../base/src_constants.dart';
 
-class BoardItemWidget extends BasePage {
+class BoardItemWidget extends StatefulWidget {
   final user_model.Board? board;
   final String? roomId;
 
-  const BoardItemWidget(this.roomId, this.board, {super.key});
+  final Function()? onDeleteBoardPress;
+  final Function(String boardName, String macAddress)? onUpdateBoardPress;
+
+  const BoardItemWidget({
+    this.roomId,
+    this.board,
+    this.onDeleteBoardPress,
+    this.onUpdateBoardPress,
+    super.key,
+  });
 
   @override
-  BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
-      _BoardItemWidgetState();
+  State<StatefulWidget> createState() => _BoardItemWidgetState();
 }
 
-class _BoardItemWidgetState
-    extends BasePageState<BoardItemWidget, BoardItemWidgetBloc> {
+class _BoardItemWidgetState extends State<BoardItemWidget> {
   bool boardStatus = true;
 
   final TextEditingController boardNameController = TextEditingController();
@@ -37,8 +41,19 @@ class _BoardItemWidgetState
     super.initState();
   }
 
+  void navigateToSwitchScreen() async {
+    final result = await Navigator.push(
+      context,
+      SwitchDetailsScreen.route(),
+    );
+  }
+
+  void navigateToRoomScreen() {
+    Navigator.pop(context, "roomDeleted");
+  }
+
   @override
-  Widget buildWidget(BuildContext context) {
+  Widget build(BuildContext context) {
     if (board != null && board!.switches.isNotEmpty) {
       print('Building this');
       boardStatus = board!.switches.any((switch1) => switch1.status);
@@ -62,31 +77,32 @@ class _BoardItemWidgetState
                 ),
               ),
               PopupMenuButton<String>(
+                elevation: 10,
+                shape: RoundedRectangleBorder(side: BorderSide(color: themeOf().primaryColor, width: 1),
+                    borderRadius: BorderRadius.circular(10)),
                 onSelected: (value) {
                   boardNameController.text = board?.boardName ?? 'Board X';
                   if (value == 'Edit') {
                     showCustomDialog(
-                        context: context,
-                        children: [
-                          SizedBox(height: 10.h),
-                          const Text(
-                            'Board Name',
-                            style: fs14BlackRegular,
-                          ),
-                          SizedBox(height: 8.h),
-                          CustomTextField(
-                            hintText: 'Enter Board Name...',
-                            controller: boardNameController,
-                          ),
-                        ],
-                        buttonText: 'Update',
-                        onButtonPress: () {
-                          updateBoard(
-                            widget.roomId ?? '',
-                            board!.boardId,
-                            boardNameController.text,
-                          );
-                        });
+                      context: context,
+                      children: [
+                        SizedBox(height: 10.h),
+                        const Text(
+                          'Board Name',
+                          style: fs14BlackRegular,
+                        ),
+                        SizedBox(height: 8.h),
+                        CustomTextField(
+                          hintText: 'Enter Board Name...',
+                          controller: boardNameController,
+                        ),
+                      ],
+                      buttonText: 'Update',
+                      onButtonPress: () {
+                        widget.onUpdateBoardPress!(
+                            boardNameController.text, board!.macAddress);
+                      },
+                    );
                   } else if (value == 'Delete') {
                     showCustomDialog(
                       context: context,
@@ -107,9 +123,7 @@ class _BoardItemWidgetState
                       ],
                       buttonText: 'Delete',
                       buttonColor: themeOf().redAccent,
-                      onButtonPress: () {
-                        deleteBoard(widget.roomId ?? '', board?.boardId ?? '');
-                      },
+                      onButtonPress: () => widget.onDeleteBoardPress,
                     );
                   }
                 },
@@ -133,23 +147,23 @@ class _BoardItemWidgetState
               ),
               if (board != null && board!.macAddress.isEmpty)
                 IconButton(
-                  onPressed: () {
-                    navigateToSwitchScreen();
-                  },
-                  icon: Image.asset(AppImages.boardConfigIcon),
+                  onPressed: () => navigateToSwitchScreen(),
+                  icon: const ImageView(
+                      image: AppImages.boardConfigIcon,
+                      imageType: ImageType.asset),
                 )
               else
                 Switch(
                   trackOutlineColor:
                       WidgetStateProperty.all(Colors.transparent),
                   trackOutlineWidth: WidgetStateProperty.all(0),
-                  thumbColor: WidgetStateProperty.all(Colors.white),
+                  thumbColor: WidgetStateProperty.all(white),
                   activeThumbImage:
                       const AssetImage(AppImages.switchActiveThumbImage),
                   inactiveThumbImage:
                       const AssetImage(AppImages.switchInactiveThumbImage),
-                  activeTrackColor: Colors.blueAccent,
-                  inactiveTrackColor: Colors.black,
+                  activeTrackColor: themeOf().primaryColor,
+                  inactiveTrackColor: black,
                   value: boardStatus,
                   onChanged: (value) {
                     setState(() {
@@ -166,74 +180,5 @@ class _BoardItemWidgetState
         ),
       ),
     );
-  }
-
-  @override
-  BoardItemWidgetBloc getBloc() {
-    // TODO: implement getBloc
-    throw UnimplementedError();
-  }
-
-  void showCustomDialog({
-    required BuildContext context,
-    required List<Widget> children,
-    required String buttonText,
-    Color buttonColor = Colors.blueAccent,
-    required Function() onButtonPress,
-  }) {
-    showDialog<String>(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-        actions: <Widget>[
-          CustomButton(
-              btnText: buttonText,
-              width: MediaQuery.of(context).size.width,
-              color: buttonColor,
-              onPressed: () {
-                Navigator.pop(context);
-                onButtonPress();
-              })
-        ],
-      ),
-    );
-  }
-
-  void deleteBoard(String roomId, String boardId) {
-    getBloc().deleteBoard(roomId, boardId, (response) {
-      showMessageBar(response.message ?? 'Board deleted successfully!');
-      showRefreshIndicator();
-      onRefresh();
-    }, (errorMsg) {
-      showMessageBar(errorMsg);
-    });
-  }
-
-  void updateBoard(String roomId, String boardId, String boardName) {
-    getBloc().updateBoard(roomId, boardId, boardName, (response) {
-      showMessageBar(response.message ?? "Board Name Updated");
-      showRefreshIndicator();
-      onRefresh();
-    }, (errorMsg) {
-      showMessageBar(errorMsg);
-    });
-  }
-
-  void navigateToSwitchScreen() async {
-    final result = await Navigator.push(
-      context,
-      SwitchDetailsScreen.route(),
-    );
-
-    print('Navigator result = ${result.toString()}');
-  }
-
-  void navigateToRoomScreen() {
-    Navigator.pop(context, "roomDeleted");
   }
 }

@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 import '../src_constants.dart';
@@ -59,4 +60,35 @@ showMessageBarFloating(String message) {
       style: fs14WhiteRegular.copyWith(color: white),
     ),
   ).show(globalContext);
+}
+
+void showCustomDialog({
+  bool isBarrierDismissable = true,
+  required BuildContext context,
+  required List<Widget> children,
+  required String buttonText,
+  Color buttonColor = Colors.blueAccent,
+  required Function() onButtonPress,
+}) {
+  showDialog<String>(
+    barrierDismissible: isBarrierDismissable,
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
+      actions: <Widget>[
+        CustomButton(
+            btnText: buttonText,
+            width: MediaQuery.of(context).size.width,
+            color: buttonColor,
+            onPressed: () {
+              Navigator.pop(context);
+              onButtonPress();
+            })
+      ],
+    ),
+  );
 }

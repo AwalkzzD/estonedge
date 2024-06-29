@@ -40,12 +40,18 @@ class RoomDetailsScreenBloc extends BasePageBloc {
     });
   }
 
-  void updateBoard(String roomId, String boardId, String boardName,
-      Function(UpdateBoardResponse) onSuccess, Function(String) onError) {
+  void updateBoard(
+      String roomId,
+      String boardId,
+      String boardName,
+      String macAddress,
+      Function(UpdateBoardResponse) onSuccess,
+      Function(String) onError) {
     showLoading();
 
-    final updateBoardRequestParams =
-        UpdateBoardRequestParameters(boardName: boardName).toRequestParams();
+    final updateBoardRequestParams = UpdateBoardRequestParameters(
+            boardName: boardName, macAddress: macAddress)
+        .toRequestParams();
 
     apiUpdateBoardDetails(
         roomId: roomId,

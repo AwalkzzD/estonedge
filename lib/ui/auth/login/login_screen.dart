@@ -1,4 +1,6 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/base/src_bloc.dart';
+import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
@@ -9,7 +11,6 @@ import 'package:estonedge/ui/home/home_screen.dart';
 import 'package:estonedge/utils/validators.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../base/src_constants.dart';
 
@@ -28,6 +29,8 @@ class LoginScreen extends BasePage {
 class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
   final TextEditingController emailInputController = TextEditingController();
   final TextEditingController passwordInputController = TextEditingController();
+  final TextEditingController verificationCodeController =
+      TextEditingController();
 
   final LoginScreenBloc _bloc = LoginScreenBloc();
 
@@ -40,14 +43,8 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
   void dispose() {
     emailInputController.dispose();
     passwordInputController.dispose();
+    verificationCodeController.dispose();
     super.dispose();
-  }
-
-  void navigateToSignUpScreen() =>
-      Navigator.of(context).pushReplacement(SignupScreen.route());
-
-  void navigateToHomeScreen() {
-    Navigator.of(context).pushReplacement(HomeScreen.route());
   }
 
   void _forgotPassword() {}
@@ -77,7 +74,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                 style: fs20BlackBold,
               ),
             ),
-            Text('Welcome back! Sign in to control your smart home.',
+            const Text('Welcome back! Sign in to control your smart home.',
                 style: fs14BlackRegular),
             const SizedBox(height: 30),
             CustomTextField(
@@ -108,7 +105,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
             const SizedBox(height: 10),
             InkWell(
               onTap: _forgotPassword,
-              child: Text(
+              child: const Text(
                 "Forgot Password?",
                 style: fs14BlueRegular,
               ),
@@ -131,7 +128,46 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                       getBloc().createUserRecord();
                       navigateToHomeScreen();
                     } else {
-                      showMessageBar('Something went wrong');
+                      print(response);
+                      if (response.nextStep.signInStep ==
+                          AuthSignInStep.confirmSignUp) {
+                        showCustomDialog(
+                            context: context,
+                            children: [
+                              SizedBox(height: 10.h),
+                              const Text(
+                                'Verification Code',
+                                style: fs16BlackRegular,
+                              ),
+                              SizedBox(height: 8.h),
+                              CustomTextField(
+                                hintText: 'Verification Code',
+                                controller: verificationCodeController,
+                                icon: const Icon(Icons.verified_outlined),
+                                isPassword: true,
+                                errorText: '',
+                              ),
+                            ],
+                            buttonText: 'Complete Verification',
+                            onButtonPress: () {
+                              getBloc().attemptUserSignUpVerification(
+                                  emailInputController.text,
+                                  verificationCodeController.text, (response) {
+                                if (response.isSignUpComplete) {
+                                  showMessageBar(
+                                      'User is verified!\nContinue to login');
+                                } else {
+                                  showMessageBar('Please try again later!');
+                                }
+                              }, (errorMsg) {
+                                showMessageBar('Something went wrong!');
+                              });
+                            });
+                        showMessageBar(
+                            'Verification Incomplete\nEnter verification code sent on ${emailInputController.text}');
+                      } else {
+                        showMessageBar('Something went wrong');
+                      }
                     }
                   }, (errorMsg) {
                     showMessageBar(errorMsg);
@@ -144,7 +180,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
             Text.rich(
               TextSpan(
                 text: "Don't have an account? ",
-                style: fs14BlackRegular,
+                style: fs14BlackRegular.copyWith(color: fromHex('#A1A1A1')),
                 children: <TextSpan>[
                   TextSpan(
                     recognizer: TapGestureRecognizer()
@@ -162,20 +198,11 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
     );
   }
 
-  @override
-  bool customBackPressed() => true;
+  void navigateToSignUpScreen() =>
+      Navigator.of(context).pushReplacement(SignupScreen.route());
 
-  @override
-  void onBackPressed(bool didPop, BuildContext context) {
-    if (!didPop) {
-      if (isDrawerOpen()) {
-        closeDrawer();
-      } else {
-        hideSoftInput();
-        SystemNavigator.pop();
-      }
-    }
-  }
+  void navigateToHomeScreen() =>
+      Navigator.of(context).pushReplacement(HomeScreen.route());
 
   @override
   LoginScreenBloc getBloc() => _bloc;

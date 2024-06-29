@@ -1,5 +1,6 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:estonedge/base/src_bloc.dart';
+import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_textfield.dart';
@@ -9,7 +10,6 @@ import 'package:estonedge/ui/auth/signup/signup_screen_bloc.dart';
 import 'package:estonedge/ui/auth/utils/custom_auth_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../base/src_widgets.dart';
 import '../../../utils/validators.dart';
@@ -21,7 +21,7 @@ class SignupScreen extends BasePage {
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _SignupScreenState();
 
-        static Route<dynamic> route() {
+  static Route<dynamic> route() {
     return CustomPageRoute(builder: (context) => const SignupScreen());
   }
 }
@@ -123,7 +123,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
               text: const TextSpan(
                 text: 'By selecting Create Account below, I agree to ',
                 style: fs14BlackRegular,
-                children:  <TextSpan>[
+                children: <TextSpan>[
                   TextSpan(
                     text: 'Terms of Service',
                     style: TextStyle(
@@ -165,8 +165,40 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                       nameInputController.text, (response) {
                     if (response.nextStep.signUpStep ==
                         AuthSignUpStep.confirmSignUp) {
-                      showMessageBar('OTP sent to your email');
-                      verifyEmail(email: emailInputController.text);
+                      showCustomDialog(
+                          context: context,
+                          children: [
+                            SizedBox(height: 10.h),
+                            const Text(
+                              'Verification Code',
+                              style: fs16BlackRegular,
+                            ),
+                            SizedBox(height: 8.h),
+                            CustomTextField(
+                              hintText: 'Verification Code',
+                              controller: verificationCodeController,
+                              icon: const Icon(Icons.verified_outlined),
+                              isPassword: true,
+                              errorText: '',
+                            ),
+                          ],
+                          buttonText: 'Complete Verification',
+                          onButtonPress: () {
+                            getBloc().attemptUserSignUpVerification(
+                                emailInputController.text,
+                                verificationCodeController.text, (response) {
+                              if (response.isSignUpComplete) {
+                                showMessageBar(
+                                    'User is verified!\nContinue to login');
+                              } else {
+                                showMessageBar('Please try again later!');
+                              }
+                            }, (errorMsg) {
+                              showMessageBar('Something went wrong!');
+                            });
+                          });
+                      showMessageBar(
+                          'OTP sent to your ${emailInputController.text}');
                     }
                   }, (errorMsg) {
                     showMessageBar(errorMsg);
@@ -178,82 +210,28 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
             const SizedBox(height: 20),
             Text.rich(
               TextSpan(
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => navigateToLoginScreen(),
-                text: 'Already a user?',
-                style: fs14BlueRegular,
+                text: "Already have an account? ",
+                style: fs14BlackRegular.copyWith(color: fromHex('#A1A1A1')),
+                children: <TextSpan>[
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => navigateToLoginScreen(),
+                    text: 'Sign In',
+                    style: const TextStyle(
+                        color: Colors.blueAccent, fontFamily: 'Lexend'),
+                  ),
+                ],
               ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 
-  @override
-  SignupScreenBloc getBloc() => _bloc;
-
-  void verifyEmail({required String email}) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text(
-            'Enter 6-digit OTP',
-            style:fs20BlackBold,
-          ),
-          content: TextField(
-            controller: verificationCodeController,
-            keyboardType: TextInputType.number,
-            maxLength: 6,
-            decoration: const InputDecoration(
-              hintText: 'OTP',
-              hintStyle: fs14BlackRegular,
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                'Submit',
-                style: fs16BlackRegular,
-              ),
-              onPressed: () {
-                if (verificationCodeController.text.length == 6) {
-                  getBloc().attemptUserSignUpVerification(
-                      email, verificationCodeController.text, (response) {
-                    if (response.isSignUpComplete &&
-                        response.nextStep.signUpStep == AuthSignUpStep.done) {
-                      showMessageBar('Login to continue');
-                      navigateToLoginScreen();
-                    }
-                  }, (errorMsg) {
-                    showMessageBar(errorMsg);
-                  });
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  bool customBackPressed() => true;
-
-  @override
-  void onBackPressed(bool didPop, BuildContext context) {
-    if (!didPop) {
-      if (isDrawerOpen()) {
-        closeDrawer();
-      } else {
-        hideSoftInput();
-        SystemNavigator.pop();
-      }
-    }
-  }
-
   void navigateToLoginScreen() =>
       Navigator.of(context).pushReplacement(LoginScreen.route());
+
+  @override
+  SignupScreenBloc getBloc() => _bloc;
 }

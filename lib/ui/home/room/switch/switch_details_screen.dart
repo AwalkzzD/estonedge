@@ -51,10 +51,10 @@ class _SwitchDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return frequentlyUsed(roomList);
+    return buildSwitchList(roomList);
   }
 
-  Widget frequentlyUsed(List<String> roomList) {
+  Widget buildSwitchList(List<String> roomList) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -79,14 +79,8 @@ class _SwitchDetailsScreenState
                 String deviceName = roomList[index];
                 int totalDevices = 5;
 
-                return GestureDetector(
-                  onTap: () {
-                    // Navigator.pushNamed(context, '/addDevice');
-                    // Navigator.push(context, AddDeviceScreen.route());
-                  },
-                  child: SwitchItemWidget(deviceImage, deviceName, totalDevices,
-                      switchStates[index], (value) {}),
-                );
+                return SwitchItemWidget(deviceImage, deviceName, totalDevices,
+                    switchStates[index], (value) {});
               },
             ),
           ),
