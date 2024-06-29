@@ -80,6 +80,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
             CustomTextField(
               hintText: 'Email',
               icon: const Icon(Icons.email),
+              inputType: TextInputType.emailAddress,
               isPassword: false,
               controller: emailInputController,
               errorText: emailError,
@@ -141,6 +142,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                               ),
                               SizedBox(height: 8.h),
                               CustomTextField(
+                                inputType: TextInputType.number,
                                 hintText: 'Verification Code',
                                 controller: verificationCodeController,
                                 icon: const Icon(Icons.verified_outlined),
@@ -160,7 +162,7 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
                                   showMessageBar('Please try again later!');
                                 }
                               }, (errorMsg) {
-                                showMessageBar('Something went wrong!');
+                                showMessageBar(errorMsg);
                               });
                             });
                         showMessageBar(

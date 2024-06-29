@@ -4,6 +4,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon icon;
   final bool isPassword;
+  final TextInputType? inputType;
   final String? errorText;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
@@ -13,6 +14,7 @@ class CustomTextField extends StatelessWidget {
       required this.hintText,
       required this.icon,
       required this.isPassword,
+      this.inputType = TextInputType.text,
       this.controller,
       required this.errorText,
       this.onChanged});
@@ -21,7 +23,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: Colors.black,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: inputType,
       obscureText: isPassword,
       onChanged: onChanged,
       controller: controller,
@@ -79,14 +81,13 @@ class CustomTextFieldWiFi extends StatelessWidget {
                     .shade300), // Set the border color to blue when focused
           ),
           labelText: labelText,
-          labelStyle: const TextStyle(
-              fontFamily:
-                  'Lexend'), // Set label color to black when inside TextField
-          floatingLabelStyle: TextStyle(
-              color: Colors.blue.shade300,
-              fontFamily: 'Lexend'), // Set label color to blue when floating
-          floatingLabelBehavior:
-              FloatingLabelBehavior.auto, // Automatically float the label
+          labelStyle: const TextStyle(fontFamily: 'Lexend'),
+          // Set label color to black when inside TextField
+          floatingLabelStyle:
+              TextStyle(color: Colors.blue.shade300, fontFamily: 'Lexend'),
+          // Set label color to blue when floating
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          // Automatically float the label
           hintText: hintText,
           errorText: errorText),
     );

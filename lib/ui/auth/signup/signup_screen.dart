@@ -83,6 +83,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
             CustomTextField(
               hintText: 'Name',
               icon: const Icon(Icons.person),
+              inputType: TextInputType.name,
               isPassword: false,
               controller: nameInputController,
               errorText: nameError,
@@ -97,6 +98,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
               hintText: 'Email',
               icon: const Icon(Icons.email),
               isPassword: false,
+              inputType: TextInputType.emailAddress,
               controller: emailInputController,
               errorText: emailError,
               onChanged: (text) {
@@ -175,6 +177,7 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                             ),
                             SizedBox(height: 8.h),
                             CustomTextField(
+                              inputType: TextInputType.number,
                               hintText: 'Verification Code',
                               controller: verificationCodeController,
                               icon: const Icon(Icons.verified_outlined),
