@@ -39,6 +39,10 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
     getBloc().updateCurrentIndex(index);
   }
 
+  void openMyDrawer() {
+    openDrawer();
+  }
+
   @override
   Widget? getDrawer() {
     return Drawer(

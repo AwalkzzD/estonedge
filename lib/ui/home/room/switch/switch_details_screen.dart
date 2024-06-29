@@ -24,9 +24,30 @@ class _SwitchDetailsScreenState
 
   @override
   SwitchDetailsScreenBloc getBloc() => _bloc;
+
   List<String> roomList = ['room1', 'room2', 'room3'];
 
   List<bool> switchStates = List.generate(10, (index) => false);
+
+  /*@override
+  bool customBackPressed() {
+    return true;
+  }
+
+  @override
+  void onBackPressed(bool didPop, BuildContext context) {
+    if (!didPop) {
+      print('Did pop --> $didPop');
+      if (canPop()) {
+        print('Pop is possible');
+        Navigator.of(context).pop();
+      } else {
+        Navigator.of(context).pop();
+      }
+    } else {
+      Navigator.of(context).pop();
+    }
+  }*/
 
   @override
   Widget? getAppBar() {
@@ -37,7 +58,7 @@ class _SwitchDetailsScreenState
           return IconButton(
             icon: Image.asset(AppImages.appBarBackIcon),
             onPressed: () {
-              Navigator.of(globalContext).pop();
+              Navigator.of(context).pop();
             },
           );
         },
@@ -51,9 +72,7 @@ class _SwitchDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return Scaffold(
-      body: frequentlyUsed(roomList),
-    );
+    return frequentlyUsed(roomList);
   }
 
   Widget frequentlyUsed(List<String> roomList) {

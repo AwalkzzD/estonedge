@@ -28,7 +28,7 @@ const List<String> roomImages = [
 ];
 
 // genders
-const List<String> gendersList = [
+const List<String?> gendersList = [
   'Male',
   'Female',
   'Non-Binary',

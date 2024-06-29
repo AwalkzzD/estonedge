@@ -38,8 +38,6 @@ class _RoomDetailsScreenState
     extends BasePageState<RoomDetailsScreen, RoomDetailsScreenBloc> {
   final RoomDetailsScreenBloc _bloc = RoomDetailsScreenBloc();
 
-  final GlobalKey actionOptionsKey = GlobalKey();
-
   RoomsResponse? roomData;
 
   bool boardStatus = true;
@@ -53,6 +51,7 @@ class _RoomDetailsScreenState
 
   @override
   void onReady() {
+    roomData = widget.roomResponse;
     getBloc().getRoomData(widget.roomResponse?.roomId ?? '', (errorMsg) {
       showMessageBar(errorMsg);
     });
@@ -64,12 +63,6 @@ class _RoomDetailsScreenState
     return getBloc().getRoomData(widget.roomResponse?.roomId ?? '', (errorMsg) {
       showMessageBar(errorMsg);
     });
-  }
-
-  @override
-  void initState() {
-    roomData = widget.roomResponse;
-    super.initState();
   }
 
   @override
@@ -165,48 +158,6 @@ class _RoomDetailsScreenState
                         onButtonPress: () {
                           deleteRoom(widget.roomResponse!.roomId);
                         });
-                    /*showDialog<String>(
-                      barrierDismissible: true,
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageView(
-                                color: themeOf().redAccent,
-                                width: 80,
-                                height: 80,
-                                image: AppImages.icDelete,
-                                imageType: ImageType.asset),
-                            const SizedBox(height: 30),
-                            Text(
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                'Are you sure you want to delete ${roomData?.roomName} ?',
-                                overflow: TextOverflow.ellipsis,
-                                style: fs14BlackRegular)
-                          ],
-                        ),
-                        actions: <Widget>[
-                          CustomButton(
-                              btnText: 'Delete',
-                              width: MediaQuery.of(context).size.width,
-                              color: themeOf().redAccent,
-                              onPressed: () {
-                                Navigator.pop(context);
-                                getBloc().deleteRoom(
-                                    widget.roomResponse!.roomId, (response) {
-                                  navigateToRoomScreen();
-                                  showMessageBar(response.message ??
-                                      'Room Deleted Successfully');
-                                }, (errorMsg) {
-                                  showMessageBar(errorMsg);
-                                });
-                              })
-                        ],
-                      ),
-                    );*/
                   },
                 ),
               ],
@@ -276,16 +227,18 @@ class _RoomDetailsScreenState
             color: white,
             border: Border.all(color: themeOf().primaryColor, width: 2),
             borderRadius: BorderRadius.circular(15)),
-        child: ListTile(
-          title: Text(
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            board?.boardName ?? '',
-            style: fs16BlackSemibold.copyWith(fontWeight: medium),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             children: [
+              Expanded(
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  board?.boardName ?? '',
+                  style: fs16BlackSemibold.copyWith(fontWeight: medium),
+                ),
+              ),
               PopupMenuButton<String>(
                 onSelected: (value) {
                   boardNameController.text = board?.boardName ?? 'Board X';
@@ -312,7 +265,7 @@ class _RoomDetailsScreenState
                             boardNameController.text,
                           );
                         });
-                    /*showDialog<String>(
+                    showDialog<String>(
                       barrierDismissible: true,
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
@@ -353,7 +306,7 @@ class _RoomDetailsScreenState
                               }),
                         ],
                       ),
-                    );*/
+                    );
                   } else if (value == 'Delete') {
                     showCustomDialog(
                       context: context,
@@ -379,7 +332,7 @@ class _RoomDetailsScreenState
                             widget.roomResponse!.roomId, board?.boardId ?? '');
                       },
                     );
-                    /*showDialog<String>(
+                    showDialog<String>(
                       barrierDismissible: true,
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
@@ -422,7 +375,7 @@ class _RoomDetailsScreenState
                               })
                         ],
                       ),
-                    );*/
+                    );
                   }
                 },
                 itemBuilder: (context) => [
@@ -443,42 +396,35 @@ class _RoomDetailsScreenState
                 ],
                 icon: const Icon(Icons.more_vert),
               ),
-              if (board != null && board.macAddress.isNotEmpty)
+              if (board != null && board.macAddress.isEmpty)
                 IconButton(
                   onPressed: () {
-                    // Handle the button press action
-                    Navigator.push(
-                      context,
-                      SwitchDetailsScreen.route(),
-                    );
+                    navigateToSwitchScreen();
                   },
                   icon: Image.asset(AppImages.boardConfigIcon),
                 )
               else
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Switch(
-                    trackOutlineColor:
-                        WidgetStateProperty.all(Colors.transparent),
-                    trackOutlineWidth: WidgetStateProperty.all(0),
-                    thumbColor: WidgetStateProperty.all(Colors.white),
-                    activeThumbImage:
-                        const AssetImage(AppImages.switchActiveThumbImage),
-                    inactiveThumbImage:
-                        const AssetImage(AppImages.switchInactiveThumbImage),
-                    activeTrackColor: Colors.blueAccent,
-                    inactiveTrackColor: Colors.black,
-                    value: boardStatus,
-                    onChanged: (value) {
-                      setState(() {
-                        boardStatus = value;
-                        if (board != null && board.switches.isNotEmpty) {
-                          // Update the status of the first switch (or handle as needed)
-                          // board.switches[0].status = value;
-                        }
-                      });
-                    },
-                  ),
+                Switch(
+                  trackOutlineColor:
+                      WidgetStateProperty.all(Colors.transparent),
+                  trackOutlineWidth: WidgetStateProperty.all(0),
+                  thumbColor: WidgetStateProperty.all(Colors.white),
+                  activeThumbImage:
+                      const AssetImage(AppImages.switchActiveThumbImage),
+                  inactiveThumbImage:
+                      const AssetImage(AppImages.switchInactiveThumbImage),
+                  activeTrackColor: Colors.blueAccent,
+                  inactiveTrackColor: Colors.black,
+                  value: boardStatus,
+                  onChanged: (value) {
+                    setState(() {
+                      boardStatus = value;
+                      if (board != null && board.switches.isNotEmpty) {
+                        // Update the status of the first switch (or handle as needed)
+                        // board.switches[0].status = value;
+                      }
+                    });
+                  },
                 ),
             ],
           ),
@@ -548,5 +494,21 @@ class _RoomDetailsScreenState
     }, (errorMsg) {
       showMessageBar(errorMsg);
     });
+  }
+
+  void navigateToSwitchScreen() async {
+    final result = await Navigator.push(
+      context,
+      SwitchDetailsScreen.route(),
+    );
+
+    print('Navigator result = ${result.toString()}');
+  }
+
+  @override
+  void dispose() {
+    boardNameController.dispose();
+    getBloc().roomDetails.close();
+    super.dispose();
   }
 }

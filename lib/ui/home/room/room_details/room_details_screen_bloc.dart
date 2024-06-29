@@ -77,4 +77,10 @@ class RoomDetailsScreenBloc extends BasePageBloc {
           onError(errorMsg);
         });
   }
+
+  @override
+  void dispose() {
+    roomDetails.close();
+    super.dispose();
+  }
 }

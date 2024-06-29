@@ -1,5 +1,4 @@
-import 'package:day_night_time_picker/lib/state/time.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:estonedge/data/remote/model/schedule/schedule.dart';
 
 import '../base/src_utils.dart';
 import '../data/remote/model/rooms/get_rooms/rooms_response.dart';
@@ -8,6 +7,7 @@ const String keyUserId = "userId";
 const String keyUserName = "userName";
 const String keyUserEmail = "userEmail";
 const String keyRoomsList = "roomsList";
+const String keySchedule = "schedule";
 
 const String keyScaleFactor = "scaleFactor";
 const String keyThemeMode = "theme";
@@ -63,6 +63,22 @@ void saveRoomsList(List<RoomsResponse> roomsList) =>
 
 List<RoomsResponse> getRoomsList() => SpUtil.getObjList(keyRoomsList,
     (value) => RoomsResponse.fromJson(value as Map<String, dynamic>));
+
+/// Schedule
+void saveSchedule(Schedule scheduleObj) =>
+    SpUtil.putObject(keySchedule, scheduleObj);
+
+Schedule? getSchedule() => SpUtil.getObj(
+    keySchedule, (value) => Schedule.fromJson(value as Map<String, dynamic>));
+
+/*/// Time
+void setOnTime(Time time) {
+  SpUtil.putObject(onTime, time);
+}
+
+void setOffTime(Time time) {
+  SpUtil.putObject(offTime, time);
+}*/
 
 /// Scale Factor
 void setScaleFactor(double value) {
@@ -143,13 +159,4 @@ void saveLanguage(String? code) {
 
 String getLanguage() {
   return SpUtil.getString(keyLangCode);
-}
-
-//Time
-void setOnTime(Time time) {
-  SpUtil.putObject(onTime, time);
-}
-
-void setOffTime(Time time) {
-  SpUtil.putObject(offTime, time);
 }

@@ -1,8 +1,9 @@
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
+import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
-import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
+import 'package:estonedge/ui/home/room/add_room/room_name/add_room_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
 import 'package:estonedge/ui/home/room/room_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -170,6 +171,15 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
             SizedBox(height: 20.h),
       ),
     );
+  }
+
+  Future<void> navigateToAddRoom() async {
+    final roomAddedResult =
+        await Navigator.of(context).push(AddRoomScreen.route());
+    if (roomAddedResult != null) {
+      showMessageBarFloating(
+          '$roomAddedResult added successfully.\nPull to refresh screen!!!');
+    }
   }
 
   void getRoomsData() {
