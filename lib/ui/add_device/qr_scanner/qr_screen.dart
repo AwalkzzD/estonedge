@@ -50,7 +50,10 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
       leading: Builder(
         builder: (context) {
           return IconButton(
-            icon: Image.asset(AppImages.appBarBackIcon),
+            icon: Image.asset(
+              AppImages.appBarBackIcon,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -60,7 +63,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
       centerTitle: true,
       title: const Text(
         'Scan QR Code',
-        style: TextStyle(color: Colors.white),
+        style: fs24WhiteSemibold,
       ),
     );
   }
@@ -69,7 +72,6 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   Widget buildWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
-      // body: Center(child: Text(statusText, style: fs24BlackSemibold)),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: Column(
@@ -98,19 +100,19 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
         ),
       ),
       /*body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.fromLTRB(15.0, 115.0, 15.0, 15.0),
         child: Column(
           children: [
-            const SizedBox(
-              height: 100,
-            ),
-            Text(
+            const Text(
               'Scan QR Code of the smart device',
               style: fs18WhiteSemiBold,
               textAlign: TextAlign.center,
             ),
-            Center(child: Image.asset(AppImages.qrCode)),
-            Text(
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: Center(child: Image.asset(AppImages.qrCode)),
+            ),
+            const Text(
               'The QR Code will be automatically detected when you position it between the guide lines',
               style: fs14WhiteMedium,
               textAlign: TextAlign.center,

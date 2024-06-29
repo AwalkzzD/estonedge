@@ -253,6 +253,13 @@ const TextStyle fs24BlackSemibold = TextStyle(
   fontWeight: semiBold,
 );
 
+const TextStyle fs24WhiteSemibold = TextStyle(
+  fontSize: fs24,
+  color: Colors.white,
+  fontFamily: fontFamilyLexend,
+  fontWeight: semiBold,
+);
+
 const TextStyle fs24BlackBold = TextStyle(
   fontSize: fs24,
   color: black,
