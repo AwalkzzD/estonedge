@@ -123,14 +123,13 @@ abstract class BasePageState<T extends BasePage, B extends BasePageBloc>
   @override
   Widget build(BuildContext context) {
     themeData = Theme.of(context);
-    return BlocProvider<B>(
-        initBloc: getBloc(),
-        child: enableBackPressed()
+    return BlocProvider<B>(initBloc: getBloc(), child: getCustomScaffold());
+    /*child: enableBackPressed()
             ? PopScope(
                 canPop: canPop(),
                 onPopInvoked: (didPop) => onBackPressed(didPop, context),
                 child: getCustomScaffold())
-            : getCustomScaffold());
+            : getCustomScaffold());*/
   }
 
   SystemUiOverlayStyle getSystemUIOverlayStyle() {

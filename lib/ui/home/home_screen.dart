@@ -10,7 +10,6 @@ import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen.
 import 'package:estonedge/ui/profile/profiile_main/profile_screen.dart';
 import 'package:estonedge/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../base/src_bloc.dart';
 import '../../base/src_constants.dart';
@@ -317,20 +316,6 @@ class _HomeScreenState extends BasePageState<HomeScreen, HomeScreenBloc> {
         ),
       ),
     );
-  }
-
-  @override
-  bool customBackPressed() => true;
-
-  @override
-  void onBackPressed(bool didPop, BuildContext context) {
-    if (!didPop) {
-      if (isDrawerOpen()) {
-        closeDrawer();
-      } else {
-        SystemNavigator.pop();
-      }
-    }
   }
 
   Widget buildCustomDrawerItem({
