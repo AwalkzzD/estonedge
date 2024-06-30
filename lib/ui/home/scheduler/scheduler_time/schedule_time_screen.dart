@@ -3,10 +3,11 @@ import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/src_widgets.dart';
+import 'package:estonedge/base/utils/common_utils.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
-import 'package:estonedge/base/utils/widgets/divider_widget.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen_bloc.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_time/schedule_time_screen_bloc.dart';
+import 'package:estonedge/ui/profile/profile_details/profile_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleTimeScreen extends BasePage {
@@ -27,6 +28,8 @@ class _ScheduleTimeScreenState
   TimeOfDay _offTime = const TimeOfDay(hour: 12, minute: 0);
   final ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
   final ScheduleTimeScreenBloc _blocTime = ScheduleTimeScreenBloc();
+
+  final TextEditingController scheduleNameController = TextEditingController();
 
   List<String> days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   List<bool> selectedDays = List.generate(7, (index) => false);
@@ -82,13 +85,22 @@ class _ScheduleTimeScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ImageView(
+          /*const ImageView(
               image: AppImages.schedulerIllustration,
               imageType: ImageType.asset),
           SizedBox(height: 10.h),
-          DividerWidget(verticalMargin: 5.h),
+          DividerWidget(verticalMargin: 5.h),*/
+          const Text(
+            'Schedule Name',
+            style: fs16BlackRegular,
+          ),
+          CustomTextField(
+            hintText: 'Schedule Name',
+            controller: scheduleNameController,
+          ),
           SizedBox(height: 20.h),
-          Text('The device will be turned on at:', style: fs16BlackRegular),
+          const Text('The device will be turned on at:',
+              style: fs16BlackRegular),
           StreamBuilder<Time?>(
               stream: getBloc().onTimeStream,
               builder: (context, snapshot) {
@@ -126,7 +138,8 @@ class _ScheduleTimeScreenState
                 }
               }),
           SizedBox(height: 20.h),
-          Text('The device will be turned off at:', style: fs16BlackRegular),
+          const Text('The device will be turned off at:',
+              style: fs16BlackRegular),
           StreamBuilder<Time?>(
               stream: getBloc().offTimeStream,
               builder: (context, snapshot) {
@@ -163,7 +176,7 @@ class _ScheduleTimeScreenState
                 }
               }),
           SizedBox(height: 20.h),
-          Text('The device will automatically run on:',
+          const Text('The device will automatically run on:',
               style: fs16BlackRegular),
           SizedBox(height: 5.h),
           /*buildTimePicker("ON TIME :", _onTime, true),
@@ -178,7 +191,12 @@ class _ScheduleTimeScreenState
                 CustomButton(
                   btnText: 'Create',
                   color: Colors.blueAccent,
-                  onPressed: _createSchedule,
+                  // onPressed: _createSchedule,
+                  onPressed: () {
+                    getBloc().addSchedule(scheduleNameController.text,
+                        selectedDaysString(selectedDays));
+                    Navigator.pop(context);
+                  },
                 ),
                 CustomButton(
                   btnText: 'Cancel',

@@ -125,12 +125,12 @@ class _RoomImageScreenState
                               width: MediaQuery.of(context).size.width,
                               color: Colors.blueAccent,
                               onPressed: () {
-                                Navigator.pop(context);
+                                /*Navigator.pop(context);
                                 Navigator.pop(context);
                                 Navigator.pop<String>(
-                                    context, "${widget.roomName}");
-                                /*Navigator.pushAndRemoveUntil(context,
-                                    HomeScreen.route(), (route) => false);*/
+                                    context, "${widget.roomName}");*/
+                                Navigator.pushAndRemoveUntil(context,
+                                    HomeScreen.route(), (route) => false);
                               })
                         ],
                       ),

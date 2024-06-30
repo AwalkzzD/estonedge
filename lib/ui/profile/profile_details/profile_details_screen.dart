@@ -32,7 +32,6 @@ class _ProfileDetailsScreenState
   final TextEditingController dobController = TextEditingController();
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  String? genderController;
 
   @override
   void dispose() {
@@ -92,18 +91,25 @@ class _ProfileDetailsScreenState
                     icon: null,
                   ),
                   const SizedBox(height: 16),
-                  StreamBuilder<String?>(
-                      stream: getBloc().gender.stream,
+                  CustomDropdown(
+                      initialValue: gendersList.contains(getBloc().gender.value)
+                          ? getBloc().gender.value
+                          : null,
+                      hint: 'Gender',
+                      items: gendersList,
+                      onClick: (value) {
+                        getBloc().saveGender(value!);
+                      }),
+                  /*StreamBuilder<String>(
+                      stream: getBloc().genderStream,
                       builder: (context, snapshot) {
-                        genderController = snapshot.data;
                         return CustomDropdown(
-                            initialValue: genderController,
                             hint: 'Gender',
                             items: gendersList,
                             onClick: (value) {
                               getBloc().saveGender(value!);
                             });
-                      }),
+                      }),*/
                   const SizedBox(height: 16),
                   StreamBuilder<String?>(
                       stream: getBloc().dob.stream,
@@ -155,9 +161,12 @@ class _ProfileDetailsScreenState
                             if (newPasswordController.text.isNotEmpty) {
                               getBloc().updateUserPassword(
                                   oldPasswordController.text,
-                                  newPasswordController.text, (response) {
-                                showMessageBar(
-                                    'Password changed successfully!');
+                                  newPasswordController.text, (response) async {
+                                await Future.delayed(const Duration(seconds: 1),
+                                    () {
+                                  showMessageBar(
+                                      'Password changed successfully!');
+                                });
                               }, (errorMsg) async {
                                 await Future.delayed(const Duration(seconds: 1),
                                     () {

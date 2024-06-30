@@ -2,7 +2,7 @@ import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
-import 'package:estonedge/ui/add_device/add_your_device_screen.dart';
+
 import 'package:estonedge/ui/home/room/switch/switch_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +29,7 @@ class _SwitchDetailsScreenState
 
   @override
   SwitchDetailsScreenBloc getBloc() => _bloc;
+
   List<String> roomList = ['room1', 'room2', 'room3'];
 
   List<bool> switchStates = List.generate(10, (index) => false);
@@ -42,7 +43,7 @@ class _SwitchDetailsScreenState
           return IconButton(
             icon: Image.asset(AppImages.appBarBackIcon),
             onPressed: () {
-              Navigator.of(globalContext).pop();
+              Navigator.pop(context);
             },
           );
         },
@@ -89,7 +90,7 @@ class _SwitchDetailsScreenState
                 return GestureDetector(
                   onTap: () {
                     // Navigator.pushNamed(context, '/addDevice');
-                    Navigator.push(context, AddDeviceScreen.route());
+                    // Navigator.push(context, AddDeviceScreen.route());
                   },
                   child: SwitchItemWidget(deviceImage, deviceName, totalDevices,
                       switchStates[index], (value) {}),

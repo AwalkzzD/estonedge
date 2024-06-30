@@ -73,9 +73,20 @@ Future<void> closeApp() async {
 
 String generateUniqueKey() {
   return const Uuid().v4();
-  /*return UniqueKey()
-      .toString()
-      .replaceAll('#', '')
-      .replaceAll('[', '')
-      .replaceAll(']', '');*/
+}
+
+String selectedDaysString(List<bool> selectedDaysList) {
+  String result = '';
+  for (bool day in selectedDaysList) {
+    result += day ? '1' : '0';
+  }
+  return result;
+}
+
+List<bool> selectedDaysList(String selectedDaysString) {
+  List<bool> result = [];
+  for (int i = 0; i < selectedDaysString.length; i++) {
+    result.add(selectedDaysString[i] == '1');
+  }
+  return result;
 }

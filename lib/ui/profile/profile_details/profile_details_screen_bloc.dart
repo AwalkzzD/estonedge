@@ -1,4 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/data/remote/model/user/user_additional_info_response.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
@@ -14,6 +15,9 @@ class ProfileDetailsScreenBloc extends BasePageBloc {
   get profileDetailsStream => profileDetails.stream;
 
   late BehaviorSubject<String?> gender;
+
+  get genderStream => gender.stream;
+
   late BehaviorSubject<String?> dob;
 
   ProfileDetailsScreenBloc() {
@@ -27,7 +31,7 @@ class ProfileDetailsScreenBloc extends BasePageBloc {
     apiGetUserData((response) {
       hideLoading();
       profileDetails.add(response.additionalInfo);
-      saveGender(response.additionalInfo.gender ?? '');
+      saveGender(response.additionalInfo.gender);
       saveDob(response.additionalInfo.dob ?? '');
     }, (errorMsg) {
       hideLoading();
@@ -65,7 +69,7 @@ class ProfileDetailsScreenBloc extends BasePageBloc {
   }
 
   /// utils methods
-  void saveGender(String gender1) {
+  void saveGender(String? gender1) {
     gender.add(gender1);
   }
 

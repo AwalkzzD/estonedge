@@ -38,8 +38,6 @@ class _RoomDetailsScreenState
     extends BasePageState<RoomDetailsScreen, RoomDetailsScreenBloc> {
   final RoomDetailsScreenBloc _bloc = RoomDetailsScreenBloc();
 
-  final GlobalKey actionOptionsKey = GlobalKey();
-
   RoomsResponse? roomData;
 
   bool boardStatus = true;
@@ -53,10 +51,10 @@ class _RoomDetailsScreenState
 
   @override
   void onReady() {
+    roomData = widget.roomResponse;
     getBloc().getRoomData(widget.roomResponse?.roomId ?? '', (errorMsg) {
       showMessageBar(errorMsg);
     });
-    super.onReady();
   }
 
   @override
@@ -64,12 +62,6 @@ class _RoomDetailsScreenState
     return getBloc().getRoomData(widget.roomResponse?.roomId ?? '', (errorMsg) {
       showMessageBar(errorMsg);
     });
-  }
-
-  @override
-  void initState() {
-    roomData = widget.roomResponse;
-    super.initState();
   }
 
   @override
@@ -428,5 +420,21 @@ class _RoomDetailsScreenState
     }, (errorMsg) {
       showMessageBar(errorMsg);
     });
+  }
+
+  void navigateToSwitchScreen() async {
+    final result = await Navigator.push(
+      context,
+      // SwitchDetailsScreen.route(),
+    );
+
+    print('Navigator result = ${result.toString()}');
+  }
+
+  @override
+  void dispose() {
+    boardNameController.dispose();
+    getBloc().roomDetails.close();
+    super.dispose();
   }
 }
