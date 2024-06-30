@@ -34,28 +34,4 @@ class ScheduleHomeScreenBloc extends BasePageBloc {
       onError(ex.toString());
     }
   }
-
-/*Future<void> addSchedule(Map<String, dynamic> schedule) async {
-    List<Map<String, dynamic>> schedules = await getSchedules();
-    schedules.add(schedule);
-    await SpUtil.putString(keySchedules, jsonEncode(schedules));
-  }
-
-  Future<List<Map<String, dynamic>>> getSchedules() async {
-    String? schedulesString = SpUtil.getString(keySchedules);
-    if (schedulesString.isNotEmpty) {
-      List<dynamic> schedulesJson = jsonDecode(schedulesString);
-      return List<Map<String, dynamic>>.from(schedulesJson);
-    }
-    return [];
-  }
-
-  Future<void> deleteSchedule(int index) async {
-    final prefs = await SharedPreferences.getInstance();
-    final schedulesString = prefs.getString('schedules') ?? '[]';
-    final schedules =
-        List<Map<String, dynamic>>.from(json.decode(schedulesString));
-    schedules.removeAt(index);
-    await prefs.setString('schedules', json.encode(schedules));
-  }*/
 }

@@ -36,3 +36,4 @@ const List<String?> gendersList = [
 ];
 
 const List<String> daysList = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const List<String> daysListShort = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];

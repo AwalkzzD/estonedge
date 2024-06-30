@@ -1,4 +1,5 @@
 import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
+import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/src_widgets.dart';
@@ -25,8 +26,6 @@ class ScheduleHomeScreen extends BasePage {
 
 class _ScheduleHomeScreenState
     extends BasePageState<ScheduleHomeScreen, ScheduleHomeScreenBloc> {
-  List<String> days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
   final ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
 
   @override
@@ -132,6 +131,9 @@ class _ScheduleHomeScreenState
         itemBuilder: (context, index) {
           return SafeArea(
             child: GestureDetector(
+              onTap: () {
+                showMessageBar('${schedules[index].scheduleName}\nLong press to delete this schedule!');
+              },
               onLongPress: () =>
                   _showDeleteConfirmationDialog(context, schedules[index]),
               child: Card(
@@ -191,9 +193,9 @@ class _ScheduleHomeScreenState
                                 backgroundColor: selectedDaysList(
                                         schedules[index]
                                             .scheduleSelectedDays!)[childIndex]
-                                    ? Colors.blue
+                                    ? themeOf().primaryColor
                                     : Colors.grey.shade400,
-                                child: Text(days[childIndex],
+                                child: Text(daysListShort[childIndex],
                                     style: selectedDaysList(schedules[index]
                                             .scheduleSelectedDays!)[childIndex]
                                         ? fs14WhiteMedium.copyWith(
