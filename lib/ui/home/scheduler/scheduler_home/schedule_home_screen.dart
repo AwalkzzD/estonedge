@@ -1,6 +1,10 @@
+import 'package:estonedge/base/components/screen_utils/flutter_screenutil.dart';
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/src_widgets.dart';
+import 'package:estonedge/base/theme/app_theme.dart';
+import 'package:estonedge/base/utils/common_utils.dart';
+import 'package:estonedge/data/remote/model/schedule/schedule.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_detaiils/schedule_details_screen.dart';
 import 'package:estonedge/ui/home/scheduler/scheduler_home/schedule_home_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -21,21 +25,16 @@ class ScheduleHomeScreen extends BasePage {
 
 class _ScheduleHomeScreenState
     extends BasePageState<ScheduleHomeScreen, ScheduleHomeScreenBloc> {
-  List<Map<String, dynamic>> schedules = [];
   List<String> days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-  Set<int> selectedIndices = <int>{};
-
   final ScheduleHomeScreenBloc _bloc = ScheduleHomeScreenBloc();
-
-  Offset _longPressPosition = Offset.zero;
 
   @override
   ScheduleHomeScreenBloc getBloc() => _bloc;
 
   @override
   void onReady() {
-    _loadSchedules();
+    getBloc().loadSchedules();
     super.onReady();
   }
 
@@ -46,18 +45,7 @@ class _ScheduleHomeScreenState
 
   @override
   Future<void> onRefresh() async {
-    return _loadSchedules();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSchedules();
-  }
-
-  Future<void> _loadSchedules() async {
-    schedules = await _bloc.getSchedules();
-    setState(() {});
+    getBloc().loadSchedules();
   }
 
   @override
@@ -96,11 +84,20 @@ class _ScheduleHomeScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    if (schedules.isEmpty) {
-      return buildNoScheduleFound();
-    } else {
-      return buildScheduleList();
-    }
+    return StreamBuilder<List<Schedule>>(
+      stream: getBloc().scheduleStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          if (snapshot.data!.isNotEmpty) {
+            return buildScheduleList(snapshot.data!);
+          } else {
+            return buildNoScheduleFound();
+          }
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
   }
 
   Widget buildNoScheduleFound() {
@@ -110,7 +107,10 @@ class _ScheduleHomeScreenState
         Padding(
           padding: EdgeInsets.only(
               left: 100.0, right: 100.0, top: 200, bottom: 30.0),
-          child: Image(image: AssetImage(AppImages.noRoomFoundImage)),
+          child: ImageView(
+              image: AppImages.noRoomFoundImage,
+              imageType: ImageType
+                  .asset) /* Image(image: AssetImage(AppImages.noRoomFoundImage))*/,
         ),
         Text(
           'No Schedules available',
@@ -124,162 +124,132 @@ class _ScheduleHomeScreenState
     );
   }
 
-  Widget buildScheduleList() {
+  Widget buildScheduleList(List<Schedule> schedules) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: ListView.builder(
+      child: ListView.separated(
         itemCount: schedules.length,
         itemBuilder: (context, index) {
-          final schedule = schedules[index];
           return SafeArea(
             child: GestureDetector(
-              onLongPressStart: (details) {
-                _longPressPosition = details.globalPosition;
-              },
-              onLongPress: () => _showPopupMenu(context, index),
+              onLongPress: () =>
+                  _showDeleteConfirmationDialog(context, schedules[index]),
               child: Card(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: themeOf().primaryColor, width: 2),
+                    borderRadius: BorderRadius.circular(10)),
                 elevation: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(Icons.schedule),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Schedule ${index + 1}',
-                                  style: fs24BlackBold),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('OFF: ${schedule['offTime']}',
-                                      style: fs14BlackRegular)
-                                ],
-                              ),
-                            ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Icon(Icons.schedule),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:
-                              Text(schedule['onTime'], style: fs16BlackRegular),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50,
-                      child: Expanded(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: days.length,
-                          itemExtent: 40,
-                          itemBuilder: (context, index) {
-                            return IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (selectedIndices.contains(index)) {
-                                    selectedIndices.remove(index);
-                                  } else {
-                                    selectedIndices.add(index);
-                                  }
-                                });
-                              },
-                              icon: CircleAvatar(
-                                backgroundColor: days.contains(schedule['days'])
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(schedules[index].scheduleName!,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: fs24BlackSemibold.copyWith(
+                                        fontWeight: medium)),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        'ON: ${schedules[index].scheduleOnTime}',
+                                        style: fs16BlackRegular),
+                                  ],
+                                ),
+                                Text('OFF: ${schedules[index].scheduleOffTime}',
+                                    style: fs16BlackRegular)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.h),
+                      SizedBox(
+                        height: 50,
+                        child: Expanded(
+                          child: ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                schedules[index].scheduleSelectedDays!.length,
+                            itemBuilder: (context, childIndex) {
+                              return CircleAvatar(
+                                backgroundColor: selectedDaysList(
+                                        schedules[index]
+                                            .scheduleSelectedDays!)[childIndex]
                                     ? Colors.blue
                                     : Colors.grey.shade400,
-                                child: Text(days[index],
-                                    style: days.contains(schedule['days'])
+                                child: Text(days[childIndex],
+                                    style: selectedDaysList(schedules[index]
+                                            .scheduleSelectedDays!)[childIndex]
                                         ? fs14WhiteMedium.copyWith(
                                             fontWeight: semiBold)
                                         : fs14BlackSemibold),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(width: 5.w);
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           );
         },
+        separatorBuilder: (BuildContext context, int index) {
+          return SizedBox(height: 15.h);
+        },
       ),
     );
   }
 
-  void _showPopupMenu(BuildContext context, int index) async {
-    await showMenu(
+  void _showDeleteConfirmationDialog(BuildContext context, Schedule schedule) {
+    showCustomDialog(
       context: context,
-      position: RelativeRect.fromLTRB(
-        _longPressPosition.dx,
-        _longPressPosition.dy,
-        _longPressPosition.dx,
-        _longPressPosition.dy,
-      ),
-      items: [
-        const PopupMenuItem(
-          value: 'Edit',
-          child: ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Edit'),
-          ),
-        ),
-        const PopupMenuItem(
-          value: 'Delete',
-          child: ListTile(
-            leading: Icon(Icons.delete),
-            title: Text('Delete'),
-          ),
-        ),
+      children: [
+        ImageView(
+            color: themeOf().redAccent,
+            width: 80,
+            height: 80,
+            image: AppImages.icDelete,
+            imageType: ImageType.asset),
+        const SizedBox(height: 30),
+        Text(
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            'Are you sure you want to delete ${schedule.scheduleName} ?',
+            overflow: TextOverflow.ellipsis,
+            style: fs14BlackRegular)
       ],
-    ).then((value) {
-      if (value == 'Delete') {
-        _showDeleteConfirmationDialog(context, index);
-      }
-    });
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Schedule', style: fs16BlackSemibold),
-          content: const Text('Are you sure you want to delete this schedule?',
-              style: fs14BlackRegular),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel', style: fs14GrayRegular),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await _deleteSchedule(index);
-              },
-              child: Text('Delete', style: fs14BlueRegular),
-            ),
-          ],
-        );
+      buttonText: 'Delete',
+      onButtonPress: () {
+        getBloc().deleteSchedule(schedule, () {
+          showRefreshIndicator();
+          onRefresh();
+          showMessageBar('${schedule.scheduleName} deleted successfully');
+        }, (errorMsg) {
+          showMessageBar(errorMsg);
+        });
       },
     );
-  }
-
-  Future<void> _deleteSchedule(int index) async {
-    await _bloc.deleteSchedule(index);
-    _loadSchedules();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
+import 'package:estonedge/base/src_utils.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
@@ -7,6 +8,7 @@ import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart'
 import 'package:estonedge/data/remote/model/user/user_response.dart'
     as user_response;
 import 'package:estonedge/ui/home/scheduler/scheduler_detaiils/schedule_details_screen_bloc.dart';
+import 'package:estonedge/ui/home/scheduler/scheduler_time/schedule_time_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/src_constants.dart';
@@ -75,25 +77,25 @@ class _ScheduleDetailsScreenState
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text('Your Room', style: fs16BlackSemibold),
+                      const Text('Your Room*', style: fs18BlackMedium),
                       CustomDropdown(
                           maxLines: 1,
                           hint: 'Room',
                           items: snapshot.data!
                               .map((room) =>
-                                  '${room.roomName} -- #${room.roomId}')
+                                  '${room.roomName} - #${room.roomId}')
                               .toList(),
                           onClick: (newValue) {
                             print(newValue);
                             getBloc().selectedRoom.value = newValue;
                             getBloc().boardList.add(snapshot.data!
                                 .singleWhere((room) =>
-                                    '${room.roomName} -- #${room.roomId}' ==
+                                    '${room.roomName} - #${room.roomId}' ==
                                     newValue)
                                 .boards);
                           }),
-                      SizedBox(height: 10.h),
-                      const Text('Your Board', style: fs16BlackSemibold),
+                      SizedBox(height: 20.h),
+                      const Text('Your Board*', style: fs18BlackMedium),
                       StreamBuilder<List<user_response.Board>>(
                         stream: getBloc().boardListStream,
                         builder: (context, snapshot) {
@@ -117,16 +119,13 @@ class _ScheduleDetailsScreenState
                                       .switches);
                                 });
                           } else {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 5.0),
-                              child:
-                                  Text('No boards...', style: fs14BlackRegular),
-                            );
+                            return const Text('No boards selected yet',
+                                style: fs12BlackRegular);
                           }
                         },
                       ),
-                      SizedBox(height: 10.h),
-                      const Text('Your Switch', style: fs16BlackSemibold),
+                      SizedBox(height: 20.h),
+                      const Text('Your Switch*', style: fs18BlackMedium),
                       StreamBuilder<List<user_response.Switch>>(
                         stream: getBloc().switchListStream,
                         builder: (context, snapshot) {
@@ -145,11 +144,8 @@ class _ScheduleDetailsScreenState
                               },
                             );
                           } else {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 5.0),
-                              child: Text('No switches...',
-                                  style: fs14BlackRegular),
-                            );
+                            return const Text('No switches selected yet',
+                                style: fs12BlackRegular);
                           }
                         },
                       ),
@@ -169,13 +165,18 @@ class _ScheduleDetailsScreenState
             btnText: 'Select',
             color: Colors.blue,
             onPressed: () {
-              getBloc().checkSchedule((result) {}, (errorMsg) {
+              getBloc().checkSchedule((roomId, boardId, switchId, macAddress) {
+                Navigator.push(
+                    context,
+                    ScheduleTimeScreen.route(
+                        roomId, boardId, switchId, macAddress));
+                showMessageBar(
+                    'Creating schedule for ${removeIdFromString(switchId)} of ${removeIdFromString(boardId)} in ${removeIdFromString(roomId)}\n');
+              }, (errorMsg) {
                 showMessageBar(errorMsg);
               });
-              // Navigator.push(context, ScheduleTimeScreen.route());
             },
           ),
-          SizedBox(height: 8.h),
           CustomButton(
             btnText: 'Cancel',
             color: Colors.grey,

@@ -216,6 +216,7 @@ const TextStyle fs20BlackSemibold = TextStyle(
   fontWeight: semiBold,
 );
 
+
 const TextStyle fs20BlackBold = TextStyle(
   fontSize: fs20,
   color: black,

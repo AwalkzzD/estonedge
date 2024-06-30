@@ -90,3 +90,8 @@ List<bool> selectedDaysList(String selectedDaysString) {
   }
   return result;
 }
+
+String removeIdFromString(String input) {
+  final regex = RegExp(r' - #[a-fA-F0-9-]+$');
+  return input.replaceAll(regex, '');
+}

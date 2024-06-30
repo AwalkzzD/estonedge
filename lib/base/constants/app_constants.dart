@@ -34,3 +34,5 @@ const List<String?> gendersList = [
   'Non-Binary',
   'Prefer not to answer',
 ];
+
+const List<String> daysList = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];

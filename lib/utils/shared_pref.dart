@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:estonedge/data/remote/model/schedule/schedule.dart';
 
 import '../base/src_utils.dart';
@@ -58,27 +60,26 @@ void saveUserEmail(String userEmail) =>
 String getUserEmail() => SpUtil.getString(keyUserEmail);
 
 /// Rooms
-void saveRoomsList(List<RoomsResponse> roomsList) =>
-    SpUtil.putObjectList(keyRoomsList, roomsList);
+void saveRoomsList(List<RoomsResponse> roomsList) {
+  List<String>? dataList = roomsList.map((value) {
+    return json.encode(value.toJson());
+  }).toList();
+  SpUtil.putObjectList(keyRoomsList, dataList);
+}
 
 List<RoomsResponse> getRoomsList() => SpUtil.getObjList(keyRoomsList,
     (value) => RoomsResponse.fromJson(value as Map<String, dynamic>));
 
 /// Schedule
-void saveSchedule(Schedule scheduleObj) =>
-    SpUtil.putObject(keySchedule, scheduleObj);
-
-Schedule? getSchedule() => SpUtil.getObj(
-    keySchedule, (value) => Schedule.fromJson(value as Map<String, dynamic>));
-
-/*/// Time
-void setOnTime(Time time) {
-  SpUtil.putObject(onTime, time);
+void saveScheduleList(List<Schedule> scheduleObjList) {
+  List<String>? dataList = scheduleObjList.map((value) {
+    return json.encode(value.toJson());
+  }).toList();
+  SpUtil.putObjectList(keySchedule, dataList);
 }
 
-void setOffTime(Time time) {
-  SpUtil.putObject(offTime, time);
-}*/
+List<Schedule> getScheduleList() => SpUtil.getObjList<Schedule>(
+    keySchedule, (value) => Schedule.fromJson(value as Map<String, dynamic>));
 
 /// Scale Factor
 void setScaleFactor(double value) {

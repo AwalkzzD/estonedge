@@ -50,12 +50,9 @@ class SpUtil {
   }
 
   /// put object list.
-  static Future<bool>? putObjectList(String key, List<Object> list) {
+  static Future<bool>? putObjectList(String key, List<String>? dataList) {
     if (_prefs == null) return null;
-    List<String>? dataList = list.map((value) {
-      return json.encode(value);
-    }).toList();
-    return _prefs!.setStringList(key, dataList);
+    return _prefs!.setStringList(key, dataList!);
   }
 
   /// get obj list.

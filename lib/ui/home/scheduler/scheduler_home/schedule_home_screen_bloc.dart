@@ -1,14 +1,41 @@
 import 'package:estonedge/base/src_bloc.dart';
-import 'package:estonedge/base/utils/sp_util.dart';
+import 'package:estonedge/data/remote/model/schedule/schedule.dart';
 import 'package:estonedge/utils/shared_pref.dart';
-import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ScheduleHomeScreenBloc extends BasePageBloc {
-  static const String keySchedules = "schedules";
+  late BehaviorSubject<List<Schedule>> schedules;
 
-  Future<void> addSchedule(Map<String, dynamic> schedule) async {
+  get scheduleStream => schedules.stream;
+
+  ScheduleHomeScreenBloc() {
+    schedules = BehaviorSubject.seeded([]);
+  }
+
+  void loadSchedules() {
+    schedules.add(getScheduleList());
+  }
+
+  void deleteSchedule(
+      Schedule schedule, Function() onSuccess, Function(String) onError) {
+    try {
+      List<Schedule> scheduleList = List.empty(growable: true);
+      scheduleList.addAll(getScheduleList());
+      scheduleList.removeAt(scheduleList.indexWhere(
+          (scheduleX) => scheduleX.scheduleId == schedule.scheduleId));
+
+      saveScheduleList(scheduleList);
+
+      schedules.add(scheduleList);
+
+      onSuccess();
+    } catch (ex) {
+      print(ex.toString());
+      onError(ex.toString());
+    }
+  }
+
+/*Future<void> addSchedule(Map<String, dynamic> schedule) async {
     List<Map<String, dynamic>> schedules = await getSchedules();
     schedules.add(schedule);
     await SpUtil.putString(keySchedules, jsonEncode(schedules));
@@ -26,8 +53,9 @@ class ScheduleHomeScreenBloc extends BasePageBloc {
   Future<void> deleteSchedule(int index) async {
     final prefs = await SharedPreferences.getInstance();
     final schedulesString = prefs.getString('schedules') ?? '[]';
-    final schedules = List<Map<String, dynamic>>.from(json.decode(schedulesString));
+    final schedules =
+        List<Map<String, dynamic>>.from(json.decode(schedulesString));
     schedules.removeAt(index);
     await prefs.setString('schedules', json.encode(schedules));
-  }
+  }*/
 }

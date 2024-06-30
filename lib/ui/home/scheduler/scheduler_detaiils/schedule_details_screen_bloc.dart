@@ -40,7 +40,14 @@ class ScheduleDetailsScreenBloc extends BasePageBloc {
     });
   }
 
-  void checkSchedule(Function(bool) onSuccess, Function(String) onError) {
+  void checkSchedule(
+      Function(
+        String roomId,
+        String boardId,
+        String switchId,
+        String macAddress,
+      ) onSuccess,
+      Function(String) onError) {
     print(selectedRoom.value);
     print(selectedBoard.value);
     print(selectedSwitch.value);
@@ -50,17 +57,44 @@ class ScheduleDetailsScreenBloc extends BasePageBloc {
       try {
         final room1 = roomList.value.firstWhere((room) =>
             selectedRoom.value == '${room.roomName} - #${room.roomId}');
-        print(room1);
+        try {
+          final board1 = room1.boards.firstWhere((board) =>
+              selectedBoard.value == '${board.boardName} - #${board.boardId}');
+          try {
+            board1.switches.firstWhere((switchX) =>
+                selectedSwitch.value ==
+                '${switchX.switchName} - #${switchX.switchId}');
+            if (board1.macAddress.isNotEmpty) {
+              onSuccess(selectedRoom.value!, selectedBoard.value!,
+                  selectedSwitch.value!, board1.macAddress);
+            } else {
+              onError(
+                  'Board is not configured\nPlease configure before creating a schedule');
+            }
+          } catch (ex) {
+            onError('Invalid Switch selection');
+          }
+        } catch (ex) {
+          onError('Invalid Board selection');
+        }
       } catch (ex) {
+        onError('Invalid Room selection');
         print(ex.toString());
       }
     } else {
-      onError('Select all required');
+      onError('Select all required fields');
     }
   }
 
-  String removeIdFromString(String input) {
-    final regex = RegExp(r' - #[a-fA-F0-9-]+$');
-    return input.replaceAll(regex, '');
+  @override
+  void dispose() {
+    roomList.close();
+    boardList.close();
+    switchList.close();
+
+    selectedRoom.close();
+    selectedBoard.close();
+    selectedSwitch.close();
+    super.dispose();
   }
 }
