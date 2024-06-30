@@ -63,11 +63,14 @@ class _SwitchItemWidgetState
           ),
           Row(
             children: [
-              Text(
-                  overflow: TextOverflow.fade,
+              Flexible(
+                child: Text(
                   widget.deviceName,
-                  style: fs16BlackBold),
-              const Spacer(),
+                  style: fs16BlackBold,
+                  overflow: TextOverflow.ellipsis, // Handle overflow
+                ),
+              ),
+              // const Spacer(),
               PopupMenuButton<String>(
                 onSelected: (value) {
                   // Handle menu item selection

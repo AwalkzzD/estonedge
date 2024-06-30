@@ -1,19 +1,25 @@
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
+import 'package:estonedge/data/remote/model/user/user_response.dart';
+
 import 'package:estonedge/ui/home/room/switch/switch_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class SwitchDetailsScreen extends BasePage {
-  const SwitchDetailsScreen({super.key});
+
+  final Board board;
+
+  const SwitchDetailsScreen({super.key, required this.board});  
+  
 
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _SwitchDetailsScreenState();
 
-  static Route<dynamic> route() {
-    return CustomPageRoute(builder: (context) => const SwitchDetailsScreen());
+static Route<dynamic> route(Board board) {
+    return CustomPageRoute(builder: (context) => SwitchDetailsScreen(board: board));
   }
 }
 
@@ -66,7 +72,7 @@ class _SwitchDetailsScreenState
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: roomList.length, // Total number of rooms
+              itemCount: widget.board.switches.length, // Total number of rooms
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // 2 containers per row
                 crossAxisSpacing: 8.0,
@@ -76,11 +82,17 @@ class _SwitchDetailsScreenState
               itemBuilder: (context, index) {
                 // Replace these values with your actual device data
                 String deviceImage = AppImages.switchIcon;
-                String deviceName = roomList[index];
-                int totalDevices = 5;
-
-                return SwitchItemWidget(deviceImage, deviceName, totalDevices,
-                    switchStates[index], (value) {});
+                String deviceName = widget.board.switches[index].switchName;
+                int totalDevices = widget.board.switches.length;
+                
+                return GestureDetector(
+                  onTap: () {
+                    // Navigator.pushNamed(context, '/addDevice');
+                    // Navigator.push(context, AddDeviceScreen.route());
+                  },
+                  child: SwitchItemWidget(deviceImage, deviceName, totalDevices,
+                      switchStates[index], (value) {}),
+                );
               },
             ),
           ),
