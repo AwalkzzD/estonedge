@@ -130,7 +130,7 @@ class _BoardDetailsScreenState
             IconButton(
                 onPressed: () {
                   // Navigator.pushNamed(context, '/switchDetails');
-                  Navigator.push(context, SwitchDetailsScreen.route());
+                  // Navigator.push(context, SwitchDetailsScreen.route());
                 },
                 icon: Image.asset(AppImages.boardConfigIcon)),
           ],
