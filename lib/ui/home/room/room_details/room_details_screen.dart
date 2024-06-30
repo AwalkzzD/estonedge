@@ -165,48 +165,6 @@ class _RoomDetailsScreenState
                         onButtonPress: () {
                           deleteRoom(widget.roomResponse!.roomId);
                         });
-                    /*showDialog<String>(
-                      barrierDismissible: true,
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageView(
-                                color: themeOf().redAccent,
-                                width: 80,
-                                height: 80,
-                                image: AppImages.icDelete,
-                                imageType: ImageType.asset),
-                            const SizedBox(height: 30),
-                            Text(
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                'Are you sure you want to delete ${roomData?.roomName} ?',
-                                overflow: TextOverflow.ellipsis,
-                                style: fs14BlackRegular)
-                          ],
-                        ),
-                        actions: <Widget>[
-                          CustomButton(
-                              btnText: 'Delete',
-                              width: MediaQuery.of(context).size.width,
-                              color: themeOf().redAccent,
-                              onPressed: () {
-                                Navigator.pop(context);
-                                getBloc().deleteRoom(
-                                    widget.roomResponse!.roomId, (response) {
-                                  navigateToRoomScreen();
-                                  showMessageBar(response.message ??
-                                      'Room Deleted Successfully');
-                                }, (errorMsg) {
-                                  showMessageBar(errorMsg);
-                                });
-                              })
-                        ],
-                      ),
-                    );*/
                   },
                 ),
               ],
@@ -271,54 +229,34 @@ class _RoomDetailsScreenState
       boardStatus = board.switches.any((switch1) => switch1.status);
     }
     return Card(
-      child: Container(
-        decoration: BoxDecoration(
-            color: white,
-            border: Border.all(color: themeOf().primaryColor, width: 2),
-            borderRadius: BorderRadius.circular(15)),
-        child: ListTile(
-          title: Text(
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            board?.boardName ?? '',
-            style: fs16BlackSemibold.copyWith(fontWeight: medium),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PopupMenuButton<String>(
-                onSelected: (value) {
-                  boardNameController.text = board?.boardName ?? 'Board X';
-                  if (value == 'Edit') {
-                    showCustomDialog(
-                        context: context,
-                        children: [
-                          SizedBox(height: 10.h),
-                          const Text(
-                            'Board Name',
-                            style: fs14BlackRegular,
-                          ),
-                          SizedBox(height: 8.h),
-                          CustomTextField(
-                            hintText: 'Enter Board Name...',
-                            controller: boardNameController,
-                          ),
-                        ],
-                        buttonText: 'Update',
-                        onButtonPress: () {
-                          updateBoard(
-                            widget.roomResponse!.roomId,
-                            board!.boardId,
-                            boardNameController.text,
-                          );
-                        });
-                    /*showDialog<String>(
-                      barrierDismissible: true,
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            SwitchDetailsScreen.route(board!),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: white,
+              border: Border.all(color: themeOf().primaryColor, width: 2),
+              borderRadius: BorderRadius.circular(15)),
+          child: ListTile(
+            title: Text(
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              board?.boardName ?? '',
+              style: fs16BlackSemibold.copyWith(fontWeight: medium),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    boardNameController.text = board?.boardName ?? 'Board X';
+                    if (value == 'Edit') {
+                      showCustomDialog(
+                          context: context,
                           children: [
                             SizedBox(height: 10.h),
                             const Text(
@@ -331,133 +269,61 @@ class _RoomDetailsScreenState
                               controller: boardNameController,
                             ),
                           ],
-                        ),
-                        actions: <Widget>[
-                          CustomButton(
-                              width: MediaQuery.of(context).size.width,
-                              btnText: 'Update',
-                              color: themeOf().primaryColor,
-                              onPressed: () {
-                                Navigator.pop(context);
-                                getBloc().updateBoard(
-                                    widget.roomResponse!.roomId,
-                                    board!.boardId,
-                                    boardNameController.text, (response) {
-                                  showMessageBar(
-                                      response.message ?? "Board Name Updated");
-                                  showRefreshIndicator();
-                                  onRefresh();
-                                }, (errorMsg) {
-                                  showMessageBar(errorMsg);
-                                });
-                              }),
-                        ],
-                      ),
-                    );*/
-                  } else if (value == 'Delete') {
-                    showCustomDialog(
-                      context: context,
-                      children: [
-                        ImageView(
-                            color: themeOf().redAccent,
-                            width: 80,
-                            height: 80,
-                            image: AppImages.icDelete,
-                            imageType: ImageType.asset),
-                        const SizedBox(height: 30),
-                        Text(
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            'Are you sure you want to delete ${boardNameController.text} ?',
-                            overflow: TextOverflow.ellipsis,
-                            style: fs14BlackRegular)
-                      ],
-                      buttonText: 'Delete',
-                      buttonColor: themeOf().redAccent,
-                      onButtonPress: () {
-                        deleteBoard(
-                            widget.roomResponse!.roomId, board?.boardId ?? '');
-                      },
-                    );
-                    /*showDialog<String>(
-                      barrierDismissible: true,
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageView(
-                                color: themeOf().redAccent,
-                                width: 80,
-                                height: 80,
-                                image: AppImages.icDelete,
-                                imageType: ImageType.asset),
-                            const SizedBox(height: 30),
-                            Text(
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                'Are you sure you want to delete ${boardNameController.text} ?',
-                                overflow: TextOverflow.ellipsis,
-                                style: fs14BlackRegular)
-                          ],
-                        ),
-                        actions: <Widget>[
-                          CustomButton(
-                              btnText: 'Delete',
-                              width: MediaQuery.of(context).size.width,
+                          buttonText: 'Update',
+                          onButtonPress: () {
+                            updateBoard(
+                              widget.roomResponse!.roomId,
+                              board!.boardId,
+                              boardNameController.text,
+                            );
+                          });
+                    } else if (value == 'Delete') {
+                      showCustomDialog(
+                        context: context,
+                        children: [
+                          ImageView(
                               color: themeOf().redAccent,
-                              onPressed: () {
-                                Navigator.pop(context);
-                                getBloc().deleteBoard(
-                                    widget.roomResponse!.roomId,
-                                    board?.boardId ?? '', (response) {
-                                  showMessageBar(response.message ??
-                                      'Board deleted successfully!');
-                                  showRefreshIndicator();
-                                  onRefresh();
-                                }, (errorMsg) {
-                                  showMessageBar(errorMsg);
-                                });
-                              })
+                              width: 80,
+                              height: 80,
+                              image: AppImages.icDelete,
+                              imageType: ImageType.asset),
+                          const SizedBox(height: 30),
+                          Text(
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              'Are you sure you want to delete ${boardNameController.text} ?',
+                              overflow: TextOverflow.ellipsis,
+                              style: fs14BlackRegular)
                         ],
-                      ),
-                    );*/
-                  }
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 'Edit',
-                    child: ListTile(
-                      leading: Icon(Icons.edit),
-                      title: Text('Edit'),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 'Delete',
-                    child: ListTile(
-                      leading: Icon(Icons.delete),
-                      title: Text('Delete'),
-                    ),
-                  ),
-                ],
-                icon: const Icon(Icons.more_vert),
-              ),
-              if (board != null && board.macAddress.isNotEmpty)
-                IconButton(
-                  onPressed: () {
-                    // Handle the button press action
-                    Navigator.push(
-                      context,
-                      SwitchDetailsScreen.route(),
-                    );
+                        buttonText: 'Delete',
+                        buttonColor: themeOf().redAccent,
+                        onButtonPress: () {
+                          deleteBoard(widget.roomResponse!.roomId,
+                              board?.boardId ?? '');
+                        },
+                      );
+                    }
                   },
-                  icon: Image.asset(AppImages.boardConfigIcon),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Switch(
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      value: 'Edit',
+                      child: ListTile(
+                        leading: Icon(Icons.edit),
+                        title: Text('Edit'),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 'Delete',
+                      child: ListTile(
+                        leading: Icon(Icons.delete),
+                        title: Text('Delete'),
+                      ),
+                    ),
+                  ],
+                  icon: const Icon(Icons.more_vert),
+                ),
+                if (board != null && board.macAddress.isNotEmpty)
+                  Switch(
                     trackOutlineColor:
                         WidgetStateProperty.all(Colors.transparent),
                     trackOutlineWidth: WidgetStateProperty.all(0),
@@ -478,9 +344,23 @@ class _RoomDetailsScreenState
                         }
                       });
                     },
-                  ),
-                ),
-            ],
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.only(left: 11.0),
+                    child: IconButton(
+                      onPressed: () {
+                        // Handle the button press action
+                        Navigator.push(
+                          context,
+                          SwitchDetailsScreen.route(board!),
+                        );
+                      },
+                      icon: Image.asset(AppImages.boardConfigIcon),
+                    ),
+                  )
+              ],
+            ),
           ),
         ),
       ),
