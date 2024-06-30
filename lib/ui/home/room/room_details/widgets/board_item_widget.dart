@@ -44,7 +44,7 @@ class _BoardItemWidgetState extends State<BoardItemWidget> {
   void navigateToSwitchScreen() async {
     final result = await Navigator.push(
       context,
-      SwitchDetailsScreen.route(),
+      SwitchDetailsScreen.route(board!),
     );
   }
 
@@ -78,7 +78,8 @@ class _BoardItemWidgetState extends State<BoardItemWidget> {
               ),
               PopupMenuButton<String>(
                 elevation: 10,
-                shape: RoundedRectangleBorder(side: BorderSide(color: themeOf().primaryColor, width: 1),
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: themeOf().primaryColor, width: 1),
                     borderRadius: BorderRadius.circular(10)),
                 onSelected: (value) {
                   boardNameController.text = board?.boardName ?? 'Board X';

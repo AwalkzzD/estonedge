@@ -1,19 +1,15 @@
+import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
 import 'package:estonedge/base/src_bloc.dart';
-import 'package:estonedge/base/constants/app_images.dart';
+import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget_bloc.dart';
+import 'package:estonedge/data/remote/model/user/user_response.dart' as user_model;
 import 'package:flutter/material.dart';
 
 class SwitchItemWidget extends BasePage {
-  final String deviceImage;
-  final String deviceName;
-  final int totalDevices;
-  final bool isSwitched;
-  final Function(bool) onToggle;
+  final user_model.Switch switch1;
 
-  const SwitchItemWidget(this.deviceImage, this.deviceName, this.totalDevices,
-      this.isSwitched, this.onToggle,
-      {super.key});
+  const SwitchItemWidget({super.key, super.bloc, required this.switch1});
 
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
@@ -48,7 +44,7 @@ class _SwitchItemWidgetState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: 38, child: Image.asset(widget.deviceImage)),
+              const SizedBox(height: 38, child: ImageView(image: AppImages.switchIcon, imageType: ImageType.asset)),
               Switch(
                 activeThumbImage:
                     const AssetImage(AppImages.switchActiveThumbImage),
@@ -56,8 +52,8 @@ class _SwitchItemWidgetState
                     const AssetImage(AppImages.switchInactiveThumbImage),
                 activeTrackColor: Colors.blueAccent,
                 inactiveTrackColor: Colors.black,
-                value: widget.isSwitched,
-                onChanged: widget.onToggle,
+                value: widget.switch1.status,
+                onChanged: (newValue) {},
               ),
             ],
           ),
@@ -65,7 +61,7 @@ class _SwitchItemWidgetState
             children: [
               Flexible(
                 child: Text(
-                  widget.deviceName,
+                  widget.switch1.switchName,
                   style: fs16BlackBold,
                   overflow: TextOverflow.ellipsis, // Handle overflow
                 ),

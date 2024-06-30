@@ -1,25 +1,24 @@
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:estonedge/base/widgets/custom_page_route.dart';
-import 'package:estonedge/data/remote/model/user/user_response.dart';
-
+import 'package:estonedge/data/remote/model/user/user_response.dart'
+    as user_model;
 import 'package:estonedge/ui/home/room/switch/switch_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/switch/widget/switch_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class SwitchDetailsScreen extends BasePage {
+  final user_model.Board board;
 
-  final Board board;
-
-  const SwitchDetailsScreen({super.key, required this.board});  
-  
+  const SwitchDetailsScreen({super.key, required this.board});
 
   @override
   BasePageState<BasePage<BasePageBloc?>, BasePageBloc> getState() =>
       _SwitchDetailsScreenState();
 
-static Route<dynamic> route(Board board) {
-    return CustomPageRoute(builder: (context) => SwitchDetailsScreen(board: board));
+  static Route<dynamic> route(user_model.Board board) {
+    return CustomPageRoute(
+        builder: (context) => SwitchDetailsScreen(board: board));
   }
 }
 
@@ -29,10 +28,6 @@ class _SwitchDetailsScreenState
 
   @override
   SwitchDetailsScreenBloc getBloc() => _bloc;
-
-  List<String> roomList = ['room1', 'room2', 'room3'];
-
-  List<bool> switchStates = List.generate(10, (index) => false);
 
   @override
   Widget? getAppBar() {
@@ -57,10 +52,10 @@ class _SwitchDetailsScreenState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return buildSwitchList(roomList);
+    return buildSwitchList();
   }
 
-  Widget buildSwitchList(List<String> roomList) {
+  Widget buildSwitchList() {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -72,26 +67,18 @@ class _SwitchDetailsScreenState
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: widget.board.switches.length, // Total number of rooms
+              itemCount: widget.board.switches.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // 2 containers per row
+                crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
-                childAspectRatio: 1.3, // Adjust the aspect ratio if needed
+                childAspectRatio: 1.3,
               ),
               itemBuilder: (context, index) {
-                // Replace these values with your actual device data
-                String deviceImage = AppImages.switchIcon;
-                String deviceName = widget.board.switches[index].switchName;
-                int totalDevices = widget.board.switches.length;
-                
                 return GestureDetector(
-                  onTap: () {
-                    // Navigator.pushNamed(context, '/addDevice');
-                    // Navigator.push(context, AddDeviceScreen.route());
-                  },
-                  child: SwitchItemWidget(deviceImage, deviceName, totalDevices,
-                      switchStates[index], (value) {}),
+                  onTap: () {},
+                  child:
+                      SwitchItemWidget(switch1: widget.board.switches[index]),
                 );
               },
             ),
