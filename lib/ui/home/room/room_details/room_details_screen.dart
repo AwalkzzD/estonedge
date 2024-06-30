@@ -423,12 +423,12 @@ class _RoomDetailsScreenState
   }
 
   void navigateToSwitchScreen() async {
-    final result = await Navigator.push(
-      context,
-      // SwitchDetailsScreen.route(),
-    );
+    // final result = await Navigator.push(
+    //   context,
+    //   SwitchDetailsScreen.route(),
+    // );
 
-    print('Navigator result = ${result.toString()}');
+    // print('Navigator result = ${result.toString()}');
   }
 
   @override
