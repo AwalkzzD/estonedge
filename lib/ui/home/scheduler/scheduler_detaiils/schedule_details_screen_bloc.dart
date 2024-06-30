@@ -39,4 +39,28 @@ class ScheduleDetailsScreenBloc extends BasePageBloc {
       print('Error fetching data: $error');
     });
   }
+
+  void checkSchedule(Function(bool) onSuccess, Function(String) onError) {
+    print(selectedRoom.value);
+    print(selectedBoard.value);
+    print(selectedSwitch.value);
+    if (selectedRoom.value != null &&
+        selectedBoard.value != null &&
+        selectedSwitch.value != null) {
+      try {
+        final room1 = roomList.value.firstWhere((room) =>
+            selectedRoom.value == '${room.roomName} - #${room.roomId}');
+        print(room1);
+      } catch (ex) {
+        print(ex.toString());
+      }
+    } else {
+      onError('Select all required');
+    }
+  }
+
+  String removeIdFromString(String input) {
+    final regex = RegExp(r' - #[a-fA-F0-9-]+$');
+    return input.replaceAll(regex, '');
+  }
 }

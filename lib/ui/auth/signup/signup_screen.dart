@@ -157,7 +157,6 @@ class _SignupScreenState extends BasePageState<SignupScreen, SignupScreenBloc> {
                   passwordError =
                       validatePassword(passwordInputController.text);
                 });
-
                 if (nameError == null &&
                     emailError == null &&
                     passwordError == null) {
