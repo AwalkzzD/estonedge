@@ -207,12 +207,6 @@ class _LoginScreenState extends BasePageState<LoginScreen, LoginScreenBloc> {
     );
   }
 
-  void navigateToSignUpScreen() =>
-      Navigator.of(context).pushReplacement(SignupScreen.route());
-
-  void navigateToHomeScreen() =>
-      Navigator.of(context).pushReplacement(HomeScreen.route());
-
   @override
   LoginScreenBloc getBloc() => _bloc;
 }
