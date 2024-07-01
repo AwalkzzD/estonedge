@@ -25,7 +25,7 @@ class OTS extends StatelessWidget {
   final Widget? child;
   final bool darkTheme;
 
-  const OTS({Key? key, this.child, this.darkTheme = false}) : super(key: key);
+  const OTS({super.key, this.child, this.darkTheme = false});
 
   @override
   Widget build(BuildContext context) {

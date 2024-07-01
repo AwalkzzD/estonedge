@@ -42,7 +42,7 @@ class _BoardItemWidgetState extends State<BoardItemWidget> {
   }
 
   void navigateToSwitchScreen() async {
-    final result = await Navigator.push(
+    await Navigator.push(
       context,
       SwitchDetailsScreen.route(board!),
     );

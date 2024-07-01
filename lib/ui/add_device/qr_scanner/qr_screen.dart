@@ -33,9 +33,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
   String clientIdentifier = 'iotconsole-16456e21-0605-417a-9cbc-33e4a22c47ee';
   String topic = 'esp32/pub';
 
-  String? _scanCode;
-  bool _isFlashOn = false;
-  bool _isScanning = false;
+ 
 
   @override
   void initState() {
@@ -98,43 +96,11 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
                 textColor: Colors.blueAccent),
           ],
         ),
-      ),
-      /*body: Padding(
-        padding: const EdgeInsets.fromLTRB(15.0, 115.0, 15.0, 15.0),
-        child: Column(
-          children: [
-            const Text(
-              'Scan QR Code of the smart device',
-              style: fs18WhiteSemiBold,
-              textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: Center(child: Image.asset(AppImages.qrCode)),
-            ),
-            const Text(
-              'The QR Code will be automatically detected when you position it between the guide lines',
-              style: fs14WhiteMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 50),
-            CustomButton(
-                btnText: 'Link',
-                color: white,
-                // onPressed: () => scanQR(),
-                onPressed: () {}, //connectWifi(),
-                textColor: Colors.blueAccent),
-          ],
-        ),
-      ),*/
+      ),      
     );
   }
 
   Future<void> scanQR() async {
-    setState(() {
-      _isScanning = true;
-    });
-
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
@@ -156,8 +122,7 @@ class _QrScreenState extends BasePageState<QrScreen, QrScreenBloc> {
       showMessageBar('Connecting to your smart device');
 
       connectSmartDevice(qrScanResponse);
-    } catch (ex) {
-      print(ex.toString());
+    } catch (ex) {      
       showMessageBar('Invalid QR Code\nScan QR given on the board');
     }
   }

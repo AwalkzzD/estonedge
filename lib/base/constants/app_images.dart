@@ -6,12 +6,12 @@ class AppImages {
 
   // get started page assets
   static const String getStartedHomeIllutstration =
-      'assets/images/get_started.svg';
+      'assets/images/get_started.svga';
 
   static const String roomDummyImage = 'assets/images/dummy_room.png';
 
   // common icons
-  static const String appLogo = 'assets/icons/app_icon.png';
+  static const String appLogo = 'assets/icons/app_icon.svg';
   static const String homeProfileIcon = 'assets/icons/profile_icon.png';
 
   // static const String homeProfileIcon = 'assets/icons/profile_icon.svg';

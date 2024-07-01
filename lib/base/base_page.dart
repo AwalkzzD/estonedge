@@ -10,11 +10,12 @@ import 'src_bloc.dart';
 import 'src_components.dart';
 
 abstract class BasePage<T extends BasePageBloc?> extends StatefulWidget {
-  const BasePage({Key? key, this.bloc}) : super(key: key);
+  const BasePage({super.key, this.bloc});
 
   final BasePageBloc? bloc;
 
   @override
+  // ignore: no_logic_in_create_state
   BasePageState createState() => getState();
 
   BasePageState getState();

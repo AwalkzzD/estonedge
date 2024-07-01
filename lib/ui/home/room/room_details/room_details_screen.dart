@@ -5,7 +5,6 @@ import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/theme/app_theme.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
-import 'package:estonedge/base/widgets/no_internet_view.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
@@ -195,7 +194,7 @@ class _RoomDetailsScreenState
             ),
           );
         } else {
-          return const NoInternetView();
+          return const SizedBox();
         }
       },
     );

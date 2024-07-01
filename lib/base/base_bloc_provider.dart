@@ -84,6 +84,7 @@ class _BlocProviderState<T extends BasePageBloc> extends State<BlocProvider<T>> 
 class _BlocProvider<T extends BasePageBloc> extends InheritedWidget {
   final T bloc;
   @override
+  // ignore: overridden_fields
   final Widget child;
   final UpdateShouldNotify<T>? updateShouldNotifyOverride;
 

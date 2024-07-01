@@ -1,5 +1,6 @@
 import 'package:estonedge/base/constants/app_images.dart';
 import 'package:estonedge/base/constants/app_styles.dart';
+import 'package:estonedge/base/widgets/image_view.dart';
 import 'package:flutter/material.dart';
 
 class CustomAuthAppBar extends StatelessWidget {
@@ -7,16 +8,19 @@ class CustomAuthAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10, top: 10),
+    return const Padding(
+      padding: EdgeInsets.only(right: 10, top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Wrap(
             children: [
-              Image.asset(AppImages.appLogo),
-              const SizedBox(width: 12),
-              const Text(
+              ImageView(  
+                image: AppImages.appLogo,
+                imageType: ImageType.svg,
+              ),
+              SizedBox(width: 12),
+              Text(
                 'EstonEdge',
                 style: fs34BlackRegular,
               ),

@@ -1,4 +1,6 @@
 
+// ignore_for_file: library_private_types_in_public_api, overridden_fields
+
 import 'package:flutter/material.dart';
 
 import '../src_bloc.dart';
@@ -43,12 +45,12 @@ class BlocProvider<T extends BasePageBloc> extends StatefulWidget {
   ///           ? updateShouldNotifyOverride(bloc, oldWidget)
   ///           : oldWidget.bloc != bloc;
   /// ```
-  BlocProvider({
-    Key? key,
+  const BlocProvider({
+    super.key,
     required this.child,
     required this.initBloc,
     this.updateShouldNotifyOverride,
-  }) : super(key: key);
+  });
 
   /// Whenever you want to get your `BloC`, you can decide wether to attach the context of your widget to the `InheritedWidget` or not.
   /// In order to control this behavior, the static method `of` has an optional boolean argument (which is true by default) which determines wether your context will be attached or not.
@@ -68,8 +70,8 @@ class _BlocProviderState<T extends BasePageBloc> extends State<BlocProvider<T>> 
   Widget build(BuildContext context) {
     return _BlocProvider(
       bloc: widget.initBloc,
-      child: widget.child,
       updateShouldNotifyOverride: widget.updateShouldNotifyOverride,
+      child: widget.child,
     );
   }
 
@@ -82,10 +84,11 @@ class _BlocProviderState<T extends BasePageBloc> extends State<BlocProvider<T>> 
 
 class _BlocProvider<T extends BasePageBloc> extends InheritedWidget {
   final T bloc;
+  @override
   final Widget child;
   final UpdateShouldNotify<T>? updateShouldNotifyOverride;
 
-  _BlocProvider({
+  const _BlocProvider({
     required this.bloc,
     required this.child,
     this.updateShouldNotifyOverride,

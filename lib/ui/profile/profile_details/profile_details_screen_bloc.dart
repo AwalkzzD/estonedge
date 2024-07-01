@@ -1,5 +1,4 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:estonedge/base/constants/app_constants.dart';
 import 'package:estonedge/data/remote/model/user/user_additional_info_response.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart';
 import 'package:estonedge/data/remote/repository/auth/auth_repository.dart';
@@ -34,8 +33,7 @@ class ProfileDetailsScreenBloc extends BasePageBloc {
       saveGender(response.additionalInfo.gender);
       saveDob(response.additionalInfo.dob ?? '');
     }, (errorMsg) {
-      hideLoading();
-      print(errorMsg);
+      hideLoading();      
     });
   }
 
