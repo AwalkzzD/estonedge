@@ -6,9 +6,11 @@ import 'package:estonedge/base/theme/app_theme.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
+import 'package:estonedge/data/remote/model/user/user_response.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/room_details/widgets/board_item_widget.dart';
+import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../base/utils/widgets/custom_appbar.dart';
@@ -126,35 +128,44 @@ class _RoomDetailsScreenState
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data!.boards.length,
                       itemBuilder: (context, index) {
-                        return BoardItemWidget(
-                          roomId: widget.roomResponse?.roomId,
-                          board: snapshot.data?.boards[index],
-                          onDeleteBoardPress: () {
-                            getBloc().deleteBoard(widget.roomResponse!.roomId,
-                                snapshot.data!.boards[index].boardId,
-                                (response) {
-                              showMessageBar(response.message ??
-                                  'Board deleted successfully!');
-                              showRefreshIndicator();
-                              onRefresh();
-                            }, (errorMsg) {
-                              showMessageBar(errorMsg);
-                            });
+                        return InkWell(
+                          onTap: () {
+                            if (snapshot
+                                .data!.boards[index].macAddress.isNotEmpty) {
+                              navigateToSwitchScreen(
+                                  snapshot.data!.boards[index]);
+                            }
                           },
-                          onUpdateBoardPress: (boardName, macAddress) {
-                            getBloc().updateBoard(
-                                widget.roomResponse!.roomId,
-                                snapshot.data!.boards[index].boardId,
-                                boardName,
-                                macAddress, (response) {
-                              showMessageBar(
-                                  response.message ?? "Board Name Updated");
-                              showRefreshIndicator();
-                              onRefresh();
-                            }, (errorMsg) {
-                              showMessageBar(errorMsg);
-                            });
-                          },
+                          child: BoardItemWidget(
+                            roomId: widget.roomResponse?.roomId,
+                            board: snapshot.data?.boards[index],
+                            onDeleteBoardPress: () {
+                              getBloc().deleteBoard(widget.roomResponse!.roomId,
+                                  snapshot.data!.boards[index].boardId,
+                                  (response) {
+                                showMessageBar(response.message ??
+                                    'Board deleted successfully!');
+                                showRefreshIndicator();
+                                onRefresh();
+                              }, (errorMsg) {
+                                showMessageBar(errorMsg);
+                              });
+                            },
+                            onUpdateBoardPress: (boardName, macAddress) {
+                              getBloc().updateBoard(
+                                  widget.roomResponse!.roomId,
+                                  snapshot.data!.boards[index].boardId,
+                                  boardName,
+                                  macAddress, (response) {
+                                showMessageBar(
+                                    response.message ?? "Board Name Updated");
+                                showRefreshIndicator();
+                                onRefresh();
+                              }, (errorMsg) {
+                                showMessageBar(errorMsg);
+                              });
+                            },
+                          ),
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) =>
@@ -211,7 +222,7 @@ class _RoomDetailsScreenState
           borderRadius: BorderRadius.circular(20),
           child: AspectRatio(
             aspectRatio: 21 / 9,
-            child: buildCustomRoomNetworkImage(
+            child: buildCustomNetworkImage(
                 imageUrl: roomResponse.roomImage, useColorFiltered: true),
           ),
         ),
@@ -251,35 +262,12 @@ class _RoomDetailsScreenState
     Navigator.pop(context, "roomDeleted");
   }
 
-  /*void showCustomDialog({
-    required BuildContext context,
-    required List<Widget> children,
-    required String buttonText,
-    Color buttonColor = Colors.blueAccent,
-    required Function() onButtonPress,
-  }) {
-    showDialog<String>(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-        actions: <Widget>[
-          CustomButton(
-              btnText: buttonText,
-              width: MediaQuery.of(context).size.width,
-              color: buttonColor,
-              onPressed: () {
-                Navigator.pop(context);
-                onButtonPress();
-              })
-        ],
-      ),
+  void navigateToSwitchScreen(Board board) async {
+    final result = await Navigator.push(
+      context,
+      SwitchDetailsScreen.route(board),
     );
-  }*/
+  }
 
   void deleteRoom(String roomId) {
     getBloc().deleteRoom(roomId, (response) {

@@ -32,6 +32,7 @@ class _SwitchDetailsScreenState
   @override
   Widget? getAppBar() {
     return AppBar(
+      backgroundColor: white,
       centerTitle: true,
       leading: Builder(
         builder: (context) {

@@ -113,7 +113,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
                                 topRight: Radius.circular(20)),
                             child: AspectRatio(
                               aspectRatio: 21 / 9,
-                              child: buildCustomRoomNetworkImage(
+                              child: buildCustomNetworkImage(
                                   useColorFiltered: true,
                                   imageUrl: roomsList[index].roomImage),
                             ),

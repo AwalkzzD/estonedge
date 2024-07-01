@@ -3,7 +3,7 @@ import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/theme/app_theme.dart';
 import 'package:estonedge/data/remote/model/user/user_response.dart'
     as user_model;
-import 'package:estonedge/ui/home/room/switch/switch_details_screen.dart';
+import 'package:estonedge/ui/add_device/add_your_device_screen.dart';
 import 'package:estonedge/ui/profile/profile_details/profile_details_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -41,10 +41,10 @@ class _BoardItemWidgetState extends State<BoardItemWidget> {
     super.initState();
   }
 
-  void navigateToSwitchScreen() async {
+  void navigateToAddDeviceScreen() async {
     final result = await Navigator.push(
       context,
-      SwitchDetailsScreen.route(board!),
+      AddDeviceScreen.route(),
     );
   }
 
@@ -148,7 +148,7 @@ class _BoardItemWidgetState extends State<BoardItemWidget> {
               ),
               if (board != null && board!.macAddress.isEmpty)
                 IconButton(
-                  onPressed: () => navigateToSwitchScreen(),
+                  onPressed: () => navigateToAddDeviceScreen(),
                   icon: const ImageView(
                       image: AppImages.boardConfigIcon,
                       imageType: ImageType.asset),

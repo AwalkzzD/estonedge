@@ -73,7 +73,7 @@ class _RoomImageScreenState
                         borderRadius: BorderRadius.circular(16.0),
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
-                          child: buildCustomRoomNetworkImage(
+                          child: buildCustomNetworkImage(
                               imageUrl: roomImages[index]),
                         ),
                       ),

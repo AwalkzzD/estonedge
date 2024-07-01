@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:estonedge/base/src_constants.dart';
 import 'package:flutter/material.dart';
 
-Widget buildCustomRoomNetworkImage({
+Widget buildCustomNetworkImage({
   required String imageUrl,
   bool useColorFiltered = false,
 }) {

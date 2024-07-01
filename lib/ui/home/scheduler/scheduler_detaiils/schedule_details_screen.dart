@@ -74,88 +74,92 @@ class _ScheduleDetailsScreenState
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     snapshot.data!.isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('Your Room*', style: fs18BlackMedium),
-                      CustomDropdown(
-                          maxLines: 1,
-                          hint: 'Room',
-                          items: snapshot.data!
-                              .map((room) =>
-                                  '${room.roomName} - #${room.roomId}')
-                              .toList(),
-                          onClick: (newValue) {
-                            print(newValue);
-                            getBloc().selectedRoom.value = newValue;
-                            getBloc().boardList.add(snapshot.data!
-                                .singleWhere((room) =>
-                                    '${room.roomName} - #${room.roomId}' ==
-                                    newValue)
-                                .boards);
-                          }),
-                      SizedBox(height: 20.h),
-                      const Text('Your Board*', style: fs18BlackMedium),
-                      StreamBuilder<List<user_response.Board>>(
-                        stream: getBloc().boardListStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData &&
-                              snapshot.data != null &&
-                              snapshot.data!.isNotEmpty) {
-                            return CustomDropdown(
+                  if(snapshot.data!.isNotEmpty) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text('Your Room*', style: fs18BlackMedium),
+                        CustomDropdown(
+                            maxLines: 1,
+                            hint: 'Room',
+                            items: snapshot.data!
+                                .map((room) =>
+                            '${room.roomName} - #${room.roomId}')
+                                .toList(),
+                            onClick: (newValue) {
+                              print(newValue);
+                              getBloc().selectedRoom.value = newValue;
+                              getBloc().boardList.add(snapshot.data!
+                                  .singleWhere((room) =>
+                              '${room.roomName} - #${room.roomId}' ==
+                                  newValue)
+                                  .boards);
+                            }),
+                        SizedBox(height: 20.h),
+                        const Text('Your Board*', style: fs18BlackMedium),
+                        StreamBuilder<List<user_response.Board>>(
+                          stream: getBloc().boardListStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.data != null &&
+                                snapshot.data!.isNotEmpty) {
+                              return CustomDropdown(
+                                  maxLines: 1,
+                                  hint: 'Board',
+                                  items: snapshot.data!
+                                      .map((board) =>
+                                  '${board.boardName} - #${board.boardId}')
+                                      .toList(),
+                                  onClick: (newValue) {
+                                    print(newValue);
+                                    getBloc().selectedBoard.value = newValue;
+                                    getBloc().switchList.add(snapshot.data!
+                                        .singleWhere((board) =>
+                                    '${board.boardName} - #${board.boardId}' ==
+                                        newValue)
+                                        .switches);
+                                  });
+                            } else {
+                              return const Text('No boards selected yet',
+                                  style: fs12BlackRegular);
+                            }
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        const Text('Your Switch*', style: fs18BlackMedium),
+                        StreamBuilder<List<user_response.Switch>>(
+                          stream: getBloc().switchListStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.data != null &&
+                                snapshot.data!.isNotEmpty) {
+                              return CustomDropdown(
                                 maxLines: 1,
-                                hint: 'Board',
+                                hint: 'Switch',
                                 items: snapshot.data!
-                                    .map((board) =>
-                                        '${board.boardName} - #${board.boardId}')
+                                    .map((switchX) =>
+                                '${switchX.switchName} - #${switchX.switchId}')
                                     .toList(),
                                 onClick: (newValue) {
-                                  print(newValue);
-                                  getBloc().selectedBoard.value = newValue;
-                                  getBloc().switchList.add(snapshot.data!
-                                      .singleWhere((board) =>
-                                          '${board.boardName} - #${board.boardId}' ==
-                                          newValue)
-                                      .switches);
-                                });
-                          } else {
-                            return const Text('No boards selected yet',
-                                style: fs12BlackRegular);
-                          }
-                        },
-                      ),
-                      SizedBox(height: 20.h),
-                      const Text('Your Switch*', style: fs18BlackMedium),
-                      StreamBuilder<List<user_response.Switch>>(
-                        stream: getBloc().switchListStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData &&
-                              snapshot.data != null &&
-                              snapshot.data!.isNotEmpty) {
-                            return CustomDropdown(
-                              maxLines: 1,
-                              hint: 'Switch',
-                              items: snapshot.data!
-                                  .map((switchX) =>
-                                      '${switchX.switchName} - #${switchX.switchId}')
-                                  .toList(),
-                              onClick: (newValue) {
-                                getBloc().selectedSwitch.value = newValue;
-                              },
-                            );
-                          } else {
-                            return const Text('No switches selected yet',
-                                style: fs12BlackRegular);
-                          }
-                        },
-                      ),
-                    ],
-                  );
+                                  getBloc().selectedSwitch.value = newValue;
+                                },
+                              );
+                            } else {
+                              return const Text('No switches selected yet',
+                                  style: fs12BlackRegular);
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                      child: Text('Please add room before continuing...',
+                          style: fs16BlackRegular),
+                    );
+                  }
                 } else {
-                  return const Center(
-                    child: Text('Please add room before continuing...',
-                        style: fs16BlackRegular),
-                  );
+                  return const SizedBox();
                 }
               },
             ),
