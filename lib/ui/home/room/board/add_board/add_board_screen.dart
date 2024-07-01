@@ -3,6 +3,7 @@ import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_button.dart';
 import 'package:estonedge/base/utils/widgets/custom_dropdown.dart';
+import 'package:estonedge/base/widgets/no_internet_view.dart';
 import 'package:estonedge/data/remote/model/board_types/board_types_response.dart';
 import 'package:estonedge/ui/home/room/board/add_board/add_board_screen_bloc.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _AddBoardScreenState
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               if (snapshot.data!.isEmpty) {
-                return buildNoInternetConnection();
+                return const NoInternetView();
               } else {
                 boardTypes =
                     snapshot.data!.map((board) => board.boardType).toList();
@@ -158,9 +159,9 @@ class _AddBoardScreenState
                                           Navigator.pop<String>(
                                               context, "boardAdded");
                                           /*Navigator.pushAndRemoveUntil(
-                                              context,
-                                              RoomDetailsScreen.route(null),
-                                              (route) => false);*/
+                                                context,
+                                                RoomDetailsScreen.route(null),
+                                                (route) => false);*/
                                         })
                                   ],
                                 ),
@@ -182,29 +183,4 @@ class _AddBoardScreenState
 
   @override
   AddBoardScreenBloc getBloc() => _bloc;
-
-  Widget buildNoInternetConnection() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(AppImages.noInternet),
-          const Text(
-            'Whoops!',
-            style: fs24BlackSemibold,
-          ),
-          const Text(
-            ' Something went wrong. Check your ',
-            style: fs16BlackRegular,
-          ),
-          const Text(
-            'connection or try again.',
-            style: fs16BlackRegular,
-          )
-        ],
-      ),
-    );
-  }
 }

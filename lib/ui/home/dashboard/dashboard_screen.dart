@@ -1,6 +1,7 @@
 import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_appbar.dart';
+import 'package:estonedge/base/widgets/no_internet_view.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/dashboard/dashboard_screen_bloc.dart';
 import 'package:estonedge/ui/home/room/add_room/room_name/add_room_screen.dart';
@@ -49,20 +50,16 @@ class _DashboardScreenState
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
             /// change to return frequentlyUsed()
-            print('NOTOK');
-            print(snapshot.data?.length);
             return const Center(
               child: SizedBox(
                 child: Text('Show Frequently Used'),
               ),
             );
           } else {
-            print('OK');
-            print(snapshot.data?.length);
             return addRoomButton();
           }
         } else {
-          return const SizedBox();
+          return const NoInternetView();
         }
       },
     );

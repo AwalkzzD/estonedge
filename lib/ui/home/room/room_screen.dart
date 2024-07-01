@@ -2,6 +2,7 @@ import 'package:estonedge/base/src_bloc.dart';
 import 'package:estonedge/base/src_components.dart';
 import 'package:estonedge/base/src_widgets.dart';
 import 'package:estonedge/base/utils/widgets/custom_room_network_image.dart';
+import 'package:estonedge/base/widgets/no_internet_view.dart';
 import 'package:estonedge/data/remote/model/rooms/get_rooms/rooms_response.dart';
 import 'package:estonedge/ui/home/room/add_room/room_name/add_room_screen.dart';
 import 'package:estonedge/ui/home/room/room_details/room_details_screen.dart';
@@ -53,7 +54,7 @@ class _RoomScreenState extends BasePageState<RoomScreen, RoomScreenBloc> {
             return noRoomFound();
           }
         } else {
-          return const SizedBox();
+          return const NoInternetView();
         }
       },
     );
